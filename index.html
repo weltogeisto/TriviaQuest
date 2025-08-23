@@ -3,242 +3,402 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>TriviaQuest – Masters Edition</title>
-  <meta name="description" content="Chic, shareable, masters-level trivia inspired by Trivial Pursuit."/>
+  <title>TriviaQuest – Working Demo</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <meta name="description" content="Masters-level trivia (no build, single file).">
   <style>
     .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
     .btn{transition:transform .12s ease,box-shadow .12s ease}
     .btn:active{transform:translateY(1px) scale(.99)}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
-    .hidden-important{display:none !important}
   </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white">
 
-<!-- HEADER -->
-<header class="p-4">
-  <div class="max-w-6xl mx-auto flex items-center justify-between">
-    <div class="flex items-center gap-3">
-      <div class="w-10 h-10 grid place-items-center rounded-xl bg-yellow-400/20 text-yellow-300 text-2xl">🧠</div>
-      <div>
-        <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">TriviaQuest</h1>
-        <p class="text-yellow-300/90 text-xs md:text-sm">Masters Level Edition</p>
-      </div>
-    </div>
-    <div class="flex items-center gap-3">
-      <button id="btnLoaderOpen" class="text-white/80 hover:text-white underline underline-offset-4">Bulk Loader</button>
-      <button id="btnHome" class="hidden md:inline text-white/80 hover:text-white underline underline-offset-4">Home</button>
-    </div>
-  </div>
-</header>
-
-<!-- HOME -->
-<main id="screen-home" class="p-4">
-  <div class="max-w-6xl mx-auto">
-    <div class="text-center mb-8">
-      <p class="text-lg md:text-xl text-gray-200 mb-4">Advanced academic trivia for graduate students</p>
-      <div class="glass rounded-xl inline-block px-4 py-3"><span class="text-gray-300 text-sm">⏱️ 45s / question • 🎯 10 per round • 🧪 Masters-level</span></div>
-    </div>
-
-    <section id="category-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10"></section>
-
-    <div class="glass rounded-xl p-6 md:p-8">
-      <div class="w-12 h-12 text-yellow-400 mx-auto mb-4 grid place-items-center text-3xl">🏆</div>
-      <h3 class="text-xl md:text-2xl font-bold text-white mb-4 text-center">Academic Excellence</h3>
-      <div class="grid md:grid-cols-3 gap-6 text-gray-200">
-        <div><h4 class="font-semibold mb-2">Critical Thinking</h4><p class="text-sm">Analyze, synthesize, and evaluate complex concepts across domains.</p></div>
-        <div><h4 class="font-semibold mb-2">Interdisciplinary</h4><p class="text-sm">Cross-cutting themes connect science, history, geography, and the arts.</p></div>
-        <div><h4 class="font-semibold mb-2">Research-Based</h4><p class="text-sm">Content oriented toward current scholarship and advanced sources.</p></div>
-      </div>
-    </div>
-
-    <div class="text-center mt-6 text-sm text-gray-300">
-      Seeded with 10 Qs per category. Use <em>Bulk Loader</em> to add the full sets (40/40/40/40 + 160 for India) and they’ll persist in your browser.
-    </div>
-  </div>
-</main>
-
-<!-- GAME -->
-<section id="screen-game" class="hidden p-4">
-  <div class="max-w-4xl mx-auto">
-    <div class="flex justify-between items-center mb-6">
-      <div class="flex items-center">
-        <div id="hudCatColor" class="p-3 rounded-xl mr-3 bg-orange-500"><span id="hudCatIcon" class="block text-xl">⭐</span></div>
+  <!-- HEADER -->
+  <header class="p-4">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 grid place-items-center rounded-xl bg-yellow-400/20 text-yellow-300 text-2xl">🧠</div>
         <div>
-          <h2 id="hudCatName" class="text-xl font-bold">Category</h2>
-          <p id="hudCounter" class="text-gray-300 text-sm">Question 1 of 10</p>
-          <span id="hudTag" class="text-[10px] bg-white/20 px-2 py-1 rounded mt-1 inline-block">Tag</span>
+          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">TriviaQuest</h1>
+          <p class="text-yellow-300/90 text-xs md:text-sm">Masters Level Edition</p>
         </div>
       </div>
-      <div class="text-right">
-        <div class="flex items-center justify-end gap-2 mb-1"><span>⏱️</span><span id="hudTimer" class="text-2xl font-extrabold">45s</span></div>
-        <p id="hudScore" class="text-gray-300 text-sm">Score: 0/10</p>
+      <button id="btnHome" class="hidden md:inline text-white/80 hover:text-white underline underline-offset-4" onclick="goHome()">Home</button>
+    </div>
+  </header>
+
+  <!-- HOME -->
+  <main id="screen-home" class="p-4">
+    <div class="max-w-6xl mx-auto">
+      <div class="text-center mb-8">
+        <p class="text-lg md:text-xl text-gray-200 mb-4">Advanced academic trivia for graduate students</p>
+        <div class="glass rounded-xl inline-block px-4 py-3">
+          <span class="text-gray-300 text-sm">⏱️ 45s / question • 🎯 10 per round • 🧪 Masters-level</span>
+        </div>
       </div>
-    </div>
 
-    <div class="bg-white/20 rounded-full h-3 mb-6"><div id="hudProgress" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-300" style="width:0%"></div></div>
-    <div class="flex justify-center mb-4"><span id="hudDiff" class="px-3 py-1 rounded-full text-xs font-bold bg-red-600">Masters</span></div>
-
-    <div class="bg-white text-slate-900 rounded-3xl p-6 md:p-8 shadow-2xl">
-      <h3 id="qText" class="text-xl md:text-2xl font-bold mb-6 leading-relaxed">Question text…</h3>
-      <div id="qOptions" class="grid gap-3" role="radiogroup" aria-label="Answer choices"></div>
-      <div id="qFeedback" class="hidden mt-5 rounded-2xl p-4 border"></div>
-    </div>
-
-    <div class="flex items-center justify-between mt-5">
-      <button id="btnExit" class="text-white/80 hover:text-white underline underline-offset-4">Exit to menu</button>
-      <div class="flex gap-2">
-        <button id="btnReveal" class="btn bg-white/10 text-white px-4 py-2 rounded-xl hover:bg-white/20">Reveal answer</button>
-        <button id="btnNext" class="btn bg-yellow-400 hover:bg-yellow-500 text-slate-900 px-5 py-2 rounded-xl font-semibold">Next question</button>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- RESULTS -->
-<section id="screen-results" class="hidden p-4">
-  <div class="max-w-2xl mx-auto bg-white text-slate-900 rounded-3xl p-8 text-center shadow-2xl">
-    <div id="resEmoji" class="text-6xl mb-4">🏆</div>
-    <h2 class="text-3xl font-extrabold mb-2">Masters Challenge Complete!</h2>
-    <div class="text-5xl font-extrabold mb-4"><span id="resScore" class="text-green-600">0</span><span class="text-gray-400">/10</span></div>
-    <p id="resPct" class="text-xl text-gray-600 mb-6">0% Correct</p>
-    <p id="resMsg" class="text-lg font-semibold mb-8">—</p>
-    <div class="flex gap-3 justify-center">
-      <button id="btnRetry" class="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold">Try Again</button>
-      <button id="btnMenu" class="btn bg-gray-700 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-semibold">Main Menu</button>
-    </div>
-  </div>
-</section>
-
-<!-- BULK LOADER MODAL -->
-<section id="loaderModal" class="hidden fixed inset-0 z-50">
-  <div class="absolute inset-0 bg-black/60"></div>
-  <div class="absolute inset-0 flex items-center justify-center p-4">
-    <div class="max-w-4xl w-full bg-slate-900 text-white rounded-2xl shadow-2xl border border-white/10">
-      <div class="p-4 flex items-center justify-between border-b border-white/10">
-        <h3 class="text-lg font-bold">Bulk Loader (add/replace questions)</h3>
-        <button id="btnLoaderClose" class="text-white/70 hover:text-white">✕</button>
-      </div>
-      <div class="p-4 grid md:grid-cols-2 gap-4">
-        <div>
-          <label class="block text-sm mb-2">Paste <strong>JSON</strong> (schema shown below) or <strong>CSV</strong> (headers: category,question,optA,optB,optC,optD,correct,explanation,difficulty,tag)</label>
-          <textarea id="loaderInput" class="w-full h-64 rounded-xl p-3 bg-slate-800 text-white mono" placeholder='{"india":[{"question":"…","options":["A","B","C","D"],"correct":1,"explanation":"…","difficulty":"Masters","category":"Geography"}], "geography":[…], "science":[…], "history":[…], "arts":[…] }'></textarea>
-          <div class="flex items-center gap-2 mt-2">
-            <input type="checkbox" id="replaceMode" class="accent-yellow-400"><label for="replaceMode" class="text-sm">Replace existing questions (uncheck to append & de-duplicate)</label>
+      <!-- HARD-WIRED CATEGORY BUTTONS (robust) -->
+      <section class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+        <button class="text-left bg-orange-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
+                onclick="startGame('india')">
+          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">⭐</div>
+          <div class="relative z-10">
+            <div class="flex items-center mb-3">
+              <div class="text-2xl md:text-3xl mr-3">⭐</div>
+              <div>
+                <h3 class="text-xl md:text-2xl font-extrabold">Incredible India</h3>
+                <span class="bg-yellow-400 text-orange-900 px-2 py-1 rounded-full text-[10px] font-bold">META</span>
+              </div>
+            </div>
+            <p class="text-sm opacity-90 mb-3">Masters-level India across all disciplines</p>
+            <div class="flex items-center justify-between mb-3 text-sm">
+              <span>Sample bank included</span>
+              <span class="bg-white/20 px-2 py-1 rounded">45s / question</span>
+            </div>
+            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
           </div>
-          <div class="flex items-center gap-3 mt-3">
-            <button id="btnLoadJSON" class="btn bg-yellow-400 hover:bg-yellow-500 text-slate-900 px-4 py-2 rounded-xl font-semibold">Import JSON</button>
-            <button id="btnLoadCSV" class="btn bg-emerald-400 hover:bg-emerald-500 text-slate-900 px-4 py-2 rounded-xl font-semibold">Import CSV</button>
+        </button>
+
+        <button class="text-left bg-emerald-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
+                onclick="startGame('geography')">
+          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">🌍</div>
+          <div class="relative z-10">
+            <div class="flex items-center mb-3">
+              <div class="text-2xl md:text-3xl mr-3">🌍</div>
+              <h3 class="text-xl md:text-2xl font-extrabold">Geography</h3>
+            </div>
+            <p class="text-sm opacity-90 mb-3">Advanced physical & human geography</p>
+            <div class="flex items-center justify-between mb-3 text-sm">
+              <span>Sample bank included</span>
+              <span class="bg-white/20 px-2 py-1 rounded">45s / question</span>
+            </div>
+            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
           </div>
+        </button>
+
+        <button class="text-left bg-blue-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
+                onclick="startGame('science')">
+          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">🔬</div>
+          <div class="relative z-10">
+            <div class="flex items-center mb-3">
+              <div class="text-2xl md:text-3xl mr-3">🔬</div>
+              <h3 class="text-xl md:text-2xl font-extrabold">Science</h3>
+            </div>
+            <p class="text-sm opacity-90 mb-3">Cutting-edge concepts & theory</p>
+            <div class="flex items-center justify-between mb-3 text-sm">
+              <span>Sample bank included</span>
+              <span class="bg-white/20 px-2 py-1 rounded">45s / question</span>
+            </div>
+            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
+          </div>
+        </button>
+
+        <button class="text-left bg-amber-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
+                onclick="startGame('history')">
+          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">⏰</div>
+          <div class="relative z-10">
+            <div class="flex items-center mb-3">
+              <div class="text-2xl md:text-3xl mr-3">⏰</div>
+              <h3 class="text-xl md:text-2xl font-extrabold">History</h3>
+            </div>
+            <p class="text-sm opacity-90 mb-3">Historical analysis & theory</p>
+            <div class="flex items-center justify-between mb-3 text-sm">
+              <span>Sample bank included</span>
+              <span class="bg-white/20 px-2 py-1 rounded">45s / question</span>
+            </div>
+            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
+          </div>
+        </button>
+
+        <button class="text-left bg-purple-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
+                onclick="startGame('arts')">
+          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">🎨</div>
+          <div class="relative z-10">
+            <div class="flex items-center mb-3">
+              <div class="text-2xl md:text-3xl mr-3">🎨</div>
+              <h3 class="text-xl md:text-2xl font-extrabold">Arts & Culture</h3>
+            </div>
+            <p class="text-sm opacity-90 mb-3">Aesthetics, film, criticism</p>
+            <div class="flex items-center justify-between mb-3 text-sm">
+              <span>Sample bank included</span>
+              <span class="bg-white/20 px-2 py-1 rounded">45s / question</span>
+            </div>
+            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
+          </div>
+        </button>
+      </section>
+
+      <div class="glass rounded-xl p-6 md:p-8">
+        <div class="w-12 h-12 text-yellow-400 mx-auto mb-4 grid place-items-center text-3xl">🏆</div>
+        <h3 class="text-xl md:text-2xl font-bold text-white mb-4 text-center">Academic Excellence</h3>
+        <div class="grid md:grid-cols-3 gap-6 text-gray-200">
+          <div><h4 class="font-semibold mb-2">Critical Thinking</h4><p class="text-sm">Analyze and evaluate complex concepts.</p></div>
+          <div><h4 class="font-semibold mb-2">Interdisciplinary</h4><p class="text-sm">Connect geography, science, history, and the arts.</p></div>
+          <div><h4 class="font-semibold mb-2">Research-Based</h4><p class="text-sm">Drawn from advanced sources.</p></div>
         </div>
-        <div class="text-sm text-gray-200">
-          <p class="mb-2"><strong>JSON Schema</strong> (arrays may be any length; app targets: India 160, others 40 each):</p>
-<pre class="bg-slate-800 rounded-xl p-3 mono overflow-auto text-xs">{
-  "india": [
-    { "question": "…", "options": ["A","B","C","D"], "correct": 2,
-      "explanation": "…", "difficulty": "Masters|Advanced", "category": "subtag (optional)" }
-  ],
-  "geography": [ /* 40 */ ],
-  "science":   [ /* 40 */ ],
-  "history":   [ /* 40 */ ],
-  "arts":      [ /* 40 */ ]
-}</pre>
-          <p class="mt-3">Correct index is 0–3 for A–D. The loader validates structure and trims spaces.</p>
-          <div id="loaderStatus" class="mt-4 text-xs text-gray-300"></div>
-        </div>
-      </div>
-      <div class="p-4 border-t border-white/10 text-right">
-        <button id="btnLoaderDone" class="btn bg-gray-700 hover:bg-gray-600 px-4 py-2 rounded-xl">Done</button>
       </div>
     </div>
-  </div>
-</section>
+  </main>
 
-<script>
-/* ===========================
-   CONFIG & STATE
-=========================== */
-const CATEGORIES = {
-  india:    { name:"Incredible India", color:"bg-orange-500", icon:"⭐", meta:true,  desc:"Masters-level, India across all disciplines" },
-  geography:{ name:"Geography",        color:"bg-emerald-500", icon:"🌍",            desc:"Advanced physical & human geography" },
-  science:  { name:"Science",          color:"bg-blue-500",    icon:"🔬",            desc:"Cutting-edge concepts & theory" },
-  history:  { name:"History",          color:"bg-amber-500",   icon:"⏰",            desc:"Historical analysis & theory" },
-  arts:     { name:"Arts & Culture",   color:"bg-purple-500",  icon:"🎨",            desc:"Aesthetics, film, criticism" }
-};
-const ROUND_COUNT = 10;
-const PER_QUESTION_SECONDS = 45;
+  <!-- GAME -->
+  <section id="screen-game" class="hidden p-4">
+    <div class="max-w-4xl mx-auto">
+      <div class="flex justify-between items-center mb-6">
+        <div class="flex items-center">
+          <div id="hudCatColor" class="p-3 rounded-xl mr-3 bg-orange-500"><span id="hudCatIcon" class="block text-xl">⭐</span></div>
+          <div>
+            <h2 id="hudCatName" class="text-xl font-bold">Category</h2>
+            <p id="hudCounter" class="text-gray-300 text-sm">Question 1 of 10</p>
+            <span id="hudTag" class="text-[10px] bg-white/20 px-2 py-1 rounded mt-1 inline-block">Tag</span>
+          </div>
+        </div>
+        <div class="text-right">
+          <div class="flex items-center justify-end gap-2 mb-1">
+            <span>⏱️</span><span id="hudTimer" class="text-2xl font-extrabold">45s</span>
+          </div>
+          <p id="hudScore" class="text-gray-300 text-sm">Score: 0/10</p>
+        </div>
+      </div>
 
-let QUESTIONS = null; // active bank (from localStorage or seeded)
-let state = {
-  screen:"home", categoryKey:null, deck:[], qIndex:0, score:0,
-  timer:PER_QUESTION_SECONDS, timerId:null, answered:false, selected:null
-};
+      <div class="bg-white/20 rounded-full h-3 mb-6"><div id="hudProgress" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-300" style="width:0%"></div></div>
+      <div class="flex justify-center mb-4"><span id="hudDiff" class="px-3 py-1 rounded-full text-xs font-bold bg-red-600">Masters</span></div>
 
-const $ = (id)=>document.getElementById(id);
-const shuffle = (arr)=>arr.map(v=>[Math.random(),v]).sort((a,b)=>a[0]-b[0]).map(p=>p[1]);
-const pickN = (arr,n)=> shuffle(arr.slice()).slice(0, Math.min(n, arr.length));
-const bestKey = (cat)=>`tq_best_${cat}`;
-const bankKey = `tq_bank_v1`;
+      <div class="bg-white text-slate-900 rounded-3xl p-6 md:p-8 shadow-2xl">
+        <h3 id="qText" class="text-xl md:text-2xl font-bold mb-6 leading-relaxed">Question text…</h3>
+        <div id="qOptions" class="grid gap-3" role="radiogroup" aria-label="Answer choices"></div>
+        <div id="qFeedback" class="hidden mt-5 rounded-2xl p-4 border"></div>
+      </div>
 
-/* ===========================
-   SEEDED SAMPLE BANK (10 per category)
-   — Use Bulk Loader to add the rest.
-=========================== */
-const SEEDED = {
-  india: [
-    {question:"Western Ghats formation process?",options:["Continental collision","Fault-block uplift","Volcanism","Fold mountains"],correct:1,explanation:"Fault-block uplift during Gondwana breakup; Himalayas are collision-formed.",category:"Geography",difficulty:"Advanced"},
-    {question:"Which river shows antecedent drainage in India?",options:["Ganges","Indus","Narmada","Krishna"],correct:1,explanation:"Indus kept its course while the Himalayas rose.",category:"Geography",difficulty:"Advanced"},
-    {question:"Kerala fits which demographic transition stage?",options:["2","3","4","5"],correct:2,explanation:"Low birth & death rates; aging population (Stage 4).",category:"Geography",difficulty:"Masters"},
-    {question:"Indian Ocean Dipole most affects:",options:["Summer monsoon","Winter temps","Cyclones","Post-monsoon rain"],correct:0,explanation:"IOD phases modulate monsoon strength/timing.",category:"Geography",difficulty:"Advanced"},
-    {question:"Arthashastra aligns with:",options:["Idealism","Realpolitik","Democracy theory","Theocracy"],correct:1,explanation:"Pragmatic statecraft centuries pre-Machiavelli.",category:"History",difficulty:"Masters"},
-    {question:"Naoroji’s Drain Theory analyzed:",options:["Trade deficit","Inflation","Capital flight","Debasement"],correct:2,explanation:"Systematic outflow of wealth to Britain.",category:"History",difficulty:"Advanced"},
-    {question:"Mughal fiscal decline tied to:",options:["Shah Jahan’s buildings","Aurangzeb’s Deccan wars","Akbar’s revenue","Jahangir’s trade"],correct:1,explanation:"25-year Deccan campaigns drained the treasury.",category:"History",difficulty:"Advanced"},
-    {question:"Tilak vs Gandhi on Swaraj differs mainly in:",options:["Methods","Timeline","Violence","Economics"],correct:2,explanation:"Tilak allowed violent resistance; Gandhi rejected it.",category:"History",difficulty:"Masters"},
-    {question:"Chandrasekhar limit concerns:",options:["Neutron star","Max white dwarf mass","Black hole","Red giant"],correct:1,explanation:"White dwarfs >1.4 M☉ collapse.",category:"Science",difficulty:"Masters"},
-    {question:"Raman effect shows:",options:["Wave-particle duality","Uncertainty","Quantized vibrational energy","Spin"],correct:2,explanation:"Inelastic scattering reveals quantized molecular modes.",category:"Science",difficulty:"Advanced"},
-  ],
-  geography: [
-    {question:"‘Anthropocene’ clearest in which deposits?",options:["Moraines","Sedimentary layers","Volcanic ash","Coral"],correct:1,explanation:"Plastics, concrete, fallout in sediments.",difficulty:"Masters"},
-    {question:"Atolls form by:",options:["Sea rise","Coral on subsiding volcanoes","Uplift","Erosion"],correct:1,explanation:"Darwin’s theory of subsidence + coral growth.",difficulty:"Advanced"},
-    {question:"Urban heat islands mainly due to:",options:["Population","Lower albedo","Pollution","Building height"],correct:1,explanation:"Built surfaces absorb more solar radiation.",difficulty:"Advanced"},
-    {question:"Fjords primarily formed by:",options:["Rivers","Glaciers","Coasts","Tectonics"],correct:1,explanation:"Glacial carving + post-glacial sea flooding.",difficulty:"Advanced"},
-    {question:"Monsoon arises from:",options:["Westerlies","ITCZ shift","Polar jets","Trade wind reversal"],correct:1,explanation:"Seasonal migration of ITCZ + land-sea thermal contrast.",difficulty:"Masters"},
-    {question:"Desert formation often linked to:",options:["Subtropical highs","Cold fronts","El Niño","Sea breezes"],correct:0,explanation:"Persistent subsidence around 30° creates aridity.",difficulty:"Advanced"},
-    {question:"Karst landscapes need:",options:["Granite","Basalt","Limestone","Shale"],correct:2,explanation:"Carbonate dissolution yields sinkholes/caves.",difficulty:"Advanced"},
-    {question:"Orographic rain strongest on:",options:["Leeward","Windward","Basin floors","Poles"],correct:1,explanation:"Air forced up windward slopes cools & condenses.",difficulty:"Advanced"},
-    {question:"ENSO affects:",options:["Volcanism","Global rainfall/temps","Plate speed","Tides"],correct:1,explanation:"Coupled ocean-atmosphere modes shift patterns.",difficulty:"Masters"},
-    {question:"Aridity index compares:",options:["Rain/snow","P/E (precipitation/evapotranspiration)","Wind/heat","Clouds/sun"],correct:1,explanation:"Low P/E signals dryness.",difficulty:"Advanced"},
-  ],
-  science: [
-    {question:"CRISPR-Cas9 originated as:",options:["DNA repair","Bacterial immunity","Protein synthesis","Cell division"],correct:1,explanation:"Adaptive defense vs phages; repurposed for editing.",difficulty:"Masters"},
-    {question:"Entanglement violates:",options:["Energy conservation","Locality","Duality","Uncertainty"],correct:1,explanation:"Nonlocal correlations (‘spooky action’).",difficulty:"Advanced"},
-    {question:"Hard problem concerns:",options:["Computation","Subjective experience","Memory","Behavior"],correct:1,explanation:"How physical processes yield qualia.",difficulty:"Masters"},
-    {question:"Matter-antimatter annihilation:",options:["Mass conserved","E=mc²","Charge non-conserved","CPT breaks"],correct:1,explanation:"Mass converts to energy as photons.",difficulty:"Advanced"},
-    {question:"Dark energy explains:",options:["Rotation curves","Accelerating expansion","CMB","BBN"],correct:1,explanation:"Late-time acceleration from repulsive component.",difficulty:"Masters"},
-    {question:"Higgs field gives:",options:["Spin","Mass","Charge","Color"],correct:1,explanation:"Mass via spontaneous symmetry breaking.",difficulty:"Advanced"},
-    {question:"Superconductors exclude:",options:["Heat","Light","Magnetic fields","Neutrons"],correct:2,explanation:"Meissner effect expels B-fields.",difficulty:"Advanced"},
-    {question:"mRNA vaccines deliver:",options:["DNA","Proteins","mRNA","Vectors only"],correct:2,explanation:"Transient mRNA → antigen expression.",difficulty:"Masters"},
-    {question:"GW detection uses:",options:["Calorimetry","Interferometry","Spectrometry","MRI"],correct:1,explanation:"Laser interferometers measure strain ~1e-21.",difficulty:"Advanced"},
-    {question:"Quantum computers exploit:",options:["Determinism","Qubits & superposition","Analog ops","Relativity"],correct:1,explanation:"State superposition & entanglement for speedups.",difficulty:"Masters"},
-  ],
-  history: [
-    {question:"Westphalia (1648) established:",options:["Balance","Sovereignty","Collective security","Free trade"],correct:1,explanation:"Non-interference; state autonomy.",difficulty:"Masters"},
-    {question:"Great Divergence refers to:",options:["Industrial Revolution","Europe-Asia wealth gap","Colonialism","Agrarian shift"],correct:1,explanation:"Why Europe outpaced Asia by 1800.",difficulty:"Advanced"},
-    {question:"Best example of path dependence:",options:["Elections","QWERTY","Language change","All"],correct:3,explanation:"Early choices constrain later possibilities.",difficulty:"Masters"},
-    {question:"Hegemony implies:",options:["Pure force","Economic/cultural leadership","Territorial rule","Tech only"],correct:1,explanation:"Consent & ideas, not just coercion.",difficulty:"Advanced"},
-    {question:"Microhistory emphasizes:",options:["Structures","Grand theory","Contingency/agency","Geography"],correct:2,explanation:"Small units reveal individual agency.",difficulty:"Masters"},
-    {question:"Mercantilism favored:",options:["Free trade","Bullionism","Autarky","Guild abolition"],correct:1,explanation:"Positive trade balance to amass specie.",difficulty:"Advanced"},
-    {question:"Printing press impact:",options:["Less literacy","More censorship only","Faster knowledge diffusion","Fewer books"],correct:2,explanation:"Cheaper reproduction → spread of ideas.",difficulty:"Advanced"},
-    {question:"Nation-state rise tied to:",options:["Feudal growth","Decline of empires","Gunpowder/fiscal states","Nomadism"],correct:2,explanation:"Centralized taxation & armies.",difficulty:"Masters"},
-    {question:"Cold War order was:",options:["Unipolar","Bipolar","Multipolar","Nonpolar"],correct:1,explanation:"US–USSR dual hegemony.",difficulty:"Advanced"},
-    {question:"De-colonization peak decade:",options:["1910s","1940s","1960s","1980s"],correct:2,explanation:"Post-WWII wave esp. Africa/Asia.",difficulty:"Advanced"},
-  ],
-  arts: [
-    {question:"Postmodernism rejects:",options:["Beauty","Grand narratives","Expression","Tradition"],correct:1,explanation:"Plurality & irony over universal truths.",difficulty:"Masters"},
-    {question:"Benjamin’s ‘aura’ is:",options:["Aesthetic quality","Unique presence","Market price","Cultural weight"],correct:1,explanation:"Authenticity lost in reproduction.",difficulty:"Advanced"},
-    {question:"Cinema influenced by:",options:["Impressionism","Futurism","Surrealism","All"],correct:3,explanation:"Light, motion, dream logic.",difficulty:"Masters"},
-    {question:"‘Male gaze’ theorist:",options:["de Beauvoir","Laura Mulvey","Kristeva","Cixous"],correct:1,explanation:"1975 essay on visual pleasure.",difficulty:"Advanced"},
-    {question:"Art for art’s sake:",options:["Functionalism","Autotelic art","Social realism","Constructivism"],correct:1,explanation:"Value in form/experience itself.",difficulty:"Masters"},
-    {question:"Minimalism tends toward:",options:["Ornament","Reduction","Narrative excess","Gestural chaos"],correct:1,explanation:"Essentials: form, material, repetition.",difficulty:"Advanced"},
-    {question:"Duchamp’s readymade:",options:["Oil painting","Found object
+      <div class="flex items-center justify-between mt-5">
+        <button class="text-white/80 hover:text-white underline underline-offset-4" onclick="goHome()">Exit to menu</button>
+        <div class="flex gap-2">
+          <button id="btnReveal" class="btn bg-white/10 text-white px-4 py-2 rounded-xl hover:bg-white/20" onclick="reveal(false)">Reveal answer</button>
+          <button id="btnNext" class="btn bg-yellow-400 hover:bg-yellow-500 text-slate-900 px-5 py-2 rounded-xl font-semibold" onclick="nextQuestion()">Next question</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section id="screen-results" class="hidden p-4">
+    <div class="max-w-2xl mx-auto bg-white text-slate-900 rounded-3xl p-8 text-center shadow-2xl">
+      <div id="resEmoji" class="text-6xl mb-4">🏆</div>
+      <h2 class="text-3xl font-extrabold mb-2">Masters Challenge Complete!</h2>
+      <div class="text-5xl font-extrabold mb-4"><span id="resScore" class="text-green-600">0</span><span class="text-gray-400">/10</span></div>
+      <p id="resPct" class="text-xl text-gray-600 mb-6">0% Correct</p>
+      <p id="resMsg" class="text-lg font-semibold mb-8">—</p>
+      <div class="flex gap-3 justify-center">
+        <button class="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold" onclick="retry()">Try Again</button>
+        <button class="btn bg-gray-700 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-semibold" onclick="goHome()">Main Menu</button>
+      </div>
+    </div>
+  </section>
+
+  <script>
+  // ------- Minimal working logic (no external files) -------
+  const CATEGORIES = {
+    india:    { name:"Incredible India", color:"bg-orange-500", icon:"⭐" },
+    geography:{ name:"Geography",        color:"bg-emerald-500", icon:"🌍" },
+    science:  { name:"Science",          color:"bg-blue-500",    icon:"🔬" },
+    history:  { name:"History",          color:"bg-amber-500",   icon:"⏰" },
+    arts:     { name:"Arts & Culture",   color:"bg-purple-500",  icon:"🎨" }
+  };
+  const ROUND_COUNT = 10;
+  const PER_QUESTION_SECONDS = 45;
+
+  // A tiny seed so you can test immediately.
+  const BANK = {
+    india: [
+      {question:"Western Ghats formed mainly by…",options:["Continental collision","Fault-block uplift","Volcanism","Fold mountains"],correct:1,explanation:"Fault-block uplift during Gondwana breakup; Himalayas are collision-formed.",category:"Geography",difficulty:"Advanced"},
+      {question:"Antecedent drainage in India best shown by…",options:["Ganges","Indus","Narmada","Krishna"],correct:1,explanation:"Indus maintained course while Himalayas rose.",category:"Geography",difficulty:"Advanced"},
+      {question:"Kerala fits which demographic stage?",options:["2","3","4","5"],correct:2,explanation:"Low birth & death rates (Stage 4).",category:"Geography",difficulty:"Masters"},
+      {question:"IOD most affects:",options:["Summer monsoon","Winter temps","Cyclones","Post-monsoon rain"],correct:0,explanation:"Warm/cool phases modulate monsoon.",category:"Geography",difficulty:"Advanced"},
+      {question:"Arthashastra aligns with…",options:["Idealism","Realpolitik","Democracy","Theocracy"],correct:1,explanation:"Pragmatic statecraft centuries pre-Machiavelli.",category:"History",difficulty:"Masters"},
+    ],
+    geography: [
+      {question:"Atolls form via…",options:["Sea level rise","Coral on subsiding volcanoes","Uplift","Erosion"],correct:1,explanation:"Darwin’s subsidence + coral growth.",difficulty:"Advanced"},
+      {question:"Urban heat islands mainly due to…",options:["Population","Lower albedo","Pollution","Height"],correct:1,explanation:"Built surfaces absorb more radiation.",difficulty:"Advanced"},
+      {question:"Fjords carved primarily by…",options:["Rivers","Glaciers","Coasts","Tectonics"],correct:1,explanation:"Glacial valleys flooded by sea rise.",difficulty:"Advanced"},
+      {question:"ENSO shifts…",options:["Volcanism","Global rainfall/temps","Plate speed","Tides"],correct:1,explanation:"Coupled ocean-atmosphere reorganization.",difficulty:"Masters"},
+      {question:"Aridity index ~",options:["Rain/Snow","P/E","Wind/Heat","Clouds/Sun"],correct:1,explanation:"Precipitation / Evapotranspiration.",difficulty:"Advanced"},
+    ],
+    science: [
+      {question:"CRISPR-Cas9 originated as…",options:["DNA repair","Bacterial immunity","Protein synthesis","Cell division"],correct:1,explanation:"Adaptive defense vs phages.",difficulty:"Masters"},
+      {question:"Entanglement violates…",options:["Energy conservation","Locality","Duality","Uncertainty"],correct:1,explanation:"Nonlocal correlations.",difficulty:"Advanced"},
+      {question:"Hard problem concerns…",options:["Computation","Subjective experience","Memory","Behavior"],correct:1,explanation:"How physical processes yield qualia.",difficulty:"Masters"},
+      {question:"Annihilation explained by…",options:["Mass conserved","E=mc²","Charge non-conserved","CPT breaks"],correct:1,explanation:"Mass converts to energy.",difficulty:"Advanced"},
+      {question:"Dark energy explains…",options:["Rotation curves","Accelerating expansion","CMB","BBN"],correct:1,explanation:"Observed late-time acceleration.",difficulty:"Masters"},
+    ],
+    history: [
+      {question:"Westphalia (1648) →",options:["Balance","Sovereignty","Collective security","Free trade"],correct:1,explanation:"Non-interference; state autonomy.",difficulty:"Masters"},
+      {question:"Great Divergence →",options:["Industrial Rev.","Europe–Asia wealth gap","Colonialism","Agrarian shift"],correct:1,explanation:"Europe outpaced Asia by 1800.",difficulty:"Advanced"},
+      {question:"Path dependence best shown by…",options:["Elections","QWERTY","Language change","All"],correct:3,explanation:"Early choices constrain futures.",difficulty:"Masters"},
+      {question:"Hegemony implies…",options:["Pure force","Economic/cultural leadership","Territorial rule","Tech only"],correct:1,explanation:"Consent & ideas, not only coercion.",difficulty:"Advanced"},
+      {question:"Microhistory emphasizes…",options:["Structures","Grand theory","Contingency/agency","Geography"],correct:2,explanation:"Small scale reveals agency.",difficulty:"Masters"},
+    ],
+    arts: [
+      {question:"Postmodernism rejects…",options:["Beauty","Grand narratives","Expression","Tradition"],correct:1,explanation:"Plurality & irony over universals.",difficulty:"Masters"},
+      {question:"Benjamin’s ‘aura’ →",options:["Aesthetic quality","Unique presence","Market price","Cultural weight"],correct:1,explanation:"Authenticity lost in reproduction.",difficulty:"Advanced"},
+      {question:"Cinema influenced by…",options:["Impressionism","Futurism","Surrealism","All"],correct:3,explanation:"Light, motion, dream logic.",difficulty:"Masters"},
+      {question:"‘Male gaze’ theorist…",options:["de Beauvoir","Laura Mulvey","Kristeva","Cixous"],correct:1,explanation:"1975 essay on visual pleasure.",difficulty:"Advanced"},
+      {question:"Art for art’s sake →",options:["Functionalism","Autotelic art","Social realism","Constructivism"],correct:1,explanation:"Value in form/experience itself.",difficulty:"Masters"},
+    ],
+  };
+
+  // ---- State + helpers
+  let state = { cat:null, deck:[], idx:0, score:0, timer:45, id:null, answered:false, selected:null };
+  const $ = (id)=>document.getElementById(id);
+  const pickN = (arr,n)=>arr.slice(0, Math.min(n, arr.length));
+  function show(id){ ["screen-home","screen-game","screen-results"].forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
+  function colorFor(cat){ return CATEGORIES[cat].color; }
+
+  // ---- Navigation
+  function goHome(){
+    clearInterval(state.id);
+    $("btnHome").classList.add("hidden");
+    show("screen-home");
+  }
+  function retry(){ startGame(state.cat||"geography"); }
+
+  // ---- Game flow
+  function startGame(cat){
+    state = { cat, deck:[], idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null };
+    const meta = CATEGORIES[cat];
+    $("hudCatName").textContent = meta.name;
+    $("hudCatIcon").textContent = meta.icon;
+    $("hudCatColor").className = `p-3 rounded-xl mr-3 ${colorFor(cat)}`;
+    $("btnHome").classList.remove("hidden");
+    // build round
+    const bank = BANK[cat]||[];
+    state.deck = pickN(bank, ROUND_COUNT);
+    if (!state.deck.length){ alert("No questions in this category yet."); return; }
+    show("screen-game");
+    renderQuestion();
+    startTimer();
+  }
+
+  function renderQuestion(){
+    const q = state.deck[state.idx];
+    $("hudCounter").textContent = `Question ${state.idx+1} of ${state.deck.length}`;
+    $("hudScore").textContent   = `Score: ${state.score}/${state.deck.length}`;
+    $("hudProgress").style.width= `${(state.idx/state.deck.length)*100}%`;
+    $("hudTimer").textContent   = `${state.timer}s`;
+    $("hudTimer").className     = "text-2xl font-extrabold " + (state.timer<=15 ? "text-red-400" : state.timer<=30 ? "text-yellow-300" : "text-white");
+    $("hudDiff").textContent    = (q.difficulty==="Masters"?"Masters":"Advanced");
+    $("hudDiff").className      = "px-3 py-1 rounded-full text-xs font-bold " + ((q.difficulty==="Masters") ? "bg-red-600" : "bg-orange-600");
+    $("hudTag").textContent     = q.category || "—";
+    $("qText").textContent      = q.question;
+    $("qFeedback").classList.add("hidden");
+    $("qFeedback").innerHTML    = "";
+    $("btnReveal").disabled     = false;
+    $("btnNext").textContent    = (state.idx+1<state.deck.length) ? "Next question" : "Show results";
+
+    const box = $("qOptions"); box.innerHTML = "";
+    q.options.forEach((opt, i)=>{
+      const b = document.createElement("button");
+      b.type="button";
+      b.className="w-full p-4 rounded-xl text-left font-semibold transition-all duration-150 border-2 bg-gray-50 border-gray-200 text-gray-900 hover:border-indigo-400 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-300";
+      b.innerHTML=`<span class="flex items-center"><span class="inline-flex items-center justify-center w-8 h-8 rounded-lg mr-3 border border-gray-300">${String.fromCharCode(65+i)}</span><span>${opt}</span></span>`;
+      b.onclick = ()=>onAnswer(i);
+      box.appendChild(b);
+    });
+
+    state.answered=false; state.selected=null;
+  }
+
+  function startTimer(){
+    clearInterval(state.id);
+    state.timer = PER_QUESTION_SECONDS;
+    state.id = setInterval(()=>{
+      state.timer--;
+      $("hudTimer").textContent = `${state.timer}s`;
+      $("hudTimer").className   = "text-2xl font-extrabold " + (state.timer<=15 ? "text-red-400" : state.timer<=30 ? "text-yellow-300" : "text-white");
+      if (state.timer<=0){
+        clearInterval(state.id);
+        reveal(false);
+      }
+    }, 1000);
+  }
+
+  function onAnswer(i){
+    if (state.answered) return;
+    clearInterval(state.id);
+    state.selected = i;
+    reveal(true);
+  }
+
+  function reveal(fromClick){
+    const q = state.deck[state.idx];
+    state.answered = true;
+
+    // style options
+    [...$("qOptions").children].forEach((b, i)=>{
+      b.disabled = true;
+      b.classList.remove("hover:border-indigo-400","hover:bg-indigo-50","focus:ring-2");
+      if (i===q.correct){
+        b.className="w-full p-4 rounded-xl text-left font-semibold border-2 bg-green-50 border-green-500 text-green-800";
+      } else if (i===state.selected){
+        b.className="w-full p-4 rounded-xl text-left font-semibold border-2 bg-red-50 border-red-500 text-red-800";
+      } else {
+        b.className="w-full p-4 rounded-xl text-left font-semibold border-2 bg-gray-50 border-gray-200 text-gray-700";
+      }
+    });
+
+    const correct = state.selected===q.correct;
+    if (fromClick && correct) state.score++;
+
+    const fb = $("qFeedback");
+    fb.className = "mt-5 rounded-2xl p-4 border " + (correct ? "border-green-300 bg-green-50 text-green-800" : "border-red-300 bg-red-50 text-red-800");
+    fb.innerHTML = correct
+      ? `<div class="flex items-start"><div class="w-6 h-6 mr-3">✅</div><div><p class="font-bold mb-1">Correct!</p>${q.explanation? `<p>${q.explanation}</p>`:""}</div></div>`
+      : `<div class="flex items-start"><div class="w-6 h-6 mr-3">❌</div><div><p class="font-bold mb-1">Not quite.</p><p>Correct answer: <strong>${q.options[q.correct]}</strong></p>${q.explanation? `<p class="mt-2">${q.explanation}</p>`:""}</div></div>`;
+    fb.classList.remove("hidden");
+
+    $("hudScore").textContent = `Score: ${state.score}/${state.deck.length}`;
+    $("hudProgress").style.width= `${((state.idx+1)/state.deck.length)*100}%`;
+    $("btnReveal").disabled = true;
+  }
+
+  function nextQuestion(){
+    if (!state.answered){ reveal(false); return; }
+    if (state.idx+1<state.deck.length){
+      state.idx++;
+      renderQuestion();
+      startTimer();
+    } else {
+      showResults();
+    }
+  }
+
+  function showResults(){
+    show("screen-results");
+    const total = state.deck.length;
+    const pct = Math.round((state.score/total)*100);
+    $("resScore").textContent = state.score.toString();
+    $("resPct").textContent = `${pct}% Correct`;
+    const emoji = pct>=85 ? "🎓" : pct>=70 ? "🎯" : pct>=55 ? "📚" : "🔬";
+    const msg   = pct>=85 ? "Exceptional! PhD-level mastery!" :
+                 pct>=70  ? "Excellent! Masters-level competency!" :
+                 pct>=55  ? "Good! Keep going at this level." :
+                            "Challenging set—review & try again!";
+    $("resEmoji").textContent = emoji;
+    $("resMsg").textContent = msg;
+  }
+
+  // expose to onclick
+  window.startGame = startGame;
+  window.reveal = reveal;
+  window.nextQuestion = nextQuestion;
+  window.goHome = goHome;
+  window.retry = retry;
+
+  // optional: keyboard next
+  window.addEventListener("keydown",(e)=>{
+    if (!document.getElementById("screen-game").classList.contains("hidden")){
+      if (e.key==="n"||e.key==="ArrowRight") nextQuestion();
+    }
+  });
+  </script>
+</body>
+</html>
