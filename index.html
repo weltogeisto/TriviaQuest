@@ -1,47 +1,88 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>TriviaQuest – Single File</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TriviaQuest — Masters Level Edition</title>
 <style>
   :root{
-    --bg:#0b1220;--panel:#0f172a;--panel2:#1e293b;--border:#334155;--text:#e5e7eb;
-    --muted:#94a3b8;--accent:#3b82f6;--emerald:#22c55e;--warn:#facc15;--danger:#ef4444;
+    --bg1:#1a1040; --bg2:#2a0f5a;
+    --glass: rgba(255,255,255,.06);
+    --border: #ffffff1a;
+    --text:#e9eef6; --muted:#a9b7d0;
+    --accent:#7dd3fc; --ok:#22c55e; --warn:#facc15; --danger:#ef4444;
+    --card-shadow: 0 10px 30px rgba(0,0,0,.25);
   }
-  *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Arial}
-  .wrap{max-width:1100px;margin:0 auto;padding:24px}
-  .glass{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));border:1px solid #ffffff1a}
-  h1{font-size:clamp(26px,3.6vw,40px);margin:0 0 8px}
-  .sub{color:var(--muted);margin:0 0 20px}
-  .grid{display:grid;gap:16px}
-  @media(min-width:800px){.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
-  .card{border-radius:16px;padding:16px}
-  .row{display:flex;align-items:center;justify-content:space-between}
-  .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid #ffffff22;padding:10px 14px;cursor:pointer;background:#ffffff0f;color:#fff;text-decoration:none}
-  .btn:hover{background:#ffffff1f}
+  *{box-sizing:border-box}
+  html,body{
+    margin:0;
+    background:radial-gradient(1200px 800px at 20% -10%,#4c1d95 0,#2a0f5a 50%,#120a2b 100%);
+    color:var(--text);
+    font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
+  .glass{background:linear-gradient(180deg,var(--glass),transparent);border:1px solid var(--border);backdrop-filter:blur(6px)}
+  .card{border-radius:18px;padding:18px;box-shadow:var(--card-shadow)}
+  h1{margin:0 0 8px;font-size:clamp(26px,3.5vw,40px);letter-spacing:.2px}
+  .sub{margin:0;color:var(--muted)}
+  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:#ffffff14;font-size:12px}
+  .meta{display:inline-flex;gap:8px;align-items:center}
+  .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#ffffff12;color:#fff;cursor:pointer;text-decoration:none;font-weight:600}
+  .btn:hover{background:#ffffff22}
+  .ghost{background:#ffffff0a}
   .big{padding:12px 16px;border-radius:14px}
   .hidden{display:none}
-  .pill{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid #ffffff22;background:#ffffff14}
-  .bar{height:8px;border-radius:999px;background:#ffffff14;overflow:hidden}
+  .grid{display:grid;gap:16px}
+  @media(min-width:860px){.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+  /* category cards */
+  .cat{position:relative;overflow:hidden}
+  .cat h3{margin:2px 0 4px;font-size:20px}
+  .cat p{margin:0 0 8px;color:var(--muted);font-size:14px}
+  .tag{position:absolute;top:14px;right:14px;font-size:12px}
+  .badge{position:absolute;left:14px;top:14px;font-size:12px;background:#00000040}
+  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:#ffffff12}
+  .start{margin-top:8px}
+  .c_orange{background:linear-gradient(160deg,#ff7a18 0,#ffb44c 100%)}
+  .c_green{background:linear-gradient(160deg,#10b981 0,#22d3ee 100%)}
+  .c_blue{background:linear-gradient(160deg,#2563eb 0,#7c3aed 100%)}
+  .c_purple{background:linear-gradient(160deg,#a855f7 0,#ec4899 100%)}
+  .c_teal{background:linear-gradient(160deg,#06b6d4 0,#34d399 100%)}
+  .c_emerald{background:linear-gradient(160deg,#059669 0,#22c55e 100%)}
+  .c_rose{background:linear-gradient(160deg,#f43f5e 0,#fb7185 100%)}
+  .cat .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.32))}
+  .cat .content{position:relative}
+
+  /* game */
+  .bar{height:8px;border-radius:999px;background:#ffffff14;overflow:hidden;margin:10px 0 16px}
   .fill{height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6)}
-  input,select,textarea{background:#fff;color:#111;border-radius:10px;border:none;padding:8px 10px}
-  table{width:100%;border-collapse:collapse} td{padding:6px 0}
-  .q{font-weight:700;font-size:18px;margin-bottom:12px}
-  .opt{border:1px solid #ffffff22;border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer;background:#ffffff07}
+  .q{font-size:20px;font-weight:700;margin:6px 0 12px}
+  .opt{border:1px solid var(--border);background:#ffffff0e;border-radius:14px;padding:12px;margin:10px 0;cursor:pointer}
+  .opt:hover{background:#ffffff1b}
   .opt.correct{border-color:#22c55e;background:#22c55e22}
   .opt.wrong{border-color:#ef4444;background:#ef444422}
-  .muted{color:#9fb0c7}
+  .muted{color:var(--muted)}
   .foot{opacity:.8;font-size:12px}
+  details>summary{cursor:pointer}
+  select,input{background:#fff;color:#111;border-radius:10px;border:none;padding:8px 10px}
+  code{background:#00000033;padding:1px 6px;border-radius:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header class="glass card" style="display:flex;align-items:center;gap:16px">
-    <div class="pill">Ready</div>
+
+  <!-- Header -->
+  <header class="glass card" style="display:flex;gap:16px;align-items:center">
+    <div class="pill">🧠 Ready</div>
     <div>
       <h1>TriviaQuest</h1>
-      <p class="sub">One-file quiz. Import, play, export – no server needed.</p>
+      <p class="sub">Advanced academic trivia for graduate students</p>
+      <div class="meta" style="margin-top:6px">
+        <span class="pill">⏱️ 45s / question</span>
+        <span class="pill">🔁 10 per round</span>
+        <span class="pill">🧪 Masters-level</span>
+      </div>
     </div>
     <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
       <button id="btnHome" class="btn hidden">🏠 Home</button>
@@ -49,71 +90,119 @@
   </header>
 
   <!-- HOME -->
-  <section id="screen-home" class="glass card" style="margin-top:16px">
-    <div class="grid cols-4">
-      <!-- category cards -->
-      <div class="card glass">
-        <div class="row"><div>🇮🇳 Incredible India</div><span class="pill"><span data-count="india">0</span> Qs</span></div>
-        <button class="btn big" data-start="india">Start Challenge</button>
+  <section id="screen-home" class="glass card" style="margin-top:18px">
+    <div class="grid cols-3">
+
+      <div class="cat card c_orange">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="badge pill">⭐ META</span>
+          <span class="tag pill">45s</span>
+          <h3>Incredible India</h3>
+          <p>Masters-level India across disciplines</p>
+          <div class="chip">📦 <span data-count="india">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="india">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>🌍 Geography</div><span class="pill"><span data-count="geography">0</span> Qs</span></div>
-        <button class="btn big" data-start="geography">Start Challenge</button>
+
+      <div class="cat card c_green">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="tag pill">45s</span>
+          <h3>Geography</h3>
+          <p>Advanced physical & human geography</p>
+          <div class="chip">📦 <span data-count="geography">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="geography">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>🧪 Science</div><span class="pill"><span data-count="science">0</span> Qs</span></div>
-        <button class="btn big" data-start="science">Start Challenge</button>
+
+      <div class="cat card c_blue">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="tag pill">45s</span>
+          <h3>Science</h3>
+          <p>Cutting-edge concepts & theory</p>
+          <div class="chip">📦 <span data-count="science">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="science">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>📜 History</div><span class="pill"><span data-count="history">0</span> Qs</span></div>
-        <button class="btn big" data-start="history">Start Challenge</button>
+
+      <div class="cat card c_emerald">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="tag pill">45s</span>
+          <h3>History</h3>
+          <p>Historical analysis & theory</p>
+          <div class="chip">📦 <span data-count="history">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="history">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>🎭 Arts</div><span class="pill"><span data-count="arts">0</span> Qs</span></div>
-        <button class="btn big" data-start="arts">Start Challenge</button>
+
+      <div class="cat card c_purple">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="tag pill">45s</span>
+          <h3>Arts & Culture</h3>
+          <p>Aesthetics, film, criticism</p>
+          <div class="chip">📦 <span data-count="arts">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="arts">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>🧙 Tolkien</div><span class="pill"><span data-count="tolkien">0</span> Qs</span></div>
-        <button class="btn big" data-start="tolkien">Start Challenge</button>
+
+      <div class="cat card c_teal">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="tag pill">45s</span>
+          <h3>Tolkien & Middle-earth</h3>
+          <p>English Literature Major – Tolkien focus</p>
+          <div class="chip">📦 <span data-count="tolkien">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="tolkien">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>🏛️ PolSci</div><span class="pill"><span data-count="polsci">0</span> Qs</span></div>
-        <button class="btn big" data-start="polsci">Start Challenge</button>
+
+      <div class="cat card c_rose">
+        <div class="overlay"></div>
+        <div class="content">
+          <span class="tag pill">45s</span>
+          <h3>Wortschatz (Vocabulary)</h3>
+          <p>German B2 vocabulary practice</p>
+          <div class="chip">📦 <span data-count="wortschatz">0</span> questions</div>
+          <div class="start"><button class="btn big" data-start="wortschatz">▶ Start Challenge</button></div>
+        </div>
       </div>
-      <div class="card glass">
-        <div class="row"><div>🧬 Biology</div><span class="pill"><span data-count="biology">0</span> Qs</span></div>
-        <button class="btn big" data-start="biology">Start Challenge</button>
-      </div>
+
     </div>
   </section>
 
   <!-- GAME -->
-  <section id="screen-game" class="glass card hidden" style="margin-top:16px">
-    <div class="row" style="gap:12px;align-items:flex-end">
-      <div style="font-weight:700" id="hudCatName">Category</div>
-      <div class="pill" id="hudCounter">1/10</div>
-      <div class="pill" id="hudTimer">45s</div>
+  <section id="screen-game" class="glass card hidden" style="margin-top:18px">
+    <div class="row" style="align-items:flex-end">
+      <div style="font-weight:800" id="hudCatName">Category</div>
+      <span class="pill" id="hudCounter">Q 1/10</span>
+      <span class="pill" id="hudTimer">45s</span>
       <div style="margin-left:auto" id="hudScore">Score: 0/10</div>
     </div>
-    <div class="bar" style="margin:12px 0 16px"><div id="hudProgress" class="fill" style="width:0%"></div></div>
+    <div class="bar"><div id="hudProgress" class="fill" style="width:0%"></div></div>
     <div id="qWrap">
-      <div class="q" id="qText">Question</div>
+      <div class="q" id="qText">Question…</div>
       <div id="opts"></div>
       <p class="muted" id="explain"></p>
-      <div class="row" style="margin-top:12px">
-        <button id="btnNext" class="btn big">Next</button>
+      <div class="row" style="margin-top:10px">
+        <button id="btnReveal" class="btn ghost">👁 Reveal answer</button>
+        <span style="flex:1"></span>
+        <button id="btnNext" class="btn big">Next question</button>
       </div>
     </div>
   </section>
 
-  <!-- ADMIN -->
-  <section class="glass card" style="margin-top:16px">
+  <!-- ADMIN (hidden unless ?admin=1) -->
+  <section id="adminPanel" class="glass card" style="margin-top:18px;display:none">
     <details open>
-      <summary class="cursor-pointer" style="font-weight:700">Admin: Import / Export</summary>
-      <div style="margin-top:12px" class="grid" >
+      <summary style="font-weight:800">Admin: Import / Export</summary>
+      <div class="grid" style="gap:12px;margin-top:12px">
         <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:12px">
           <div>
-            <label>Category</label><br/>
+            <label class="foot">Category</label><br/>
             <select id="impCat">
               <option value="india">india</option>
               <option value="geography">geography</option>
@@ -121,19 +210,17 @@
               <option value="history">history</option>
               <option value="arts">arts</option>
               <option value="tolkien">tolkien</option>
-              <option value="polsci">polsci</option>
-              <option value="biology">biology</option>
+              <option value="wortschatz">wortschatz</option>
             </select>
           </div>
           <div>
-            <label>Upload JSON/CSV</label><br/>
-            <input id="impFile" type="file" accept=".json,.csv" />
+            <label class="foot">Upload JSON/CSV (per category or ALL)</label><br/>
+            <input id="impFile" type="file" accept=".json,.csv"/>
           </div>
           <div style="display:flex;align-items:end;gap:8px">
-            <button id="btnImport" class="btn">Import (to category)</button>
+            <button id="btnImport" class="btn">Import to category</button>
           </div>
         </div>
-
         <div style="display:flex;flex-wrap:wrap;gap:8px">
           <button id="btnImportAll" class="btn">Import ALL (JSON)</button>
           <button id="btnExportCat" class="btn">Export selected (JSON)</button>
@@ -142,17 +229,18 @@
           <button id="btnClearLocal" class="btn">Clear local overrides</button>
         </div>
         <p id="impMsg" class="muted"></p>
+        <p class="foot">CSV header: <code>question,optionA,optionB,optionC,optionD,correct,explanation,difficulty,category</code> (correct = 0..3)</p>
       </div>
-      <p class="foot">CSV header: <code>question,optionA,optionB,optionC,optionD,correct,explanation,difficulty,category</code> (correct = 0..3)</p>
     </details>
   </section>
 
-  <footer class="wrap" style="padding:8px 0">
-    <p class="foot">Tip: work in chunks (e.g., 50 Qs), Import → test → Export ALL → commit.</p>
+  <footer class="wrap" style="padding:10px 0">
+    <p class="foot">Open with <code>?admin=1</code> to show the Admin panel. Import chunks, test, then Export ALL or make a One-File Backup.</p>
   </footer>
+
 </div>
 
-<!-- Embedded BANK payload (this gets filled by "one-file backup") -->
+<!-- Embedded BANK payload for one-file backups (replaced on backup) -->
 <script id="embeddedBank" type="application/json">{
   "india": [],
   "geography": [],
@@ -160,40 +248,37 @@
   "history": [],
   "arts": [],
   "tolkien": [],
-  "polsci": [],
-  "biology": []
+  "wortschatz": []
 }</script>
 
 <script>
-/*** Minimal sample data so it runs out of the box. Replace via Admin import. ***/
+/* ---------- Seed minimal data so it runs immediately. Replace via Import ---------- */
 let BANK = {
   india: [
-    {question:"Where does the southwest monsoon first hit India?",options:["Kolkata","Thiruvananthapuram","Mumbai","Chennai"],correct:1,explanation:"Onset typically reaches Kerala first in early June.",difficulty:"Masters",category:"Geography"},
-    {question:"The Deccan Traps formed primarily due to:",options:["Subduction","Hotspot flood basalts","Mid-ocean ridge","Asteroid impacts only"],correct:1,explanation:"Long-lived Réunion hotspot volcanism produced vast flood basalts.",difficulty:"Masters",category:"Geology"}
+    {question:"Where does the southwest monsoon first hit India?",options:["Kolkata","Thiruvananthapuram","Mumbai","Chennai"],correct:1,explanation:"Onset typically reaches Kerala first (early June).",difficulty:"Masters",category:"Geography"},
+    {question:"Primary cause of the Deccan Traps:",options:["Subduction","Hotspot flood basalts","Mid-ocean ridge","Asteroid impact only"],correct:1,explanation:"Réunion hotspot produced extensive flood basalts.",difficulty:"Masters",category:"Geology"}
   ],
   geography: [
-    {question:"Coriolis effect is:",options:["Friction with continents","Apparent deflection due to Earth's rotation","Magnetic bending of winds","Gravity on plates"],correct:1,explanation:"Motion deflects right NH / left SH in a rotating frame.",difficulty:"Masters",category:"Atmosphere"}
+    {question:"The Coriolis effect is:",options:["Friction with continents","Apparent deflection due to Earth's rotation","Magnetic bending of winds","Gravity on plates"],correct:1,explanation:"Right deflection in NH / left in SH in a rotating frame.",difficulty:"Masters",category:"Atmosphere"}
   ],
   science: [
-    {question:"Chandrasekhar limit (~1.44 M☉) applies to:",options:["Neutron stars","White dwarfs","Black holes","Brown dwarfs"],correct:1,explanation:"Above that mass, electron degeneracy can’t support a white dwarf.",difficulty:"Masters",category:"Astrophysics"}
+    {question:"Chandrasekhar limit (~1.44 M☉) applies to:",options:["Neutron stars","White dwarfs","Black holes","Brown dwarfs"],correct:1,explanation:"Above that mass, electron degeneracy fails for white dwarfs.",difficulty:"Masters",category:"Astrophysics"}
   ],
   history: [
-    {question:"Treaty of Westphalia (1648) cemented:",options:["Balance of power","State sovereignty","Collective security","Free trade"],correct:1,explanation:"Modern sovereign state system and non-interference.",difficulty:"Masters",category:"Early Modern"}
+    {question:"The Peace of Westphalia (1648) is best known for:",options:["Abolishing monarchies","Establishing state sovereignty","Creating the UN","Ending colonialism"],correct:1,explanation:"It entrenched non-interference and sovereign states.",difficulty:"Masters",category:"Early Modern"}
   ],
   arts: [
-    {question:"Auteur theory regards the ____ as the film’s author.",options:["Screenwriter","Director","Producer","Editor"],correct:1,explanation:"Directorial visual decisions imprint authorship.",difficulty:"Masters",category:"Film"}
+    {question:"Auteur theory regards the ____ as the film’s author.",options:["Screenwriter","Director","Producer","Editor"],correct:1,explanation:"The director’s visual decisions imprint authorship.",difficulty:"Masters",category:"Film"}
   ],
   tolkien: [
-    {question:"Gandalf is one of the:",options:["Valar","Maiar (Istari)","Eldar","Númenóreans"],correct:1,explanation:"Olórin the Maia, sent as an Istar.",difficulty:"Advanced",category:"LotR"}
+    {question:"Gandalf (Olórin) belongs to the:",options:["Valar","Maiar (Istari)","Eldar","Númenóreans"],correct:1,explanation:"He is a Maia sent as an Istar to oppose Sauron.",difficulty:"Advanced",category:"LotR"}
   ],
-  polsci: [
-    {question:"Constructivism emphasises:",options:["Material power only","Socially constructed identities & norms","Geography only","Biology"],correct:1,explanation:"Inter-subjective norms/identities shape interests.",difficulty:"Masters",category:"IR Theory"}
-  ],
-  biology: [
-    {question:"Chloroplasts descend from:",options:["Archaea","Cyanobacteria","Alpha-proteobacteria","Fungi"],correct:1,explanation:"Primary endosymbiosis of a cyanobacterium.",difficulty:"Masters",category:"Cell Biology"}
+  wortschatz: [
+    {question:"Deutsch → Englisch: „Leitbild“",options:["guideline","mission statement","blueprint","signpost"],correct:1,explanation:"„Leitbild“ ≈ mission statement.",difficulty:"B2",category:"Vocabulary"}
   ],
 };
-/*** Load embedded payload (if any) and local overrides ***/
+
+/* ---------- Merge embedded payload (one-file backups) ---------- */
 (function mergeEmbedded(){
   try{
     const raw = document.getElementById('embeddedBank')?.textContent || '{}';
@@ -205,6 +290,8 @@ let BANK = {
     }
   }catch{}
 })();
+
+/* ---------- Local overrides (browser) ---------- */
 (function loadLocal(){
   try{
     const x = JSON.parse(localStorage.getItem('BANK_LOCAL')||'null');
@@ -214,105 +301,80 @@ let BANK = {
   }catch{}
 })();
 
-/*** UI helpers ***/
-const $ = sel => document.querySelector(sel);
-const $$ = sel => [...document.querySelectorAll(sel)];
-function updateHomeCounts(){
-  for (const k of Object.keys(BANK)){
-    const n = BANK[k]?.length||0;
-    const el = document.querySelector(`[data-count="${k}"]`);
-    if (el) el.textContent = n;
-  }
-}
-updateHomeCounts();
-
-/*** Game ***/
-const ROUND_COUNT = 10;
-const PER_QUESTION_SECONDS = 45;
-let state = {cat:null, deck:[], idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null};
-
-function pickN(arr,n){ return arr.slice(0, Math.min(n, arr.length)); }
+/* ---------- UI helpers ---------- */
+const $  = s => document.querySelector(s);
+const $$ = s => [...document.querySelectorAll(s)];
 function show(id){ ["#screen-home","#screen-game"].forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
-function goHome(){ clearInterval(state.id); $("#btnHome").classList.add("hidden"); show("#screen-home"); }
-$("#btnHome").onclick = goHome;
+function updateHomeCounts(){ for (const k of Object.keys(BANK)){ const n = BANK[k]?.length||0; const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = n; } }
+updateHomeCounts();
+if (new URLSearchParams(location.search).get('admin') === '1') { const p = document.getElementById('adminPanel'); if (p) p.style.display = ''; }
 
-$$('[data-start]').forEach(btn=>{
-  btn.onclick = ()=>{
-    const cat = btn.getAttribute('data-start');
-    startGame(cat);
-  };
-});
+/* ---------- Game logic ---------- */
+const ROUND_COUNT = 10;
+const PER_Q = 45;
+let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false};
+
+function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function pickN(arr,n){ const copy=[...(arr||[])]; shuffle(copy); return copy.slice(0, Math.min(n, copy.length)); }
 
 function startGame(cat){
-  state = {cat, deck:pickN(BANK[cat]||[], ROUND_COUNT), idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null};
-  if (!state.deck.length){ alert("No questions in this category yet."); return; }
+  const deck = pickN(BANK[cat]||[], ROUND_COUNT);
+  if (!deck.length){ alert("No questions in this category yet."); return; }
+  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false};
   $("#btnHome").classList.remove("hidden");
-  show("#screen-game");
-  renderQuestion();
-  startTimer();
+  show("#screen-game"); renderQ(); startTimer();
 }
-
-function renderQuestion(){
+function renderQ(){
   const q = state.deck[state.idx];
   $("#hudCatName").textContent = state.cat;
   $("#hudCounter").textContent = `Q ${state.idx+1} / ${state.deck.length}`;
-  $("#hudScore").textContent = `Score: ${state.score}/${state.deck.length}`;
+  $("#hudScore").textContent   = `Score: ${state.score}/${state.deck.length}`;
   $("#hudProgress").style.width = `${(state.idx/state.deck.length)*100}%`;
-  $("#hudTimer").textContent = `${state.timer}s`;
-  $("#qText").textContent = q.question;
-  $("#explain").textContent = "";
+  $("#hudTimer").textContent   = `${state.t}s`;
+  $("#qText").textContent      = q.question;
+  $("#explain").textContent    = "";
   const wrap = $("#opts"); wrap.innerHTML = "";
   q.options.forEach((opt,i)=>{
     const d = document.createElement("div");
-    d.className = "opt";
-    d.textContent = opt;
-    d.onclick = ()=> chooseOption(i);
+    d.className="opt"; d.textContent=opt; d.onclick = ()=> choose(i);
     wrap.appendChild(d);
   });
-  $("#btnNext").onclick = nextQuestion;
 }
-
-function chooseOption(i){
-  if (state.answered) return;
-  state.answered = true; state.selected = i;
-  const q = state.deck[state.idx];
-  const nodes = [...$("#opts").children];
-  nodes.forEach((n,idx)=>{
-    if (idx===q.correct) n.classList.add("correct");
-    if (idx===i && i!==q.correct) n.classList.add("wrong");
-  });
+function choose(i){
+  if (state.answered) return; state.answered = true;
+  const q = state.deck[state.idx]; const nodes = [...$("#opts").children];
+  nodes.forEach((n,idx)=>{ if (idx===q.correct) n.classList.add("correct"); if (idx===i && i!==q.correct) n.classList.add("wrong"); });
   if (i===q.correct) state.score++;
   $("#explain").textContent = q.explanation||"";
 }
-
 function startTimer(){
-  clearInterval(state.id);
-  state.timer = PER_QUESTION_SECONDS;
-  state.id = setInterval(()=>{
-    state.timer--;
-    $("#hudTimer").textContent = `${state.timer}s`;
-    if (state.timer<=0){ state.answered=true; nextQuestion(); }
-  },1000);
+  clearInterval(state.id); state.t = PER_Q;
+  state.id = setInterval(()=>{ state.t--; $("#hudTimer").textContent = `${state.t}s`; if (state.t<=0){ state.answered=true; next(); } },1000);
 }
-
-function nextQuestion(){
+function next(){
   if (state.idx < state.deck.length-1){
-    state.idx++; state.answered=false; state.selected=null;
-    renderQuestion(); startTimer();
+    state.idx++; state.answered=false; state.t=PER_Q; renderQ(); startTimer();
   }else{
-    alert(`Done! Score ${state.score}/${state.deck.length}`);
-    goHome();
+    clearInterval(state.id);
+    alert(`Finished! Score ${state.score}/${state.deck.length}`);
+    $("#btnHome").classList.add("hidden"); show("#screen-home");
   }
 }
 
-/*** Admin: import/export (single-file friendly) ***/
+/* Buttons */
+$$('[data-start]').forEach(b=> b.onclick = ()=> startGame(b.getAttribute('data-start')));
+$("#btnHome").onclick = ()=>{ clearInterval(state.id); $("#btnHome").classList.add("hidden"); show("#screen-home"); };
+$("#btnNext").onclick  = next;
+$("#btnReveal").onclick= ()=>{ if (!state.answered){ choose(state.deck[state.idx].correct); } };
+
+/* ---------- Admin: import/export, one-file backup (LOCAL ONLY) ---------- */
 function csvToObjects(text){
   const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
   if (!lines.length) return [];
   const head = lines.shift().split(',').map(s=>s.trim());
   return lines.map(row=>{
-    const cols = row.split(',').map(s=>s.trim());
-    const obj = {}; head.forEach((h,i)=>obj[h]=cols[i] ?? '');
+    const cols = row.split(',').map(s=>s.trim()); const obj = {};
+    head.forEach((h,i)=>obj[h]=cols[i] ?? '');
     return {
       question: obj.question,
       options: [obj.optionA, obj.optionB, obj.optionC, obj.optionD],
@@ -324,10 +386,9 @@ function csvToObjects(text){
   });
 }
 function validateQ(q){
-  if (!q || typeof q.question!=='string' || !q.question.trim()) return false;
-  if (!Array.isArray(q.options) || q.options.length!==4) return false;
-  if (![0,1,2,3].includes(q.correct)) return false;
-  return true;
+  return q && typeof q.question==='string' && q.question.trim()
+      && Array.isArray(q.options) && q.options.length===4
+      && [0,1,2,3].includes(q.correct);
 }
 function dedupeMerge(targetArr, incoming){
   const seen = new Set(targetArr.map(x=>x.question.trim().toLowerCase()));
@@ -340,74 +401,53 @@ function dedupeMerge(targetArr, incoming){
   }
   return {add,skip,bad};
 }
-function saveLocal(){
-  try{ localStorage.setItem('BANK_LOCAL', JSON.stringify(BANK)); }catch{}
-}
+function saveLocal(){ try{ localStorage.setItem('BANK_LOCAL', JSON.stringify(BANK)); }catch{} }
 function download(name, text, type='application/json'){
   const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([text],{type}));
-  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+  a.href = URL.createObjectURL(new Blob([text],{type})); a.download = name; a.click(); URL.revokeObjectURL(a.href);
 }
+const elCat=$("#impCat"), elFile=$("#impFile"), msg=$("#impMsg");
 
-const elCat  = $("#impCat");
-const elFile = $("#impFile");
-const msg    = $("#impMsg");
-
-$("#btnImport").onclick = async ()=>{
-  const cat = elCat.value;
-  const f = elFile.files[0];
+$("#btnImport")?.addEventListener('click', async ()=>{
+  const cat = elCat.value; const f = elFile.files[0];
   if (!f){ msg.textContent='Choose a .json or .csv file.'; return; }
-  const text = await f.text();
-  let arr = [];
-  try{
-    arr = f.name.toLowerCase().endsWith('.csv') ? csvToObjects(text) : JSON.parse(text);
-  }catch(e){ msg.textContent='Parse error: '+e.message; return; }
+  const txt = await f.text(); let arr = [];
+  try{ arr = f.name.toLowerCase().endsWith('.csv') ? csvToObjects(txt) : JSON.parse(txt); }
+  catch(e){ msg.textContent='Parse error: '+e.message; return; }
   if (!Array.isArray(arr)){ msg.textContent='File must be an array of questions.'; return; }
-  BANK[cat] = BANK[cat]||[];
-  const res = dedupeMerge(BANK[cat], arr);
+  BANK[cat] = BANK[cat]||[]; const res = dedupeMerge(BANK[cat], arr);
   saveLocal(); updateHomeCounts();
   msg.textContent = `Imported into "${cat}": +${res.add} added, ${res.skip} duplicates, ${res.bad} invalid. Total ${BANK[cat].length}.`;
-};
+});
 
-$("#btnImportAll").onclick = async ()=>{
-  const f = elFile.files[0];
-  if (!f){ msg.textContent='Choose ALL JSON first (exported previously).'; return; }
+$("#btnImportAll")?.addEventListener('click', async ()=>{
+  const f = elFile.files[0]; if (!f){ msg.textContent='Choose an ALL JSON first.'; return; }
   try{
     const obj = JSON.parse(await f.text());
     if (!obj || typeof obj!=='object') throw new Error('Not an object');
     for (const k of Object.keys(obj)) if (Array.isArray(obj[k])) BANK[k]=obj[k];
-    saveLocal(); updateHomeCounts();
-    msg.textContent = 'Imported ALL categories.';
+    saveLocal(); updateHomeCounts(); msg.textContent='Imported ALL categories.';
   }catch(e){ msg.textContent='Parse error: '+e.message; }
-};
+});
 
-$("#btnExportCat").onclick = ()=>{
-  const cat = elCat.value;
-  download(`${cat}.json`, JSON.stringify(BANK[cat]||[], null, 2));
-};
-$("#btnExportAll").onclick = ()=>{
+$("#btnExportCat")?.addEventListener('click', ()=>{
+  const cat = elCat.value; download(`${cat}.json`, JSON.stringify(BANK[cat]||[], null, 2));
+});
+$("#btnExportAll")?.addEventListener('click', ()=>{
   download(`all_categories.json`, JSON.stringify(BANK, null, 2));
-};
-$("#btnClearLocal").onclick = ()=>{
-  localStorage.removeItem('BANK_LOCAL');
-  msg.textContent = 'Local overrides cleared. Reload to use built-in/embedded data.';
-};
-
-/* One-file backup: clones this HTML and embeds current BANK into #embeddedBank */
-$("#btnOneFile").onclick = ()=>{
+});
+$("#btnClearLocal")?.addEventListener('click', ()=>{
+  localStorage.removeItem('BANK_LOCAL'); msg.textContent='Local overrides cleared. Reload to use embedded data.';
+});
+$("#btnOneFile")?.addEventListener('click', ()=>{
   try{
     const doc = document.cloneNode(true);
-    const el = doc.getElementById('embeddedBank');
-    if (el) el.textContent = JSON.stringify(BANK, null, 2);
+    const el = doc.getElementById('embeddedBank'); if (el) el.textContent = JSON.stringify(BANK, null, 2);
     const html = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
     download('triviaquest_onefile_backup.html', html, 'text/html');
-    msg.textContent = 'One-file backup downloaded.';
-  }catch(e){
-    msg.textContent = 'Backup failed: '+e.message;
-  }
-};
-
-/*** End admin ***/
+    msg.textContent='One-file backup downloaded.';
+  }catch(e){ msg.textContent='Backup failed: '+e.message; }
+});
 </script>
 </body>
 </html>
