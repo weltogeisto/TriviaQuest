@@ -1,413 +1,413 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1"/>
-  <title>TriviaQuest – Fix</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Note: Full question dataset script is no longer loaded here.  -->
-  <style>
-    .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(8px)}
-    .btn{transition:transform .12s ease,box-shadow .12s ease}
-    .btn:active{transform:translateY(1px) scale(.99)}
-    .badge{position:fixed;top:.75rem;right:.75rem;padding:.35rem .55rem;border-radius:.65rem;font-size:.75rem}
-
-    /* Fallback for Tailwind's `hidden` class when Tailwind can't load.
-       Without this definition, elements intended to be hidden remain visible. */
-    .hidden {
-      display: none !important;
-    }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>TriviaQuest – Single File</title>
+<style>
+  :root{
+    --bg:#0b1220;--panel:#0f172a;--panel2:#1e293b;--border:#334155;--text:#e5e7eb;
+    --muted:#94a3b8;--accent:#3b82f6;--emerald:#22c55e;--warn:#facc15;--danger:#ef4444;
+  }
+  *{box-sizing:border-box} html,body{margin:0;background:var(--bg);color:var(--text);font:16px/1.5 system-ui,Segoe UI,Roboto,Inter,Arial}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px}
+  .glass{background:linear-gradient(180deg,rgba(255,255,255,.06),rgba(255,255,255,.04));border:1px solid #ffffff1a}
+  h1{font-size:clamp(26px,3.6vw,40px);margin:0 0 8px}
+  .sub{color:var(--muted);margin:0 0 20px}
+  .grid{display:grid;gap:16px}
+  @media(min-width:800px){.grid.cols-4{grid-template-columns:repeat(4,minmax(0,1fr))}}
+  .card{border-radius:16px;padding:16px}
+  .row{display:flex;align-items:center;justify-content:space-between}
+  .btn{display:inline-flex;align-items:center;justify-content:center;border-radius:12px;border:1px solid #ffffff22;padding:10px 14px;cursor:pointer;background:#ffffff0f;color:#fff;text-decoration:none}
+  .btn:hover{background:#ffffff1f}
+  .big{padding:12px 16px;border-radius:14px}
+  .hidden{display:none}
+  .pill{font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid #ffffff22;background:#ffffff14}
+  .bar{height:8px;border-radius:999px;background:#ffffff14;overflow:hidden}
+  .fill{height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6)}
+  input,select,textarea{background:#fff;color:#111;border-radius:10px;border:none;padding:8px 10px}
+  table{width:100%;border-collapse:collapse} td{padding:6px 0}
+  .q{font-weight:700;font-size:18px;margin-bottom:12px}
+  .opt{border:1px solid #ffffff22;border-radius:12px;padding:10px 12px;margin:8px 0;cursor:pointer;background:#ffffff07}
+  .opt.correct{border-color:#22c55e;background:#22c55e22}
+  .opt.wrong{border-color:#ef4444;background:#ef444422}
+  .muted{color:#9fb0c7}
+  .foot{opacity:.8;font-size:12px}
+</style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-indigo-900 text-white">
-
-  <!-- Load-status badge -->
-  <div id="statusBadge" class="badge bg-yellow-500/20 text-yellow-200">Loading…</div>
-
-  <!-- HEADER -->
-  <header class="p-4">
-    <div class="max-w-6xl mx-auto flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <div class="w-10 h-10 grid place-items-center rounded-xl bg-yellow-400/20 text-yellow-300 text-2xl">🧠</div>
-        <div>
-          <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">TriviaQuest</h1>
-          <p class="text-yellow-300/90 text-xs md:text-sm">Masters Level Edition</p>
-        </div>
-      </div>
-      <button id="btnHome" class="hidden md:inline text-white/80 hover:text-white underline underline-offset-4" onclick="goHome()">Home</button>
+<body>
+<div class="wrap">
+  <header class="glass card" style="display:flex;align-items:center;gap:16px">
+    <div class="pill">Ready</div>
+    <div>
+      <h1>TriviaQuest</h1>
+      <p class="sub">One-file quiz. Import, play, export – no server needed.</p>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+      <button id="btnHome" class="btn hidden">🏠 Home</button>
     </div>
   </header>
 
   <!-- HOME -->
-  <main id="screen-home" class="p-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-8">
-        <p class="text-lg md:text-xl text-gray-200 mb-4">Advanced academic trivia for graduate students</p>
-        <div class="glass rounded-xl inline-block px-4 py-3">
-          <span class="text-gray-300 text-sm">⏱️ 45s / question • 🎯 10 per round • 🧪 Masters-level</span>
-        </div>
+  <section id="screen-home" class="glass card" style="margin-top:16px">
+    <div class="grid cols-4">
+      <!-- category cards -->
+      <div class="card glass">
+        <div class="row"><div>🇮🇳 Incredible India</div><span class="pill"><span data-count="india">0</span> Qs</span></div>
+        <button class="btn big" data-start="india">Start Challenge</button>
       </div>
-
-      <section id="category-grid" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
-        <!-- Hard-wired buttons + inline onclick (robust even if JS binding fails) -->
-        <button class="text-left bg-orange-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
-                data-cat="india" onclick="startGame && startGame('india')">
-          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">⭐</div>
-          <div class="relative z-10">
-            <div class="flex items-center mb-3">
-              <div class="text-2xl md:text-3xl mr-3">⭐</div>
-              <div>
-                <h3 class="text-xl md:text-2xl font-extrabold">Incredible India</h3>
-                <span class="bg-yellow-400 text-orange-900 px-2 py-1 rounded-full text-[10px] font-bold">META</span>
-              </div>
-            </div>
-            <p class="text-sm opacity-90 mb-3">Masters-level India across disciplines</p>
-            <div class="flex items-center justify-between mb-3 text-sm"><span>Sample bank</span><span class="bg-white/20 px-2 py-1 rounded">45s</span></div>
-            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
-          </div>
-        </button>
-
-        <button class="text-left bg-emerald-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
-                data-cat="geography" onclick="startGame && startGame('geography')">
-          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">🌍</div>
-          <div class="relative z-10">
-            <div class="flex items-center mb-3">
-              <div class="text-2xl md:text-3xl mr-3">🌍</div>
-              <h3 class="text-xl md:text-2xl font-extrabold">Geography</h3>
-            </div>
-            <p class="text-sm opacity-90 mb-3">Advanced physical & human geography</p>
-            <div class="flex items-center justify-between mb-3 text-sm"><span>Sample bank</span><span class="bg-white/20 px-2 py-1 rounded">45s</span></div>
-            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
-          </div>
-        </button>
-
-        <button class="text-left bg-blue-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
-                data-cat="science" onclick="startGame && startGame('science')">
-          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">🔬</div>
-          <div class="relative z-10">
-            <div class="flex items-center mb-3">
-              <div class="text-2xl md:text-3xl mr-3">🔬</div>
-              <h3 class="text-xl md:text-2xl font-extrabold">Science</h3>
-            </div>
-            <p class="text-sm opacity-90 mb-3">Cutting-edge concepts & theory</p>
-            <div class="flex items-center justify-between mb-3 text-sm"><span>Sample bank</span><span class="bg-white/20 px-2 py-1 rounded">45s</span></div>
-            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
-          </div>
-        </button>
-
-        <!-- History category -->
-        <button class="text-left bg-amber-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
-                data-cat="history" onclick="startGame && startGame('history')">
-          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">⏰</div>
-          <div class="relative z-10">
-            <div class="flex items-center mb-3">
-              <div class="text-2xl md:text-3xl mr-3">⏰</div>
-              <h3 class="text-xl md:text-2xl font-extrabold">History</h3>
-            </div>
-            <p class="text-sm opacity-90 mb-3">Historical analysis & theory</p>
-            <div class="flex items-center justify-between mb-3 text-sm"><span>Sample bank</span><span class="bg-white/20 px-2 py-1 rounded">45s</span></div>
-            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
-          </div>
-        </button>
-
-        <!-- Arts & Culture category -->
-        <button class="text-left bg-purple-500 hover:scale-105 transform transition-all duration-300 rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden group btn w-full"
-                data-cat="arts" onclick="startGame && startGame('arts')">
-          <div class="absolute top-0 right-0 w-28 h-28 opacity-10 group-hover:opacity-20 grid place-items-center text-5xl">🎨</div>
-          <div class="relative z-10">
-            <div class="flex items-center mb-3">
-              <div class="text-2xl md:text-3xl mr-3">🎨</div>
-              <h3 class="text-xl md:text-2xl font-extrabold">Arts & Culture</h3>
-            </div>
-            <p class="text-sm opacity-90 mb-3">Aesthetics, film, criticism</p>
-            <div class="flex items-center justify-between mb-3 text-sm"><span>Sample bank</span><span class="bg-white/20 px-2 py-1 rounded">45s</span></div>
-            <div class="mt-3 flex items-center"><span class="mr-2">▶️</span><span class="font-semibold">Start Challenge</span></div>
-          </div>
-        </button>
-      </section>
-
-      <div class="glass rounded-xl p-6 md:p-8">
-        <div class="w-12 h-12 text-yellow-400 mx-auto mb-4 grid place-items-center text-3xl">🏆</div>
-        <h3 class="text-xl md:text-2xl font-bold text-white mb-4 text-center">Academic Excellence</h3>
-        <div class="grid md:grid-cols-3 gap-6 text-gray-200">
-          <div><h4 class="font-semibold mb-2">Critical Thinking</h4><p class="text-sm">Analyze and evaluate complex concepts.</p></div>
-          <div><h4 class="font-semibold mb-2">Interdisciplinary</h4><p class="text-sm">Connect geography, science, history, arts.</p></div>
-          <div><h4 class="font-semibold mb-2">Research-Based</h4><p class="text-sm">Drawn from advanced sources.</p></div>
-        </div>
+      <div class="card glass">
+        <div class="row"><div>🌍 Geography</div><span class="pill"><span data-count="geography">0</span> Qs</span></div>
+        <button class="btn big" data-start="geography">Start Challenge</button>
+      </div>
+      <div class="card glass">
+        <div class="row"><div>🧪 Science</div><span class="pill"><span data-count="science">0</span> Qs</span></div>
+        <button class="btn big" data-start="science">Start Challenge</button>
+      </div>
+      <div class="card glass">
+        <div class="row"><div>📜 History</div><span class="pill"><span data-count="history">0</span> Qs</span></div>
+        <button class="btn big" data-start="history">Start Challenge</button>
+      </div>
+      <div class="card glass">
+        <div class="row"><div>🎭 Arts</div><span class="pill"><span data-count="arts">0</span> Qs</span></div>
+        <button class="btn big" data-start="arts">Start Challenge</button>
+      </div>
+      <div class="card glass">
+        <div class="row"><div>🧙 Tolkien</div><span class="pill"><span data-count="tolkien">0</span> Qs</span></div>
+        <button class="btn big" data-start="tolkien">Start Challenge</button>
+      </div>
+      <div class="card glass">
+        <div class="row"><div>🏛️ PolSci</div><span class="pill"><span data-count="polsci">0</span> Qs</span></div>
+        <button class="btn big" data-start="polsci">Start Challenge</button>
+      </div>
+      <div class="card glass">
+        <div class="row"><div>🧬 Biology</div><span class="pill"><span data-count="biology">0</span> Qs</span></div>
+        <button class="btn big" data-start="biology">Start Challenge</button>
       </div>
     </div>
-  </main>
+  </section>
 
   <!-- GAME -->
-  <section id="screen-game" class="hidden p-4">
-    <div class="max-w-4xl mx-auto">
-      <div class="flex justify-between items-center mb-6">
-        <div class="flex items-center">
-          <div id="hudCatColor" class="p-3 rounded-xl mr-3 bg-orange-500"><span id="hudCatIcon" class="block text-xl">⭐</span></div>
+  <section id="screen-game" class="glass card hidden" style="margin-top:16px">
+    <div class="row" style="gap:12px;align-items:flex-end">
+      <div style="font-weight:700" id="hudCatName">Category</div>
+      <div class="pill" id="hudCounter">1/10</div>
+      <div class="pill" id="hudTimer">45s</div>
+      <div style="margin-left:auto" id="hudScore">Score: 0/10</div>
+    </div>
+    <div class="bar" style="margin:12px 0 16px"><div id="hudProgress" class="fill" style="width:0%"></div></div>
+    <div id="qWrap">
+      <div class="q" id="qText">Question</div>
+      <div id="opts"></div>
+      <p class="muted" id="explain"></p>
+      <div class="row" style="margin-top:12px">
+        <button id="btnNext" class="btn big">Next</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ADMIN -->
+  <section class="glass card" style="margin-top:16px">
+    <details open>
+      <summary class="cursor-pointer" style="font-weight:700">Admin: Import / Export</summary>
+      <div style="margin-top:12px" class="grid" >
+        <div class="grid" style="grid-template-columns:1fr 1fr 1fr;gap:12px">
           <div>
-            <h2 id="hudCatName" class="text-xl font-bold">Category</h2>
-            <p id="hudCounter" class="text-gray-300 text-sm">Question 1 of 10</p>
-            <span id="hudTag" class="text-[10px] bg-white/20 px-2 py-1 rounded mt-1 inline-block">Tag</span>
+            <label>Category</label><br/>
+            <select id="impCat">
+              <option value="india">india</option>
+              <option value="geography">geography</option>
+              <option value="science">science</option>
+              <option value="history">history</option>
+              <option value="arts">arts</option>
+              <option value="tolkien">tolkien</option>
+              <option value="polsci">polsci</option>
+              <option value="biology">biology</option>
+            </select>
+          </div>
+          <div>
+            <label>Upload JSON/CSV</label><br/>
+            <input id="impFile" type="file" accept=".json,.csv" />
+          </div>
+          <div style="display:flex;align-items:end;gap:8px">
+            <button id="btnImport" class="btn">Import (to category)</button>
           </div>
         </div>
-        <div class="text-right">
-          <div class="flex items-center justify-end gap-2 mb-1"><span>⏱️</span><span id="hudTimer" class="text-2xl font-extrabold">45s</span></div>
-          <p id="hudScore" class="text-gray-300 text-sm">Score: 0/10</p>
+
+        <div style="display:flex;flex-wrap:wrap;gap:8px">
+          <button id="btnImportAll" class="btn">Import ALL (JSON)</button>
+          <button id="btnExportCat" class="btn">Export selected (JSON)</button>
+          <button id="btnExportAll" class="btn">Export ALL (JSON)</button>
+          <button id="btnOneFile" class="btn">Download One-File Backup (.html)</button>
+          <button id="btnClearLocal" class="btn">Clear local overrides</button>
         </div>
+        <p id="impMsg" class="muted"></p>
       </div>
-
-      <div class="bg-white/20 rounded-full h-3 mb-6"><div id="hudProgress" class="bg-gradient-to-r from-yellow-400 to-orange-500 h-3 rounded-full transition-all duration-300" style="width:0%"></div></div>
-      <div class="flex justify-center mb-4"><span id="hudDiff" class="px-3 py-1 rounded-full text-xs font-bold bg-red-600">Masters</span></div>
-
-      <div class="bg-white text-slate-900 rounded-3xl p-6 md:p-8 shadow-2xl">
-        <h3 id="qText" class="text-xl md:text-2xl font-bold mb-6 leading-relaxed">Question text…</h3>
-        <div id="qOptions" class="grid gap-3" role="radiogroup" aria-label="Answer choices"></div>
-        <div id="qFeedback" class="hidden mt-5 rounded-2xl p-4 border"></div>
-      </div>
-
-      <div class="flex items-center justify-between mt-5">
-        <button class="text-white/80 hover:text-white underline underline-offset-4" onclick="goHome()">Exit to menu</button>
-        <div class="flex gap-2">
-          <button id="btnReveal" class="btn bg-white/10 text-white px-4 py-2 rounded-xl hover:bg-white/20" onclick="reveal(false)">Reveal answer</button>
-          <button id="btnNext" class="btn bg-yellow-400 hover:bg-yellow-500 text-slate-900 px-5 py-2 rounded-xl font-semibold" onclick="nextQuestion()">Next question</button>
-        </div>
-      </div>
-    </div>
+      <p class="foot">CSV header: <code>question,optionA,optionB,optionC,optionD,correct,explanation,difficulty,category</code> (correct = 0..3)</p>
+    </details>
   </section>
 
-  <!-- RESULTS -->
-  <section id="screen-results" class="hidden p-4">
-    <div class="max-w-2xl mx-auto bg-white text-slate-900 rounded-3xl p-8 text-center shadow-2xl">
-      <div id="resEmoji" class="text-6xl mb-4">🏆</div>
-      <h2 class="text-3xl font-extrabold mb-2">Masters Challenge Complete!</h2>
-      <div class="text-5xl font-extrabold mb-4"><span id="resScore" class="text-green-600">0</span><span class="text-gray-400">/10</span></div>
-      <p id="resPct" class="text-xl text-gray-600 mb-6">0% Correct</p>
-      <p id="resMsg" class="text-lg font-semibold mb-8">—</p>
-      <div class="flex gap-3 justify-center">
-        <button class="btn bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-semibold" onclick="retry()">Try Again</button>
-        <button class="btn bg-gray-700 hover:bg-gray-800 text-white px-6 py-3 rounded-xl font-semibold" onclick="goHome()">Main Menu</button>
-      </div>
-    </div>
-  </section>
+  <footer class="wrap" style="padding:8px 0">
+    <p class="foot">Tip: work in chunks (e.g., 50 Qs), Import → test → Export ALL → commit.</p>
+  </footer>
+</div>
 
-  <script>
-  // ====== Config ======
-  const CATEGORIES = {
-    india:    { name: "Incredible India", color: "bg-orange-500", icon: "⭐" },
-    geography:{ name: "Geography",        color: "bg-emerald-500", icon: "🌍" },
-    science:  { name: "Science",          color: "bg-blue-500",    icon: "🔬" },
-    history:  { name: "History",          color: "bg-amber-500",   icon: "⏰" },
-    arts:     { name: "Arts & Culture",   color: "bg-purple-500",  icon: "🎨" },
-  };
-  const ROUND_COUNT = 10;
-  const PER_QUESTION_SECONDS = 45;
-  const $ = (id)=>document.getElementById(id);
+<!-- Embedded BANK payload (this gets filled by "one-file backup") -->
+<script id="embeddedBank" type="application/json">{
+  "india": [],
+  "geography": [],
+  "science": [],
+  "history": [],
+  "arts": [],
+  "tolkien": [],
+  "polsci": [],
+  "biology": []
+}</script>
 
-  // ====== Seed dataset (small but working) ======
-  let BANK = {
-    india: [
-      {question:"Which process best explains formation of the Western Ghats?",options:["Continental collision","Fault-block uplift","Hotspot chains","Fold-and-thrust belt"],correct:1,explanation:"Ancient passive-margin escarpment uplift; Himalaya are collision folds.",difficulty:"Masters",category:"Geography"},
-      {question:"Indus River relative to the Himalaya is:",options:["Consequent","Subsequent","Antecedent","Superimposed"],correct:2,explanation:"It maintained course while mountains rose.",difficulty:"Advanced",category:"Geography"},
-      {question:"Kerala's demographic stage:",options:["2","3","4","5"],correct:2,explanation:"Low birth/death; aging population.",difficulty:"Masters",category:"Population"},
-      {question:"Arthashastra is closest to:",options:["Idealism","Realpolitik","Democracy","Theocracy"],correct:1,explanation:"Pragmatic statecraft centuries pre-Machiavelli.",difficulty:"Masters",category:"History"},
-      {question:"Raman effect shows:",options:["Wave–particle duality","Uncertainty","Quantized vibrational energy","Spin"],correct:2,explanation:"Inelastic scattering reveals molecular modes.",difficulty:"Advanced",category:"Science"}
-    ],
-    geography: [
-      {question:"Atolls form via:",options:["Sea-level fall","Coral on subsiding volcanoes","Rapid uplift","River progradation"],correct:1,explanation:"Darwin’s subsidence + upward coral growth.",difficulty:"Advanced",category:"Coasts"},
-      {question:"Urban heat islands mainly due to:",options:["Higher albedo","Lower albedo & less evapotranspiration","Mountain shade","Polar air"],correct:1,explanation:"Cities absorb more solar energy; less latent cooling.",difficulty:"Advanced",category:"Urban"},
-      {question:"Fjords carved primarily by:",options:["Rivers","Glaciers","Waves","Wind"],correct:1,explanation:"Deep U-valleys later flooded by sea.",difficulty:"Advanced",category:"Glacial"}
-    ],
-    science: [
-      {question:"CRISPR-Cas9 originated as:",options:["DNA repair","Bacterial adaptive immunity","Translation factor","Cell division"],correct:1,explanation:"Spacer acquisition + nuclease targeting vs phages.",difficulty:"Masters",category:"Molecular"},
-      {question:"Entanglement challenges classical:",options:["Energy conservation","Locality","Mass–energy","Charge conservation"],correct:1,explanation:"Nonlocal correlations (no FTL signaling).",difficulty:"Advanced",category:"Quantum"},
-      {question:"Higgs field primarily gives:",options:["Spin","Mass","Charge","Color"],correct:1,explanation:"Mass via spontaneous symmetry breaking.",difficulty:"Advanced",category:"Particle"}
-    ]
-    ,
-    // Sample history questions (3 for demonstration)
-    history: [
-      {question:"The Treaty of Westphalia (1648) established which key principle in international relations?",options:["Balance of power","State sovereignty","Collective security","Free trade"],correct:1,explanation:"It formalised the modern system of sovereign states and non‑interference.",difficulty:"Masters",category:"Early Modern"},
-      {question:"Which global era is often called the 'Great Divergence' due to widening wealth gaps between Europe and Asia?",options:["Industrial Revolution","Age of Discovery","Columbian Exchange","Meiji Restoration"],correct:0,explanation:"The Industrial Revolution accelerated Europe's economic lead over Asia.",difficulty:"Advanced",category:"Economic History"},
-      {question:"The Scramble for Africa refers to:",options:["African countries colonising Europe","European powers partitioning Africa","Cold War proxy conflicts","Post‑colonial land reforms"],correct:1,explanation:"Late 19th‑century European imperialism carved up Africa into colonies.",difficulty:"Masters",category:"Imperialism"}
-    ],
-    // Sample arts and culture questions (3 for demonstration)
-    arts: [
-      {question:"Postmodernism in art is characterised by its rejection of:",options:["Aesthetic beauty","Grand narratives","Individual expression","Cultural tradition"],correct:1,explanation:"Postmodern thinkers and artists critique universal stories, embracing plurality and irony.",difficulty:"Masters",category:"Art Theory"},
-      {question:"The male gaze theory in film studies was developed by:",options:["Simone de Beauvoir","Laura Mulvey","Julia Kristeva","Hélène Cixous"],correct:1,explanation:"In her 1975 essay 'Visual Pleasure and Narrative Cinema', Mulvey analysed cinematic representation from a feminist viewpoint.",difficulty:"Advanced",category:"Film"},
-      {question:"Which movement emphasised 'Art for art's sake', valuing art independent of moral or utilitarian functions?",options:["Functionalism","L'art pour l'art","Social realism","Constructivism"],correct:1,explanation:"The slogan advocates that the intrinsic beauty and experience of art suffice as its purpose.",difficulty:"Masters",category:"Aesthetics"}
-    ]
-  };
-
-  // ====== Full dataset override removed ======
-  // The app now uses the built‑in BANK dataset defined below.  
-  // Update the home page counts for each category based on the loaded BANK
-  function updateHomeCounts() {
-    document.querySelectorAll('[data-cat]').forEach(btn => {
-      const cat = btn.getAttribute('data-cat');
-      const countSpan = btn.querySelector('div.flex.items-center.justify-between.mb-3.text-sm span:first-child');
-      if (countSpan && Array.isArray(BANK[cat])) {
-        countSpan.textContent = `${BANK[cat].length} questions`;
-      }
-    });
-  }
-  // call updateHomeCounts on initial load
-  updateHomeCounts();
-
-  // ====== State ======
-  let state = { cat:null, deck:[], idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null };
-
-  // ====== Helpers ======
-  const pickN = (arr,n)=>arr.slice(0, Math.min(n, arr.length));
-  const show  = (id)=>{
-    ["screen-home","screen-game","screen-results"].forEach(s=>$(s).classList.add("hidden"));
-    $(id).classList.remove("hidden");
-  };
-  const colorFor = (cat)=>CATEGORIES[cat].color;
-
-  // ====== Navigation ======
-  function goHome(){ clearInterval(state.id); $("btnHome").classList.add("hidden"); show("screen-home"); }
-  function retry(){ startGame(state.cat||"geography"); }
-
-  // ====== Game flow ======
-  function startGame(cat){
-    state = { cat, deck:[], idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null };
-    const meta = CATEGORIES[cat];
-    $("hudCatName").textContent = meta.name;
-    $("hudCatIcon").textContent = meta.icon;
-    $("hudCatColor").className  = `p-3 rounded-xl mr-3 ${colorFor(cat)}`;
-    $("btnHome").classList.remove("hidden");
-    const bank = BANK[cat]||[];
-    state.deck = pickN(bank, ROUND_COUNT);
-    if (!state.deck.length){ alert("No questions in this category yet."); return; }
-    show("screen-game");
-    renderQuestion();
-    startTimer();
-  }
-
-  function renderQuestion(){
-    const q = state.deck[state.idx];
-    $("hudCounter").textContent = `Question ${state.idx+1} of ${state.deck.length}`;
-    $("hudScore").textContent   = `Score: ${state.score}/${state.deck.length}`;
-    $("hudProgress").style.width= `${(state.idx/state.deck.length)*100}%`;
-    $("hudTimer").textContent   = `${state.timer}s`;
-    $("hudTimer").className     = "text-2xl font-extrabold " + (state.timer<=15 ? "text-red-400" : state.timer<=30 ? "text-yellow-300" : "text-white");
-    $("hudDiff").textContent    = (q.difficulty==="Masters"?"Masters":"Advanced");
-    $("hudDiff").className      = "px-3 py-1 rounded-full text-xs font-bold " + ((q.difficulty==="Masters") ? "bg-red-600" : "bg-orange-600");
-    $("hudTag").textContent     = q.category || "—";
-    $("qText").textContent      = q.question;
-    $("qFeedback").classList.add("hidden"); $("qFeedback").innerHTML = "";
-    $("btnReveal").disabled     = false;
-    $("btnNext").textContent    = (state.idx+1<state.deck.length) ? "Next question" : "Show results";
-    const box = $("qOptions"); box.innerHTML = "";
-    q.options.forEach((opt, i)=>{
-      const b = document.createElement("button");
-      b.type="button";
-      b.className="w-full p-4 rounded-xl text-left font-semibold transition-all duration-150 border-2 bg-gray-50 border-gray-200 text-gray-900 hover:border-indigo-400 hover:bg-indigo-50 focus:outline-none focus:ring-2 focus:ring-indigo-300";
-      b.innerHTML=`<span class="flex items-center"><span class="inline-flex items-center justify-center w-8 h-8 rounded-lg mr-3 border border-gray-300">${String.fromCharCode(65+i)}</span><span>${opt}</span></span>`;
-      b.onclick = ()=>onAnswer(i);
-      box.appendChild(b);
-    });
-    state.answered=false; state.selected=null;
-  }
-
-  function startTimer(){
-    clearInterval(state.id);
-    state.timer = PER_QUESTION_SECONDS;
-    state.id = setInterval(()=>{
-      state.timer--;
-      $("hudTimer").textContent = `${state.timer}s`;
-      $("hudTimer").className   = "text-2xl font-extrabold " + (state.timer<=15 ? "text-red-400" : state.timer<=30 ? "text-yellow-300" : "text-white");
-      if (state.timer<=0){ clearInterval(state.id); reveal(false); }
-    }, 1000);
-  }
-
-  function onAnswer(i){
-    if (state.answered) return;
-    clearInterval(state.id);
-    state.selected = i;
-    reveal(true);
-  }
-
-  function reveal(fromClick){
-    const q = state.deck[state.idx];
-    state.answered = true;
-    [...$("qOptions").children].forEach((b, i)=>{
-      b.disabled = true;
-      b.classList.remove("hover:border-indigo-400","hover:bg-indigo-50","focus:ring-2");
-      if (i===q.correct){
-        b.className="w-full p-4 rounded-xl text-left font-semibold border-2 bg-green-50 border-green-500 text-green-800";
-      } else if (i===state.selected){
-        b.className="w-full p-4 rounded-xl text-left font-semibold border-2 bg-red-50 border-red-500 text-red-800";
-      } else {
-        b.className="w-full p-4 rounded-xl text-left font-semibold border-2 bg-gray-50 border-gray-200 text-gray-700";
-      }
-    });
-    const correct = state.selected===q.correct;
-    if (fromClick && correct) state.score++;
-    const fb = $("qFeedback");
-    fb.className = "mt-5 rounded-2xl p-4 border " + (correct ? "border-green-300 bg-green-50 text-green-800" : "border-red-300 bg-red-50 text-red-800");
-    fb.innerHTML = correct
-      ? `<div class="flex items-start"><div class="w-6 h-6 mr-3">✅</div><div><p class="font-bold mb-1">Correct!</p>${q.explanation? `<p>${q.explanation}</p>`:""}</div></div>`
-      : `<div class="flex items-start"><div class="w-6 h-6 mr-3">❌</div><div><p class="font-bold mb-1">Not quite.</p><p>Correct answer: <strong>${q.options[q.correct]}</strong></p>${q.explanation? `<p class="mt-2">${q.explanation}</p>`:""}</div></div>`;
-    fb.classList.remove("hidden");
-    $("hudScore").textContent = `Score: ${state.score}/${state.deck.length}`;
-    $("hudProgress").style.width= `${((state.idx+1)/state.deck.length)*100}%`;
-    $("btnReveal").disabled = true;
-  }
-
-  function nextQuestion(){
-    if (!state.answered){ reveal(false); return; }
-    if (state.idx+1<state.deck.length){ state.idx++; renderQuestion(); startTimer(); }
-    else { showResults(); }
-  }
-
-  function showResults(){
-    show("screen-results");
-    const total = state.deck.length;
-    const pct = Math.round((state.score/total)*100);
-    $("resScore").textContent = state.score.toString();
-    $("resPct").textContent = `${pct}% Correct`;
-    const emoji = pct>=85 ? "🎓" : pct>=70 ? "🎯" : pct>=55 ? "📚" : "🔬";
-    const msg   = pct>=85 ? "Exceptional! PhD-level mastery!" :
-                 pct>=70  ? "Excellent! Masters-level competency!" :
-                 pct>=55  ? "Good! Keep going at this level." :
-                            "Challenging set—review & try again!";
-    $("resEmoji").textContent = emoji;
-    $("resMsg").textContent = msg;
-  }
-
-  // ====== Export to window for inline onclicks ======
-  window.startGame = startGame;
-  window.reveal = reveal;
-  window.nextQuestion = nextQuestion;
-  window.goHome = goHome;
-  window.retry = retry;
-
-  // ====== Extra safety: also bind via JS (delegation) ======
-  document.getElementById("category-grid").addEventListener("click",(e)=>{
-    const btn = e.target.closest("[data-cat]");
-    if (btn) startGame(btn.getAttribute("data-cat"));
-  });
-
-  // ====== Keyboard next ======
-  window.addEventListener("keydown",(e)=>{
-    if (!document.getElementById("screen-game").classList.contains("hidden")){
-      if (e.key==="n"||e.key==="ArrowRight") nextQuestion();
-    }
-  });
-
-  // ====== Mark load status ======
+<script>
+/*** Minimal sample data so it runs out of the box. Replace via Admin import. ***/
+let BANK = {
+  india: [
+    {question:"Where does the southwest monsoon first hit India?",options:["Kolkata","Thiruvananthapuram","Mumbai","Chennai"],correct:1,explanation:"Onset typically reaches Kerala first in early June.",difficulty:"Masters",category:"Geography"},
+    {question:"The Deccan Traps formed primarily due to:",options:["Subduction","Hotspot flood basalts","Mid-ocean ridge","Asteroid impacts only"],correct:1,explanation:"Long-lived Réunion hotspot volcanism produced vast flood basalts.",difficulty:"Masters",category:"Geology"}
+  ],
+  geography: [
+    {question:"Coriolis effect is:",options:["Friction with continents","Apparent deflection due to Earth's rotation","Magnetic bending of winds","Gravity on plates"],correct:1,explanation:"Motion deflects right NH / left SH in a rotating frame.",difficulty:"Masters",category:"Atmosphere"}
+  ],
+  science: [
+    {question:"Chandrasekhar limit (~1.44 M☉) applies to:",options:["Neutron stars","White dwarfs","Black holes","Brown dwarfs"],correct:1,explanation:"Above that mass, electron degeneracy can’t support a white dwarf.",difficulty:"Masters",category:"Astrophysics"}
+  ],
+  history: [
+    {question:"Treaty of Westphalia (1648) cemented:",options:["Balance of power","State sovereignty","Collective security","Free trade"],correct:1,explanation:"Modern sovereign state system and non-interference.",difficulty:"Masters",category:"Early Modern"}
+  ],
+  arts: [
+    {question:"Auteur theory regards the ____ as the film’s author.",options:["Screenwriter","Director","Producer","Editor"],correct:1,explanation:"Directorial visual decisions imprint authorship.",difficulty:"Masters",category:"Film"}
+  ],
+  tolkien: [
+    {question:"Gandalf is one of the:",options:["Valar","Maiar (Istari)","Eldar","Númenóreans"],correct:1,explanation:"Olórin the Maia, sent as an Istar.",difficulty:"Advanced",category:"LotR"}
+  ],
+  polsci: [
+    {question:"Constructivism emphasises:",options:["Material power only","Socially constructed identities & norms","Geography only","Biology"],correct:1,explanation:"Inter-subjective norms/identities shape interests.",difficulty:"Masters",category:"IR Theory"}
+  ],
+  biology: [
+    {question:"Chloroplasts descend from:",options:["Archaea","Cyanobacteria","Alpha-proteobacteria","Fungi"],correct:1,explanation:"Primary endosymbiosis of a cyanobacterium.",difficulty:"Masters",category:"Cell Biology"}
+  ],
+};
+/*** Load embedded payload (if any) and local overrides ***/
+(function mergeEmbedded(){
   try{
-    if (typeof window.startGame === "function"){
-      const b = document.getElementById("statusBadge");
-      b.textContent = "✅ Ready";
-      b.className = "badge bg-emerald-500/20 text-emerald-200";
+    const raw = document.getElementById('embeddedBank')?.textContent || '{}';
+    const obj = JSON.parse(raw);
+    if (obj && typeof obj==='object'){
+      for (const k of Object.keys(obj)){
+        if (Array.isArray(obj[k]) && obj[k].length) BANK[k] = obj[k];
+      }
     }
-  }catch(err){
-    const b = document.getElementById("statusBadge");
-    b.textContent = "❌ Script error";
-    b.className = "badge bg-red-500/20 text-red-200";
-    console.error(err);
+  }catch{}
+})();
+(function loadLocal(){
+  try{
+    const x = JSON.parse(localStorage.getItem('BANK_LOCAL')||'null');
+    if (x && typeof x==='object'){
+      for (const k of Object.keys(x)) if (Array.isArray(x[k])) BANK[k]=x[k];
+    }
+  }catch{}
+})();
+
+/*** UI helpers ***/
+const $ = sel => document.querySelector(sel);
+const $$ = sel => [...document.querySelectorAll(sel)];
+function updateHomeCounts(){
+  for (const k of Object.keys(BANK)){
+    const n = BANK[k]?.length||0;
+    const el = document.querySelector(`[data-count="${k}"]`);
+    if (el) el.textContent = n;
   }
-  </script>
+}
+updateHomeCounts();
+
+/*** Game ***/
+const ROUND_COUNT = 10;
+const PER_QUESTION_SECONDS = 45;
+let state = {cat:null, deck:[], idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null};
+
+function pickN(arr,n){ return arr.slice(0, Math.min(n, arr.length)); }
+function show(id){ ["#screen-home","#screen-game"].forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
+function goHome(){ clearInterval(state.id); $("#btnHome").classList.add("hidden"); show("#screen-home"); }
+$("#btnHome").onclick = goHome;
+
+$$('[data-start]').forEach(btn=>{
+  btn.onclick = ()=>{
+    const cat = btn.getAttribute('data-start');
+    startGame(cat);
+  };
+});
+
+function startGame(cat){
+  state = {cat, deck:pickN(BANK[cat]||[], ROUND_COUNT), idx:0, score:0, timer:PER_QUESTION_SECONDS, id:null, answered:false, selected:null};
+  if (!state.deck.length){ alert("No questions in this category yet."); return; }
+  $("#btnHome").classList.remove("hidden");
+  show("#screen-game");
+  renderQuestion();
+  startTimer();
+}
+
+function renderQuestion(){
+  const q = state.deck[state.idx];
+  $("#hudCatName").textContent = state.cat;
+  $("#hudCounter").textContent = `Q ${state.idx+1} / ${state.deck.length}`;
+  $("#hudScore").textContent = `Score: ${state.score}/${state.deck.length}`;
+  $("#hudProgress").style.width = `${(state.idx/state.deck.length)*100}%`;
+  $("#hudTimer").textContent = `${state.timer}s`;
+  $("#qText").textContent = q.question;
+  $("#explain").textContent = "";
+  const wrap = $("#opts"); wrap.innerHTML = "";
+  q.options.forEach((opt,i)=>{
+    const d = document.createElement("div");
+    d.className = "opt";
+    d.textContent = opt;
+    d.onclick = ()=> chooseOption(i);
+    wrap.appendChild(d);
+  });
+  $("#btnNext").onclick = nextQuestion;
+}
+
+function chooseOption(i){
+  if (state.answered) return;
+  state.answered = true; state.selected = i;
+  const q = state.deck[state.idx];
+  const nodes = [...$("#opts").children];
+  nodes.forEach((n,idx)=>{
+    if (idx===q.correct) n.classList.add("correct");
+    if (idx===i && i!==q.correct) n.classList.add("wrong");
+  });
+  if (i===q.correct) state.score++;
+  $("#explain").textContent = q.explanation||"";
+}
+
+function startTimer(){
+  clearInterval(state.id);
+  state.timer = PER_QUESTION_SECONDS;
+  state.id = setInterval(()=>{
+    state.timer--;
+    $("#hudTimer").textContent = `${state.timer}s`;
+    if (state.timer<=0){ state.answered=true; nextQuestion(); }
+  },1000);
+}
+
+function nextQuestion(){
+  if (state.idx < state.deck.length-1){
+    state.idx++; state.answered=false; state.selected=null;
+    renderQuestion(); startTimer();
+  }else{
+    alert(`Done! Score ${state.score}/${state.deck.length}`);
+    goHome();
+  }
+}
+
+/*** Admin: import/export (single-file friendly) ***/
+function csvToObjects(text){
+  const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
+  if (!lines.length) return [];
+  const head = lines.shift().split(',').map(s=>s.trim());
+  return lines.map(row=>{
+    const cols = row.split(',').map(s=>s.trim());
+    const obj = {}; head.forEach((h,i)=>obj[h]=cols[i] ?? '');
+    return {
+      question: obj.question,
+      options: [obj.optionA, obj.optionB, obj.optionC, obj.optionD],
+      correct: Number(obj.correct||0),
+      explanation: obj.explanation||'',
+      difficulty: obj.difficulty||'Masters',
+      category: obj.category||''
+    };
+  });
+}
+function validateQ(q){
+  if (!q || typeof q.question!=='string' || !q.question.trim()) return false;
+  if (!Array.isArray(q.options) || q.options.length!==4) return false;
+  if (![0,1,2,3].includes(q.correct)) return false;
+  return true;
+}
+function dedupeMerge(targetArr, incoming){
+  const seen = new Set(targetArr.map(x=>x.question.trim().toLowerCase()));
+  let add=0, skip=0, bad=0;
+  for (const q of incoming){
+    if (!validateQ(q)) { bad++; continue; }
+    const key = q.question.trim().toLowerCase();
+    if (seen.has(key)) { skip++; continue; }
+    targetArr.push(q); seen.add(key); add++;
+  }
+  return {add,skip,bad};
+}
+function saveLocal(){
+  try{ localStorage.setItem('BANK_LOCAL', JSON.stringify(BANK)); }catch{}
+}
+function download(name, text, type='application/json'){
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([text],{type}));
+  a.download = name; a.click(); URL.revokeObjectURL(a.href);
+}
+
+const elCat  = $("#impCat");
+const elFile = $("#impFile");
+const msg    = $("#impMsg");
+
+$("#btnImport").onclick = async ()=>{
+  const cat = elCat.value;
+  const f = elFile.files[0];
+  if (!f){ msg.textContent='Choose a .json or .csv file.'; return; }
+  const text = await f.text();
+  let arr = [];
+  try{
+    arr = f.name.toLowerCase().endsWith('.csv') ? csvToObjects(text) : JSON.parse(text);
+  }catch(e){ msg.textContent='Parse error: '+e.message; return; }
+  if (!Array.isArray(arr)){ msg.textContent='File must be an array of questions.'; return; }
+  BANK[cat] = BANK[cat]||[];
+  const res = dedupeMerge(BANK[cat], arr);
+  saveLocal(); updateHomeCounts();
+  msg.textContent = `Imported into "${cat}": +${res.add} added, ${res.skip} duplicates, ${res.bad} invalid. Total ${BANK[cat].length}.`;
+};
+
+$("#btnImportAll").onclick = async ()=>{
+  const f = elFile.files[0];
+  if (!f){ msg.textContent='Choose ALL JSON first (exported previously).'; return; }
+  try{
+    const obj = JSON.parse(await f.text());
+    if (!obj || typeof obj!=='object') throw new Error('Not an object');
+    for (const k of Object.keys(obj)) if (Array.isArray(obj[k])) BANK[k]=obj[k];
+    saveLocal(); updateHomeCounts();
+    msg.textContent = 'Imported ALL categories.';
+  }catch(e){ msg.textContent='Parse error: '+e.message; }
+};
+
+$("#btnExportCat").onclick = ()=>{
+  const cat = elCat.value;
+  download(`${cat}.json`, JSON.stringify(BANK[cat]||[], null, 2));
+};
+$("#btnExportAll").onclick = ()=>{
+  download(`all_categories.json`, JSON.stringify(BANK, null, 2));
+};
+$("#btnClearLocal").onclick = ()=>{
+  localStorage.removeItem('BANK_LOCAL');
+  msg.textContent = 'Local overrides cleared. Reload to use built-in/embedded data.';
+};
+
+/* One-file backup: clones this HTML and embeds current BANK into #embeddedBank */
+$("#btnOneFile").onclick = ()=>{
+  try{
+    const doc = document.cloneNode(true);
+    const el = doc.getElementById('embeddedBank');
+    if (el) el.textContent = JSON.stringify(BANK, null, 2);
+    const html = '<!DOCTYPE html>\n' + doc.documentElement.outerHTML;
+    download('triviaquest_onefile_backup.html', html, 'text/html');
+    msg.textContent = 'One-file backup downloaded.';
+  }catch(e){
+    msg.textContent = 'Backup failed: '+e.message;
+  }
+};
+
+/*** End admin ***/
+</script>
 </body>
 </html>
