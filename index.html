@@ -192,7 +192,33 @@
     </div>
   </section>
 
-  <!-- Admin panel omitted for brevity (same as repository) -->
+  <!-- ADMIN -->
+  <details id="adminPanel" class="glass card" style="display:none;margin-top:18px">
+    <summary>Admin: Import / Export</summary>
+    <div class="grid" style="gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end">
+      <label>Category<br/>
+        <select id="impCat">
+          <option value="india">Incredible India</option>
+          <option value="geography">Geography</option>
+          <option value="science">Science</option>
+          <option value="history">History</option>
+          <option value="arts">Arts &amp; Culture</option>
+          <option value="tolkien">Tolkien &amp; Middle-earth</option>
+          <option value="wortschatz">Wortschatz (B2)</option>
+        </select>
+      </label>
+      <label>File<br/>
+        <input id="impFile" type="file" accept=".json,.csv"/>
+      </label>
+      <button class="btn" id="btnImport">Import</button>
+      <button class="btn" id="btnExportCat">Export Cat</button>
+      <button class="btn ghost" id="btnImportAll">Import ALL</button>
+      <button class="btn ghost" id="btnExportAll">Export ALL</button>
+      <button class="btn ghost" id="btnClearLocal">Clear Local</button>
+      <button class="btn ghost" id="btnOneFile">One-File Backup</button>
+    </div>
+    <div id="impMsg" class="muted" style="margin-top:8px"></div>
+  </details>
 
 <!-- Embedded BANK payload for one-file backups (replaced on backup) -->
 <script id="embeddedBank" type="application/json">{
@@ -209,106 +235,27 @@
 /* ---------- Seed minimal data so it runs immediately. Replace via Import ---------- */
 let BANK = {
   india: [
-    {question:"Which Indian mathematician's work on infinite series prefigured calculus?",options:["Aryabhata","Bhaskara II","Madhava of Sangamagrama","Ramanujan"],correct:2,explanation:"Madhava's 14th‑century Kerala school derived power series centuries before Newton.",difficulty:"Masters"},
-    {question:"The 'Chipko movement' is associated with which region?",options:["Aravalli","Western Ghats","Himalayas","Deccan Plateau"],correct:2,explanation:"Villagers in Garhwal, Himalayas, hugged trees to prevent logging in the 1970s.",difficulty:"Masters"},
-    {question:"Which Mughal emperor commissioned a Persian translation of the Mahabharata?",options:["Akbar","Aurangzeb","Shah Jahan","Jahangir"],correct:0,explanation:"Akbar's court scholars produced the \"Razmnama\" to foster interreligious dialogue.",difficulty:"Masters"},
-    {question:"India's research station 'Bharati' operates on which continent?",options:["Asia","Antarctica","Europe","Africa"],correct:1,explanation:"Bharati, opened in 2012, supports India's polar science program in Antarctica.",difficulty:"Masters"},
-    {question:"In Hindustani classical music, raga Bhairav is traditionally performed at?",options:["Dawn","Midday","Sunset","Midnight"],correct:0,explanation:"Bhairav belongs to the morning ragas, evoking serenity at daybreak.",difficulty:"Masters"},
-    {question:"Which ancient university, a center of Buddhist learning, was located in Bihar?",options:["Taxila","Vikramashila","Nalanda","Ujjain"],correct:2,explanation:"Nalanda flourished from the 5th to 12th centuries as a major monastic university.",difficulty:"Masters"},
-    {question:"The Indian Space Research Organisation's Mars Orbiter Mission achieved orbit in which year?",options:["2010","2014","2016","2018"],correct:1,explanation:"Mangalyaan entered Martian orbit in September 2014 on its first attempt.",difficulty:"Masters"},
-    {question:"The Sangam literature is primarily composed in which language?",options:["Prakrit","Kannada","Tamil","Pali"],correct:2,explanation:"The corpus of Sangam poetry represents an early classical phase of Tamil.",difficulty:"Masters"},
-    {question:"Which river is known as the 'Dakshin Ganga'?",options:["Godavari","Kaveri","Krishna","Mahanadi"],correct:0,explanation:"The Godavari, India's second-longest river, is often termed the Ganges of the South.",difficulty:"Masters"},
-    {question:"The Battle of Plassey in 1757 marked the rise of which colonial power in India?",options:["French","Dutch","British","Portuguese"],correct:2,explanation:"Clive's victory for the British East India Company established British dominance in Bengal.",difficulty:"Masters"},
-    {question:"Which Indian state currently boasts the highest Human Development Index?",options:["Kerala","Maharashtra","Gujarat","Tamil Nadu"],correct:0,explanation:"Kerala consistently tops India's HDI rankings due to strong health and education metrics.",difficulty:"Masters"},
-    {question:"The Great Bath, an early example of public water architecture, was found at which Indus Valley site?",options:["Harappa","Mohenjo-daro","Lothal","Dholavira"],correct:1,explanation:"The Great Bath is a prominent structure at Mohenjo-daro, suggesting ritual bathing.",difficulty:"Masters"},
-    {question:"The Raman effect, which earned a Nobel Prize, was discovered by?",options:["C. V. Raman","S. Chandrasekhar","Homi Bhabha","Meghnad Saha"],correct:0,explanation:"Sir C. V. Raman observed inelastic scattering of light, later named the Raman effect.",difficulty:"Masters"},
-    {question:"Who popularized the slogan 'Swaraj is my birthright'?",options:["Mahatma Gandhi","Bal Gangadhar Tilak","Jawaharlal Nehru","Sardar Patel"],correct:1,explanation:"Bal Gangadhar Tilak used the slogan to demand self-rule during the independence movement.",difficulty:"Masters"},
-    {question:"Bhakra Nangal Dam harnesses which river?",options:["Yamuna","Narmada","Sutlej","Godavari"],correct:2,explanation:"Constructed across the Sutlej, Bhakra Nangal is among India's tallest gravity dams.",difficulty:"Masters"}
+    {question:"Which Indian mathematician's work on infinite series prefigured calculus?",options:["Aryabhata","Bhaskara II","Madhava of Sangamagrama","Ramanujan"],correct:2,explanation:"Madhava's 14th‑century Kerala school derived power series centuries before Newton.",difficulty:"Masters"}
   ],
   geography: [
-    {question:"Atlantic thermohaline circulation is primarily driven by?",options:["Temperature gradients","Salinity and density differences","Wind shear","Lunar tides"],correct:1,explanation:"Deep water formation near Greenland arises from salty, cold, dense water sinking.",difficulty:"Masters"},
-    {question:"Loess deposits are largely composed of?",options:["Volcanic ash","Glacial silt","Desert sand","Organic peat"],correct:1,explanation:"Fine silt blown from Pleistocene outwash plains accumulates as loess.",difficulty:"Masters"},
-    {question:"The Pacific 'Ring of Fire' is notable for?",options:["Coral reefs","Tropical storms","Frequent earthquakes and volcanoes","Strong trade winds"],correct:2,explanation:"Subduction zones encircling the Pacific generate intense seismic and volcanic activity.",difficulty:"Masters"},
-    {question:"Karst topography forms chiefly through dissolution of?",options:["Basalt","Granite","Limestone","Gneiss"],correct:2,explanation:"Acidic water dissolves carbonate rocks, creating sinkholes and caves.",difficulty:"Masters"},
-    {question:"Which Köppen classification denotes Mediterranean climates?",options:["Af","Csa/Csb","Dfa","ET"],correct:1,explanation:"Dry summers and wet winters typify the temperate Cs zones.",difficulty:"Masters"},
-    {question:"The world's largest inland delta, the Okavango, empties into which desert?",options:["Gobi","Kalahari","Atacama","Thar"],correct:1,explanation:"Seasonal floodwaters of the Okavango River spread across Botswana's Kalahari Desert.",difficulty:"Masters"},
-    {question:"Which current moderates Western Europe's climate by transporting warm water from the Gulf of Mexico?",options:["Canary Current","Gulf Stream","Benguela Current","Kuroshio Current"],correct:1,explanation:"The Gulf Stream carries warm Atlantic water northeastward, softening Europe's winters.",difficulty:"Masters"},
-    {question:"A graben is best described as?",options:["Raised fault block","Folded mountain","Down-dropped fault block","Glacial valley"],correct:2,explanation:"Graben result when crustal blocks subside between parallel normal faults.",difficulty:"Masters"},
-    {question:"Which country has the most natural lakes?",options:["Canada","Finland","Russia","United States"],correct:0,explanation:"Canada contains nearly 60% of the world's lakes larger than 100 square kilometers.",difficulty:"Masters"},
-    {question:"The concept of continental drift was first proposed by?",options:["Charles Lyell","Alfred Wegener","Harry Hess","James Hutton"],correct:1,explanation:"Wegener's 1912 theory suggested continents move over geological time, later informing plate tectonics.",difficulty:"Masters"},
-    {question:"Which river forms a significant part of the border between the United States and Mexico?",options:["Colorado","Rio Grande","Columbia","Yukon"],correct:1,explanation:"The Rio Grande flows from Colorado to the Gulf of Mexico, delineating much of the US‑Mexico border.",difficulty:"Masters"},
-    {question:"The extreme aridity of the Atacama Desert is primarily caused by?",options:["Cold ocean currents and rain shadow","High latitude","Monsoon winds","Continental interior location"],correct:0,explanation:"The cold Humboldt Current and the Andes rain shadow suppress precipitation in the Atacama.",difficulty:"Masters"},
-    {question:"Which mountain range arose from the collision of the Indian and Eurasian plates?",options:["Andes","Alps","Himalayas","Rockies"],correct:2,explanation:"The ongoing convergence of India with Eurasia uplifted the Himalayas.",difficulty:"Masters"},
-    {question:"The prime meridian crosses which of the following African countries?",options:["Ghana","Nigeria","South Africa","Kenya"],correct:0,explanation:"Greenwich's meridian intersects the Gulf of Guinea and passes through Ghana.",difficulty:"Masters"},
-    {question:"A volcano with broad, gently sloping sides built from fluid lava flows is known as?",options:["Stratovolcano","Cinder cone","Shield volcano","Caldera"],correct:2,explanation:"Shield volcanoes like Mauna Loa form from low‑viscosity basaltic lava.",difficulty:"Masters"}
+    {question:"Atlantic thermohaline circulation is primarily driven by?",options:["Temperature gradients","Salinity and density differences","Wind shear","Lunar tides"],correct:1,explanation:"Deep water formation near Greenland arises from salty, cold, dense water sinking.",difficulty:"Masters"}
   ],
   science: [
-    {question:"The Higgs mechanism endows particles with mass via interaction with the?",options:["Gauge bosons","Higgs field","Dark matter","Gravitational waves"],correct:1,explanation:"Spontaneous symmetry breaking in the Higgs field gives W and Z bosons mass.",difficulty:"Masters"},
-    {question:"CRISPR-Cas9 originates from bacterial?",options:["Ribosomes","Immune defense","Transcription machinery","Plasmid replication"],correct:1,explanation:"It is an adaptive immunity system using stored viral DNA to target invaders.",difficulty:"Masters"},
-    {question:"In quantum mechanics the commutator [x,p] equals?",options:["0","iħ","-iħ","1"],correct:1,explanation:"Canonical position-momentum operators satisfy [x,p]=iħ, embodying uncertainty.",difficulty:"Masters"},
-    {question:"According to the second law, entropy of an isolated system?",options:["Decreases","Remains constant","Increases or remains constant","Oscillates"],correct:2,explanation:"Entropy cannot decrease in isolation, underpinning arrow of time.",difficulty:"Masters"},
-    {question:"Type Ia supernovae result from?",options:["Core-collapse of massive stars","Thermonuclear runaway in white dwarfs","Neutron star mergers","Accretion onto black holes"],correct:1,explanation:"A white dwarf near the Chandrasekhar limit ignites carbon explosively.",difficulty:"Masters"},
-    {question:"Which gas law relates pressure to temperature for a fixed volume of gas?",options:["Boyle's law","Avogadro's law","Gay-Lussac's law","Dalton's law"],correct:2,explanation:"Gay-Lussac's law states that pressure is directly proportional to absolute temperature at constant volume.",difficulty:"Masters"},
-    {question:"In molecular biology, what is the role of telomerase?",options:["Repair DNA breaks","Synthesize RNA primers","Extend chromosome ends","Ligate Okazaki fragments"],correct:2,explanation:"Telomerase adds repetitive sequences to telomeres, countering chromosomal shortening.",difficulty:"Masters"},
-    {question:"Which particle mediates the strong nuclear force?",options:["Photon","Gluon","Z boson","Graviton"],correct:1,explanation:"Gluons exchange color charge between quarks in quantum chromodynamics.",difficulty:"Masters"},
-    {question:"The Miller-Urey experiment tested hypotheses about?",options:["Formation of the moon","Spontaneous generation","Chemical origin of life","Plate tectonics"],correct:2,explanation:"The 1953 experiment produced amino acids by simulating early Earth's reducing atmosphere.",difficulty:"Masters"},
-    {question:"According to general relativity, gravity arises from?",options:["Electromagnetic waves","Spacetime curvature","Quantum tunneling","Graviton exchange"],correct:1,explanation:"Mass-energy curves spacetime, and free-falling objects follow geodesic paths.",difficulty:"Masters"}
+    {question:"The Higgs mechanism endows particles with mass via interaction with the?",options:["Gauge bosons","Higgs field","Dark matter","Gravitational waves"],correct:1,explanation:"Spontaneous symmetry breaking in the Higgs field gives W and Z bosons mass.",difficulty:"Masters"}
   ],
   history: [
-    {question:"The Treaty of Westphalia in 1648 ended which conflict?",options:["Thirty Years' War","Hundred Years' War","War of the Roses","English Civil War"],correct:0,explanation:"The Treaty of Westphalia concluded the Thirty Years' War, shaping modern state sovereignty.",difficulty:"Masters"},
-    {question:"Who was the first female pharaoh of ancient Egypt?",options:["Cleopatra VII","Nefertiti","Hatshepsut","Sobekneferu"],correct:2,explanation:"Hatshepsut ruled as pharaoh in the 15th century BCE, expanding trade and building monuments.",difficulty:"Masters"}
+    {question:"The Treaty of Westphalia in 1648 ended which conflict?",options:["Thirty Years' War","Hundred Years' War","War of the Roses","English Civil War"],correct:0,explanation:"The Treaty of Westphalia concluded the Thirty Years' War, shaping modern state sovereignty.",difficulty:"Masters"}
   ],
   arts: [
     {question:"Which art movement is characterized by small, thin brush strokes and open composition?",options:["Impressionism","Cubism","Baroque","Surrealism"],correct:0,explanation:"Impressionism captures light and movement with loose brushwork and vivid colors.",difficulty:"Masters"}
   ],
   tolkien: [
-    {question:"Who forged the One Ring?",options:["Sauron","Celebrimbor","Saruman","Melkor"],correct:0,explanation:"Sauron created the Ruling Ring in the fires of Mount Doom to dominate the other Rings of Power.",difficulty:"Masters"},
-    {question:"The Battle of Five Armies concludes which novel?",options:["The Fellowship of the Ring","The Two Towers","The Hobbit","The Silmarillion"],correct:2,explanation:"The climactic battle at Erebor occurs near the end of 'The Hobbit'.",difficulty:"Masters"},
-    {question:"What is the name of Gandalf's sword?",options:["Glamdring","Andúril","Sting","Orcrist"],correct:0,explanation:"Gandalf wields Glamdring, forged in Gondolin and rediscovered in 'The Hobbit'.",difficulty:"Masters"},
-    {question:"After Théoden's death, who becomes King of Rohan?",options:["Éomer","Éowyn","Théodred","Gríma Wormtongue"],correct:0,explanation:"Éomer succeeds his uncle Théoden as King of the Rohirrim.",difficulty:"Masters"},
-    {question:"The Silmarils were crafted from a crystal substance known as?",options:["Mithril","Silima","Adamant","Ithildin"],correct:1,explanation:"Fëanor wrought the Silmarils from the unique crystal silima, capturing the light of the Two Trees.",difficulty:"Masters"},
-    {question:"Which river forms the eastern boundary of the Shire?",options:["Brandywine","Anduin","Isen","Greyflood"],correct:0,explanation:"The Brandywine River, called Baranduin by Elves, marks the Shire's eastern edge.",difficulty:"Masters"},
-    {question:"In Tolkien's legendarium, who guides the Sun across the sky?",options:["Arien","Tilion","Eönwë","Uinen"],correct:0,explanation:"Arien, a Maia of fire, steers the vessel of the Sun in the heavens.",difficulty:"Masters"}
+    {question:"Who forged the One Ring?",options:["Sauron","Celebrimbor","Saruman","Melkor"],correct:0,explanation:"Sauron created the Ruling Ring in the fires of Mount Doom to dominate the other Rings of Power.",difficulty:"Masters"}
   ],
   wortschatz: [
-    {question:"Deutsch → Englisch: 'veranschaulichen'",options:["to exemplify","to legislate","to retreat","to harvest"],correct:0,explanation:"'Veranschaulichen' means to illustrate or exemplify an idea.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'nachhaltig'",options:["sustainable","subsequent","suspicious","nocturnal"],correct:0,explanation:"'Nachhaltig' is used for environmentally sustainable practices.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'enttäuschen'",options:["to disappoint","to share","to inherit","to guess"],correct:0,explanation:"'Enttäuschen' translates as to disappoint or let someone down.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'überprüfen'",options:["to ignore","to verify","to resign","to announce"],correct:1,explanation:"'Überprüfen' means to check or verify information.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'berechtigt'",options:["entitled","embarrassed","scattered","moist"],correct:0,explanation:"'Berechtigt' conveys a sense of being justified or entitled.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'voraussetzen'",options:["to predict","to assume","to postpone","to submit"],correct:1,explanation:"'Voraussetzen' means to take for granted or assume something.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'ähneln'",options:["to resemble","to issue","to decorate","to escape"],correct:0,explanation:"'Ähneln' translates as to resemble or look like.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'verzichtbar'",options:["indispensable","dispensable","agreeable","breakable"],correct:1,explanation:"'Verzichtbar' describes something that is not essential or can be done without.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'Einschränkung'",options:["expansion","privilege","restriction","instruction"],correct:2,explanation:"'Einschränkung' denotes a limitation or restriction.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'beeinträchtigen'",options:["to impair","to demonstrate","to compose","to empower"],correct:0,explanation:"'Beeinträchtigen' means to impair or negatively affect something.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'widerspiegeln'",options:["to finance","to reflect","to negotiate","to merge"],correct:1,explanation:"'Widerspiegeln' translates as to reflect or mirror something.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'umstritten'",options:["controversial","relaxed","delayed","thirsty"],correct:0,explanation:"'Umstritten' describes something disputed or controversial.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'ausreichen'",options:["to surf","to suffice","to relocate","to translate"],correct:1,explanation:"'Ausreichen' means to be enough or suffice.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'vermeiden'",options:["to avoid","to permit","to rent","to admire"],correct:0,explanation:"'Vermeiden' corresponds to avoid or shun.",difficulty:"B2"},
-    {question:"Deutsch → Englisch: 'Herstellung'",options:["production","independence","heritage","hearing"],correct:0,explanation:"'Herstellung' refers to the production or manufacture of something.",difficulty:"B2"}
-  ],
+    {question:"Deutsch → Englisch: 'veranschaulichen'",options:["to exemplify","to legislate","to retreat","to harvest"],correct:0,explanation:"'Veranschaulichen' means to illustrate or exemplify an idea.",difficulty:"B2"}
+  ]
 };
-
-/* ---------- Pad categories to 100 questions ---------- */
-(function padBank(){
-  const cats = [
-    ["india","Masters"],
-    ["geography","Masters"],
-    ["science","Masters"],
-    ["history","Masters"],
-    ["arts","Masters"],
-    ["tolkien","Masters"],
-    ["wortschatz","B2"]
-  ];
-  for (const [cat,diff] of cats){
-    BANK[cat] = BANK[cat] || [];
-    const base = BANK[cat].slice();
-    for (let i = BANK[cat].length; i < 100; i++){
-      const q = base[i % base.length];
-      BANK[cat].push({...q});
-    }
-  }
-})();
 
 /* ---------- Merge embedded payload (one-file backups) ---------- */
 (function mergeEmbedded(){
