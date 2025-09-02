@@ -222,40 +222,277 @@
 
 <!-- Embedded BANK payload for one-file backups (replaced on backup) -->
 <script id="embeddedBank" type="application/json">{
-  "india": [],
-  "geography": [],
-  "science": [],
-  "history": [],
-  "arts": [],
-  "tolkien": [],
-  "wortschatz": []
+  "arts": [
+    {
+      "question": "Who painted the Mona Lisa?",
+      "options": [
+        "Leonardo da Vinci",
+        "Vincent van Gogh",
+        "Pablo Picasso",
+        "Claude Monet"
+      ],
+      "correct": 0,
+      "explanation": "The Mona Lisa was painted by Leonardo da Vinci.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera 'The Magic Flute'?",
+      "options": [
+        "Mozart",
+        "Beethoven",
+        "Wagner",
+        "Haydn"
+      ],
+      "correct": 0,
+      "explanation": "Wolfgang Amadeus Mozart composed 'Die Zauberflöte'.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the art of paper folding called?",
+      "options": [
+        "Origami",
+        "Calligraphy",
+        "Ikebana",
+        "Kirigami"
+      ],
+      "correct": 0,
+      "explanation": "Origami is the traditional Japanese art of paper folding.",
+      "difficulty": "Masters"
+    }
+  ],
+  "geography": [
+    {
+      "question": "What is the largest desert in the world?",
+      "options": [
+        "Sahara",
+        "Gobi",
+        "Antarctic Desert",
+        "Arabian Desert"
+      ],
+      "correct": 2,
+      "explanation": "The Antarctic Desert is the largest by area.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The Ring of Fire is associated with which ocean?",
+      "options": [
+        "Atlantic",
+        "Indian",
+        "Pacific",
+        "Arctic"
+      ],
+      "correct": 2,
+      "explanation": "The Pacific Ocean's Ring of Fire is a major area of tectonic activity.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the Grand Canyon?",
+      "options": [
+        "Colorado River",
+        "Mississippi River",
+        "Columbia River",
+        "Rio Grande"
+      ],
+      "correct": 0,
+      "explanation": "The Colorado River carved the Grand Canyon.",
+      "difficulty": "Masters"
+    }
+  ],
+  "history": [
+    {
+      "question": "Who was the first emperor of the Roman Empire?",
+      "options": [
+        "Julius Caesar",
+        "Augustus",
+        "Nero",
+        "Caligula"
+      ],
+      "correct": 1,
+      "explanation": "Augustus became the first Roman emperor in 27 BCE.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The Magna Carta was signed in which year?",
+      "options": [
+        "1066",
+        "1215",
+        "1492",
+        "1776"
+      ],
+      "correct": 1,
+      "explanation": "King John of England sealed the Magna Carta in 1215.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which war was triggered by the assassination of Archduke Franz Ferdinand?",
+      "options": [
+        "World War I",
+        "World War II",
+        "Crimean War",
+        "Seven Years' War"
+      ],
+      "correct": 0,
+      "explanation": "The 1914 assassination led to the outbreak of World War I.",
+      "difficulty": "Masters"
+    }
+  ],
+  "india": [
+    {
+      "question": "Which river is considered the holiest in Hinduism?",
+      "options": [
+        "Ganges",
+        "Yamuna",
+        "Brahmaputra",
+        "Godavari"
+      ],
+      "correct": 0,
+      "explanation": "The Ganges River is revered as the holiest in Hinduism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who was the first Indian woman to win a Nobel Prize?",
+      "options": [
+        "Mother Teresa",
+        "Indira Gandhi",
+        "Sarojini Naidu",
+        "Amartya Sen"
+      ],
+      "correct": 0,
+      "explanation": "Mother Teresa received the Nobel Peace Prize in 1979.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The ancient university of Nalanda was located in which present-day Indian state?",
+      "options": [
+        "Bihar",
+        "Maharashtra",
+        "Tamil Nadu",
+        "Gujarat"
+      ],
+      "correct": 0,
+      "explanation": "Nalanda was situated in present-day Bihar.",
+      "difficulty": "Masters"
+    }
+  ],
+  "science": [
+    {
+      "question": "What particle carries the electromagnetic force?",
+      "options": [
+        "Photon",
+        "Gluon",
+        "Graviton",
+        "W Boson"
+      ],
+      "correct": 0,
+      "explanation": "The photon is the gauge boson of electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which law states that for every action there is an equal and opposite reaction?",
+      "options": [
+        "Newton's First Law",
+        "Newton's Second Law",
+        "Newton's Third Law",
+        "Law of Conservation of Energy"
+      ],
+      "correct": 2,
+      "explanation": "Newton's Third Law describes equal and opposite reactions.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the powerhouse of the cell?",
+      "options": [
+        "Nucleus",
+        "Mitochondrion",
+        "Ribosome",
+        "Golgi apparatus"
+      ],
+      "correct": 1,
+      "explanation": "Mitochondria generate the cell's ATP.",
+      "difficulty": "Masters"
+    }
+  ],
+  "tolkien": [
+    {
+      "question": "What is the name of Frodo's sword?",
+      "options": [
+        "Sting",
+        "Narsil",
+        "Glamdring",
+        "Andúril"
+      ],
+      "correct": 0,
+      "explanation": "Frodo carries the Elvish blade Sting.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who is the Steward of Gondor during the War of the Ring?",
+      "options": [
+        "Boromir",
+        "Denethor II",
+        "Faramir",
+        "Cirion"
+      ],
+      "correct": 1,
+      "explanation": "Denethor II ruled as Steward when Sauron's forces attacked.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which creature did Gandalf fight in the Mines of Moria?",
+      "options": [
+        "Balrog",
+        "Dragon",
+        "Nazgûl",
+        "Troll"
+      ],
+      "correct": 0,
+      "explanation": "Gandalf battles the Balrog of Moria on the Bridge of Khazad-dûm.",
+      "difficulty": "Masters"
+    }
+  ],
+  "wortschatz": [
+    {
+      "question": "Deutsch → Englisch: 'die Herausforderung'",
+      "options": [
+        "challenge",
+        "reward",
+        "investment",
+        "celebration"
+      ],
+      "correct": 0,
+      "explanation": "'Herausforderung' translates to challenge.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "Deutsch → Englisch: 'verzichten'",
+      "options": [
+        "to renounce",
+        "to anticipate",
+        "to decide",
+        "to imagine"
+      ],
+      "correct": 0,
+      "explanation": "'Verzichten' means to do without or renounce.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "Deutsch → Englisch: 'überzeugen'",
+      "options": [
+        "to convince",
+        "to hesitate",
+        "to complain",
+        "to agree"
+      ],
+      "correct": 0,
+      "explanation": "'Überzeugen' means to convince someone.",
+      "difficulty": "B2"
+    }
+  ]
 }</script>
 
 <script>
 /* ---------- Seed minimal data so it runs immediately. Replace via Import ---------- */
-let BANK = {
-  india: [
-    {question:"Which Indian mathematician's work on infinite series prefigured calculus?",options:["Aryabhata","Bhaskara II","Madhava of Sangamagrama","Ramanujan"],correct:2,explanation:"Madhava's 14th‑century Kerala school derived power series centuries before Newton.",difficulty:"Masters"}
-  ],
-  geography: [
-    {question:"Atlantic thermohaline circulation is primarily driven by?",options:["Temperature gradients","Salinity and density differences","Wind shear","Lunar tides"],correct:1,explanation:"Deep water formation near Greenland arises from salty, cold, dense water sinking.",difficulty:"Masters"}
-  ],
-  science: [
-    {question:"The Higgs mechanism endows particles with mass via interaction with the?",options:["Gauge bosons","Higgs field","Dark matter","Gravitational waves"],correct:1,explanation:"Spontaneous symmetry breaking in the Higgs field gives W and Z bosons mass.",difficulty:"Masters"}
-  ],
-  history: [
-    {question:"The Treaty of Westphalia in 1648 ended which conflict?",options:["Thirty Years' War","Hundred Years' War","War of the Roses","English Civil War"],correct:0,explanation:"The Treaty of Westphalia concluded the Thirty Years' War, shaping modern state sovereignty.",difficulty:"Masters"}
-  ],
-  arts: [
-    {question:"Which art movement is characterized by small, thin brush strokes and open composition?",options:["Impressionism","Cubism","Baroque","Surrealism"],correct:0,explanation:"Impressionism captures light and movement with loose brushwork and vivid colors.",difficulty:"Masters"}
-  ],
-  tolkien: [
-    {question:"Who forged the One Ring?",options:["Sauron","Celebrimbor","Saruman","Melkor"],correct:0,explanation:"Sauron created the Ruling Ring in the fires of Mount Doom to dominate the other Rings of Power.",difficulty:"Masters"}
-  ],
-  wortschatz: [
-    {question:"Deutsch → Englisch: 'veranschaulichen'",options:["to exemplify","to legislate","to retreat","to harvest"],correct:0,explanation:"'Veranschaulichen' means to illustrate or exemplify an idea.",difficulty:"B2"}
-  ]
-};
+let BANK = {};
 
 /* ---------- Merge embedded payload (one-file backups) ---------- */
 (function mergeEmbedded(){
