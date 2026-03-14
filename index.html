@@ -8682,9 +8682,30 @@ let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false
 
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function pickN(arr,n){ const copy=[...(arr||[])]; shuffle(copy); return copy.slice(0, Math.min(n, copy.length)); }
+function questionStem(text){ return String(text||'').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i,'').trim(); }
+function pickRoundDeck(arr,n){
+  const groups = new Map();
+  for (const q of (arr||[])){
+    const stem = questionStem(q.question);
+    if (!groups.has(stem)) groups.set(stem, []);
+    groups.get(stem).push(q);
+  }
+  const stems = shuffle([...groups.keys()]);
+  const deck = [];
+  for (const stem of stems){
+    const variants = groups.get(stem);
+    deck.push(variants[Math.floor(Math.random()*variants.length)]);
+    if (deck.length >= n) break;
+  }
+  if (deck.length < n){
+    const leftovers = (arr||[]).filter(q => !deck.includes(q));
+    deck.push(...pickN(leftovers, n - deck.length));
+  }
+  return shuffle(deck).slice(0, Math.min(n, deck.length));
+}
 
 function startGame(cat){
-  const deck = pickN(BANK[cat]||[], ROUND_COUNT);
+  const deck = pickRoundDeck(BANK[cat]||[], ROUND_COUNT);
   if (!deck.length){ alert("No questions in this category yet."); return; }
   state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false};
   $("#btnHome").classList.remove("hidden");
@@ -8697,7 +8718,7 @@ function renderQ(){
   $("#hudScore").textContent   = `Score: ${state.score}/${state.deck.length}`;
   $("#hudProgress").style.width = `${(state.idx/state.deck.length)*100}%`;
   $("#hudTimer").textContent   = `${state.t}s`;
-  $("#qText").textContent      = q.question;
+  $("#qText").textContent      = questionStem(q.question);
   $("#explain").textContent    = "";
   const wrap = $("#opts"); wrap.innerHTML = "";
   q.options.forEach((opt,i)=>{
