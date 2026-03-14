@@ -22,16 +22,7 @@ Then open `http://localhost:4173`.
 - **Offline gameplay**: core assets are cached and still open when the network is down.
 - **Install UX**: when install is available, users get a direct **Install App** button.
 - **Basic quality gate**: embedded question bank schema check via `npm test`.
-- **No-repeat rounds**: the game now samples one question stem per round slot first, so a 10-question round avoids near-duplicate variants.
-
-## Deploy on GitHub Pages (recommended)
-
-1. Push this repo to GitHub.
-2. Keep the workflow file at `.github/workflows/deploy-pages.yml` (already included).
-3. In GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. Push to `main` (or `master`) to auto-deploy.
-5. Open your live URL: `https://<your-user>.github.io/<repo-name>/`.
-6. On Android Chrome, open that URL and tap **Install App**.
+- **Round randomness**: each round now samples 10 unique question entries directly from the 100-question category pool.
 
 ## Deploy on GitHub Pages (recommended)
 
