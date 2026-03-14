@@ -14,7 +14,7 @@ Then open `http://localhost:4173`.
 ## Current content volume
 
 - **7 categories**
-- **70 total questions** (10 per category, 4 options each)
+- **700 total questions** (100 per category, 4 options each)
 
 ## What changed for "next level"
 

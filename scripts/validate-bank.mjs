@@ -10,8 +10,8 @@ if (!match) {
 const bank = JSON.parse(match[1]);
 let errorCount = 0;
 for (const [category, questions] of Object.entries(bank)) {
-  if (!Array.isArray(questions) || questions.length < 10) {
-    console.error(`Category ${category} has fewer than 10 questions`);
+  if (!Array.isArray(questions) || questions.length < 100) {
+    console.error(`Category ${category} has fewer than 100 questions`);
     errorCount += 1;
     continue;
   }
