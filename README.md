@@ -23,6 +23,15 @@ Then open `http://localhost:4173`.
 - **Install UX**: when install is available, users get a direct **Install App** button.
 - **Basic quality gate**: embedded question bank schema check via `npm test`.
 
+## Deploy on GitHub Pages (recommended)
+
+1. Push this repo to GitHub.
+2. Keep the workflow file at `.github/workflows/deploy-pages.yml` (already included).
+3. In GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+4. Push to `main` (or `master`) to auto-deploy.
+5. Open your live URL: `https://<your-user>.github.io/<repo-name>/`.
+6. On Android Chrome, open that URL and tap **Install App**.
+
 ## Use on Android (fastest path)
 
 1. Deploy these files to HTTPS (Netlify, Vercel, GitHub Pages, Firebase Hosting, etc.).
