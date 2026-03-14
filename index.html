@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#2a0f5a"/>
+<meta name="description" content="TriviaQuest: advanced academic trivia that also works offline as a PWA."/>
+<link rel="manifest" href="manifest.webmanifest"/>
 <title>TriviaQuest — Masters Level Edition</title>
 <style>
   :root{
@@ -26,7 +29,7 @@
   h1{margin:0 0 8px;font-size:clamp(26px,3.5vw,40px);letter-spacing:.2px}
   .sub{margin:0;color:var(--muted)}
   .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:#ffffff14;font-size:12px}
-  .meta{display:inline-flex;gap:8px;align-items:center}
+  .meta{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
   .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#ffffff12;color:#fff;cursor:pointer;text-decoration:none;font-weight:600}
   .btn:hover{background:#ffffff22}
@@ -73,7 +76,7 @@
 <div class="wrap">
 
   <!-- Header -->
-  <header class="glass card" style="display:flex;gap:16px;align-items:center">
+  <header class="glass card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
     <div class="pill">🧠 Ready</div>
     <div>
       <h1>TriviaQuest</h1>
@@ -82,9 +85,11 @@
         <span class="pill">⏱️ 45s / question</span>
         <span class="pill">🔁 10 per round</span>
         <span class="pill">🧪 Masters-level</span>
+        <span id="installStatus" class="pill">📡 Online-first</span>
       </div>
     </div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button id="btnInstall" class="btn hidden">📲 Install App</button>
       <button id="btnHome" class="btn hidden">🏠 Home</button>
     </div>
   </header>
@@ -222,279 +227,866 @@
 
 <!-- Embedded BANK payload for one-file backups (replaced on backup) -->
 <script id="embeddedBank" type="application/json">{
-  "arts": [
+  "india": [
     {
-      "question": "Who painted the Mona Lisa?",
+      "question": "Which Indian city is known as the Silicon Valley of India?",
       "options": [
-        "Leonardo da Vinci",
-        "Vincent van Gogh",
-        "Pablo Picasso",
-        "Claude Monet"
+        "Bengaluru",
+        "Hyderabad",
+        "Pune",
+        "Chennai"
       ],
       "correct": 0,
-      "explanation": "The Mona Lisa was painted by Leonardo da Vinci.",
+      "explanation": "Bengaluru hosts a large concentration of Indian IT firms and startups.",
       "difficulty": "Masters"
     },
     {
-      "question": "Which composer wrote the opera 'The Magic Flute'?",
+      "question": "Who chaired the Drafting Committee of the Indian Constitution?",
       "options": [
-        "Mozart",
-        "Beethoven",
-        "Wagner",
-        "Haydn"
+        "Jawaharlal Nehru",
+        "B. R. Ambedkar",
+        "Sardar Patel",
+        "Rajendra Prasad"
       ],
-      "correct": 0,
-      "explanation": "Wolfgang Amadeus Mozart composed 'Die Zauberflöte'.",
+      "correct": 1,
+      "explanation": "Dr. B. R. Ambedkar led the Drafting Committee.",
       "difficulty": "Masters"
     },
     {
-      "question": "What is the art of paper folding called?",
+      "question": "The Chipko movement originated in which present-day Indian state?",
       "options": [
-        "Origami",
-        "Calligraphy",
-        "Ikebana",
-        "Kirigami"
+        "Himachal Pradesh",
+        "Uttarakhand",
+        "Sikkim",
+        "Arunachal Pradesh"
+      ],
+      "correct": 1,
+      "explanation": "The movement began in the Garhwal Himalaya, now in Uttarakhand.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Five-Year Plan in India prioritized rapid industrialization via heavy industries?",
+      "options": [
+        "First Plan",
+        "Second Plan",
+        "Third Plan",
+        "Fourth Plan"
+      ],
+      "correct": 1,
+      "explanation": "The Second Five-Year Plan followed the Mahalanobis model emphasizing heavy industry.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which strait separates India from Sri Lanka?",
+      "options": [
+        "Strait of Hormuz",
+        "Palk Strait",
+        "Malacca Strait",
+        "Bab-el-Mandeb"
+      ],
+      "correct": 1,
+      "explanation": "India and Sri Lanka are separated by the Palk Strait.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which constitutional amendment lowered the voting age in India from 21 to 18?",
+      "options": [
+        "42nd Amendment",
+        "52nd Amendment",
+        "61st Amendment",
+        "73rd Amendment"
+      ],
+      "correct": 2,
+      "explanation": "The 61st Constitutional Amendment Act (1988) reduced the voting age to 18.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The Siachen Glacier lies in which mountain range?",
+      "options": [
+        "Zanskar",
+        "Karakoram",
+        "Pir Panjal",
+        "Shivalik"
+      ],
+      "correct": 1,
+      "explanation": "Siachen is located in the eastern Karakoram range.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who is known as the 'Father of the Indian Green Revolution'?",
+      "options": [
+        "M. S. Swaminathan",
+        "Norman Borlaug",
+        "Verghese Kurien",
+        "C. Subramaniam"
       ],
       "correct": 0,
-      "explanation": "Origami is the traditional Japanese art of paper folding.",
+      "explanation": "M. S. Swaminathan is widely credited as the key architect of India’s Green Revolution.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which article of the Indian Constitution abolishes untouchability?",
+      "options": [
+        "Article 14",
+        "Article 17",
+        "Article 21",
+        "Article 25"
+      ],
+      "correct": 1,
+      "explanation": "Article 17 explicitly abolishes untouchability.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian classical dance form originated in Kerala?",
+      "options": [
+        "Bharatanatyam",
+        "Odissi",
+        "Kathakali",
+        "Kuchipudi"
+      ],
+      "correct": 2,
+      "explanation": "Kathakali is the classical dance-drama tradition from Kerala.",
       "difficulty": "Masters"
     }
   ],
   "geography": [
     {
-      "question": "What is the largest desert in the world?",
+      "question": "Which tectonic plate carries the Indian subcontinent?",
       "options": [
-        "Sahara",
+        "Eurasian Plate",
+        "Indo-Australian Plate",
+        "Arabian Plate",
+        "Pacific Plate"
+      ],
+      "correct": 1,
+      "explanation": "India is primarily on the Indo-Australian Plate.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest hot desert in the world?",
+      "options": [
         "Gobi",
-        "Antarctic Desert",
-        "Arabian Desert"
+        "Kalahari",
+        "Sahara",
+        "Arabian"
       ],
       "correct": 2,
-      "explanation": "The Antarctic Desert is the largest by area.",
+      "explanation": "The Sahara is the largest hot desert.",
       "difficulty": "Masters"
     },
     {
-      "question": "The Ring of Fire is associated with which ocean?",
+      "question": "Which country has the most time zones in total (including overseas territories)?",
       "options": [
-        "Atlantic",
-        "Indian",
-        "Pacific",
-        "Arctic"
+        "Russia",
+        "United States",
+        "France",
+        "United Kingdom"
       ],
       "correct": 2,
-      "explanation": "The Pacific Ocean's Ring of Fire is a major area of tectonic activity.",
+      "explanation": "France has the most time zones when overseas territories are counted.",
       "difficulty": "Masters"
     },
     {
-      "question": "Which river flows through the Grand Canyon?",
+      "question": "The Andes mountain range is primarily in which continent?",
       "options": [
-        "Colorado River",
-        "Mississippi River",
-        "Columbia River",
-        "Rio Grande"
+        "Asia",
+        "Europe",
+        "South America",
+        "North America"
       ],
-      "correct": 0,
-      "explanation": "The Colorado River carved the Grand Canyon.",
+      "correct": 2,
+      "explanation": "The Andes run along western South America.",
       "difficulty": "Masters"
-    }
-  ],
-  "history": [
+    },
     {
-      "question": "Who was the first emperor of the Roman Empire?",
+      "question": "Which is the deepest ocean trench known on Earth?",
       "options": [
-        "Julius Caesar",
-        "Augustus",
-        "Nero",
-        "Caligula"
+        "Java Trench",
+        "Puerto Rico Trench",
+        "Mariana Trench",
+        "Tonga Trench"
+      ],
+      "correct": 2,
+      "explanation": "The Mariana Trench contains the deepest known point in Earth’s oceans.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through Baghdad?",
+      "options": [
+        "Nile",
+        "Tigris",
+        "Euphrates",
+        "Jordan"
       ],
       "correct": 1,
-      "explanation": "Augustus became the first Roman emperor in 27 BCE.",
+      "explanation": "Baghdad is situated on the Tigris River.",
       "difficulty": "Masters"
     },
     {
-      "question": "The Magna Carta was signed in which year?",
+      "question": "What type of boundary is the San Andreas Fault?",
       "options": [
-        "1066",
-        "1215",
-        "1492",
-        "1776"
+        "Convergent",
+        "Divergent",
+        "Transform",
+        "Subduction"
+      ],
+      "correct": 2,
+      "explanation": "San Andreas is a transform (strike-slip) boundary.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which African lake is famous for being a major source of the Nile?",
+      "options": [
+        "Lake Turkana",
+        "Lake Tanganyika",
+        "Lake Victoria",
+        "Lake Malawi"
+      ],
+      "correct": 2,
+      "explanation": "Lake Victoria is a major source region for the White Nile.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which line of latitude passes through the middle of India?",
+      "options": [
+        "Equator",
+        "Tropic of Capricorn",
+        "Tropic of Cancer",
+        "Arctic Circle"
+      ],
+      "correct": 2,
+      "explanation": "The Tropic of Cancer crosses central India.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Permafrost is most commonly associated with which biome?",
+      "options": [
+        "Savanna",
+        "Tundra",
+        "Mediterranean",
+        "Temperate deciduous forest"
       ],
       "correct": 1,
-      "explanation": "King John of England sealed the Magna Carta in 1215.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which war was triggered by the assassination of Archduke Franz Ferdinand?",
-      "options": [
-        "World War I",
-        "World War II",
-        "Crimean War",
-        "Seven Years' War"
-      ],
-      "correct": 0,
-      "explanation": "The 1914 assassination led to the outbreak of World War I.",
-      "difficulty": "Masters"
-    }
-  ],
-  "india": [
-    {
-      "question": "Which river is considered the holiest in Hinduism?",
-      "options": [
-        "Ganges",
-        "Yamuna",
-        "Brahmaputra",
-        "Godavari"
-      ],
-      "correct": 0,
-      "explanation": "The Ganges River is revered as the holiest in Hinduism.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Who was the first Indian woman to win a Nobel Prize?",
-      "options": [
-        "Mother Teresa",
-        "Indira Gandhi",
-        "Sarojini Naidu",
-        "Amartya Sen"
-      ],
-      "correct": 0,
-      "explanation": "Mother Teresa received the Nobel Peace Prize in 1979.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "The ancient university of Nalanda was located in which present-day Indian state?",
-      "options": [
-        "Bihar",
-        "Maharashtra",
-        "Tamil Nadu",
-        "Gujarat"
-      ],
-      "correct": 0,
-      "explanation": "Nalanda was situated in present-day Bihar.",
+      "explanation": "Permafrost is a key physical feature of tundra regions.",
       "difficulty": "Masters"
     }
   ],
   "science": [
     {
-      "question": "What particle carries the electromagnetic force?",
+      "question": "What is the approximate age of the observable universe?",
       "options": [
-        "Photon",
-        "Gluon",
-        "Graviton",
-        "W Boson"
-      ],
-      "correct": 0,
-      "explanation": "The photon is the gauge boson of electromagnetism.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which law states that for every action there is an equal and opposite reaction?",
-      "options": [
-        "Newton's First Law",
-        "Newton's Second Law",
-        "Newton's Third Law",
-        "Law of Conservation of Energy"
-      ],
-      "correct": 2,
-      "explanation": "Newton's Third Law describes equal and opposite reactions.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "What is the powerhouse of the cell?",
-      "options": [
-        "Nucleus",
-        "Mitochondrion",
-        "Ribosome",
-        "Golgi apparatus"
+        "4.5 billion years",
+        "13.8 billion years",
+        "20 billion years",
+        "1.3 billion years"
       ],
       "correct": 1,
-      "explanation": "Mitochondria generate the cell's ATP.",
+      "explanation": "Current cosmological estimates place it at about 13.8 billion years.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which particle mediates the electromagnetic force?",
+      "options": [
+        "Gluon",
+        "Photon",
+        "W boson",
+        "Graviton"
+      ],
+      "correct": 1,
+      "explanation": "The photon is the gauge boson for electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "CRISPR-Cas9 is primarily used for what?",
+      "options": [
+        "Protein sequencing",
+        "Gene editing",
+        "DNA replication",
+        "Cell imaging"
+      ],
+      "correct": 1,
+      "explanation": "CRISPR-Cas9 is a tool for targeted gene editing.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which law states that entropy of an isolated system tends to increase?",
+      "options": [
+        "Zeroth law",
+        "First law",
+        "Second law",
+        "Third law"
+      ],
+      "correct": 2,
+      "explanation": "The second law of thermodynamics describes entropy increase.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the pH of a neutral solution at 25°C?",
+      "options": [
+        "5",
+        "6",
+        "7",
+        "8"
+      ],
+      "correct": 2,
+      "explanation": "Pure water is neutral at pH 7 under standard conditions.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which blood cells are primarily responsible for oxygen transport?",
+      "options": [
+        "Platelets",
+        "Red blood cells",
+        "Neutrophils",
+        "Lymphocytes"
+      ],
+      "correct": 1,
+      "explanation": "Hemoglobin in red blood cells carries oxygen.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the SI unit of frequency?",
+      "options": [
+        "Joule",
+        "Pascal",
+        "Hertz",
+        "Watt"
+      ],
+      "correct": 2,
+      "explanation": "Frequency is measured in hertz (Hz).",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which planet in our solar system has the strongest global magnetic field?",
+      "options": [
+        "Earth",
+        "Jupiter",
+        "Saturn",
+        "Neptune"
+      ],
+      "correct": 1,
+      "explanation": "Jupiter has the strongest planetary magnetic field in the solar system.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which process converts atmospheric nitrogen into ammonia biologically?",
+      "options": [
+        "Denitrification",
+        "Nitrification",
+        "Nitrogen fixation",
+        "Ammonification"
+      ],
+      "correct": 2,
+      "explanation": "Nitrogen fixation converts atmospheric nitrogen into bioavailable forms.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the main component of natural gas?",
+      "options": [
+        "Propane",
+        "Ethane",
+        "Methane",
+        "Butane"
+      ],
+      "correct": 2,
+      "explanation": "Natural gas is primarily methane.",
+      "difficulty": "Masters"
+    }
+  ],
+  "history": [
+    {
+      "question": "In which year did World War I begin?",
+      "options": [
+        "1912",
+        "1914",
+        "1916",
+        "1918"
+      ],
+      "correct": 1,
+      "explanation": "World War I began in 1914.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years’ War in 1648?",
+      "options": [
+        "Treaty of Utrecht",
+        "Peace of Westphalia",
+        "Treaty of Tordesillas",
+        "Congress of Vienna"
+      ],
+      "correct": 1,
+      "explanation": "The Peace of Westphalia ended the Thirty Years’ War.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who was the first Emperor of Rome?",
+      "options": [
+        "Julius Caesar",
+        "Augustus",
+        "Nero",
+        "Trajan"
+      ],
+      "correct": 1,
+      "explanation": "Augustus (Octavian) is recognized as the first Roman Emperor.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The Meiji Restoration took place in which country?",
+      "options": [
+        "China",
+        "Korea",
+        "Japan",
+        "Thailand"
+      ],
+      "correct": 2,
+      "explanation": "The Meiji Restoration transformed Japan in the late 19th century.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which empire built Machu Picchu?",
+      "options": [
+        "Aztec",
+        "Maya",
+        "Inca",
+        "Olmec"
+      ],
+      "correct": 2,
+      "explanation": "Machu Picchu is an Inca citadel in Peru.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote 'The Communist Manifesto' with Karl Marx?",
+      "options": [
+        "Vladimir Lenin",
+        "Friedrich Engels",
+        "Mikhail Bakunin",
+        "Rosa Luxemburg"
+      ],
+      "correct": 1,
+      "explanation": "Friedrich Engels co-authored The Communist Manifesto with Marx.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which event is commonly used to mark the start of the French Revolution?",
+      "options": [
+        "Reign of Terror",
+        "Storming of the Bastille",
+        "Execution of Louis XVI",
+        "Tennis Court Oath"
+      ],
+      "correct": 1,
+      "explanation": "The storming of the Bastille occurred on 14 July 1789.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which civilization developed cuneiform writing?",
+      "options": [
+        "Egyptians",
+        "Sumerians",
+        "Phoenicians",
+        "Hittites"
+      ],
+      "correct": 1,
+      "explanation": "Cuneiform originated in ancient Sumer (Mesopotamia).",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The Congress of Vienna took place after the defeat of which leader?",
+      "options": [
+        "Otto von Bismarck",
+        "Napoleon Bonaparte",
+        "Tsar Alexander I",
+        "Metternich"
+      ],
+      "correct": 1,
+      "explanation": "It was convened after Napoleon’s defeat to reorder Europe.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which wall divided East and West Berlin from 1961 to 1989?",
+      "options": [
+        "Iron Curtain",
+        "Great Wall",
+        "Berlin Wall",
+        "Hadrian’s Wall"
+      ],
+      "correct": 2,
+      "explanation": "The Berlin Wall physically divided Berlin during the Cold War.",
+      "difficulty": "Masters"
+    }
+  ],
+  "arts": [
+    {
+      "question": "Which artistic movement is Claude Monet most associated with?",
+      "options": [
+        "Cubism",
+        "Impressionism",
+        "Surrealism",
+        "Baroque"
+      ],
+      "correct": 1,
+      "explanation": "Monet is a central figure of Impressionism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote 'One Hundred Years of Solitude'?",
+      "options": [
+        "Jorge Luis Borges",
+        "Pablo Neruda",
+        "Gabriel García Márquez",
+        "Mario Vargas Llosa"
+      ],
+      "correct": 2,
+      "explanation": "The novel was written by Gabriel García Márquez.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In music, what does 'allegro' generally indicate?",
+      "options": [
+        "Very slow tempo",
+        "Moderately slow",
+        "Fast tempo",
+        "Free tempo"
+      ],
+      "correct": 2,
+      "explanation": "Allegro usually indicates a fast, lively tempo.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum Bilbao?",
+      "options": [
+        "Zaha Hadid",
+        "Frank Gehry",
+        "I. M. Pei",
+        "Le Corbusier"
+      ],
+      "correct": 1,
+      "explanation": "Frank Gehry designed the Guggenheim Bilbao.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which playwright wrote 'Waiting for Godot'?",
+      "options": [
+        "Eugene O'Neill",
+        "Samuel Beckett",
+        "Harold Pinter",
+        "Jean Genet"
+      ],
+      "correct": 1,
+      "explanation": "Waiting for Godot is by Samuel Beckett.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "The raga system belongs to which musical tradition?",
+      "options": [
+        "Western classical",
+        "Indian classical",
+        "Arabic maqam",
+        "Jazz"
+      ],
+      "correct": 1,
+      "explanation": "Ragas are foundational to Indian classical music.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who sculpted 'David' (the Renaissance masterpiece in Florence)?",
+      "options": [
+        "Donatello",
+        "Michelangelo",
+        "Bernini",
+        "Ghiberti"
+      ],
+      "correct": 1,
+      "explanation": "Michelangelo sculpted the famous marble David.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which novel begins with 'Call me Ishmael.'?",
+      "options": [
+        "Moby-Dick",
+        "The Old Man and the Sea",
+        "Heart of Darkness",
+        "Treasure Island"
+      ],
+      "correct": 0,
+      "explanation": "The opening line of Moby-Dick is 'Call me Ishmael.'",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Ballet originated in the courts of which country?",
+      "options": [
+        "Russia",
+        "France",
+        "Italy",
+        "Spain"
+      ],
+      "correct": 2,
+      "explanation": "Ballet originated in Renaissance Italy before developing in France.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who composed 'The Four Seasons'?",
+      "options": [
+        "Antonio Vivaldi",
+        "George Frideric Handel",
+        "Arcangelo Corelli",
+        "Joseph Haydn"
+      ],
+      "correct": 0,
+      "explanation": "The Four Seasons concertos were composed by Vivaldi.",
       "difficulty": "Masters"
     }
   ],
   "tolkien": [
     {
-      "question": "What is the name of Frodo's sword?",
+      "question": "What is the name of Frodo’s sword?",
       "options": [
-        "Sting",
-        "Narsil",
+        "Andúril",
         "Glamdring",
-        "Andúril"
+        "Sting",
+        "Orcrist"
       ],
-      "correct": 0,
-      "explanation": "Frodo carries the Elvish blade Sting.",
+      "correct": 2,
+      "explanation": "Frodo carries Sting, originally from Bilbo.",
       "difficulty": "Masters"
     },
     {
-      "question": "Who is the Steward of Gondor during the War of the Ring?",
+      "question": "Who forged the One Ring?",
       "options": [
-        "Boromir",
-        "Denethor II",
-        "Faramir",
-        "Cirion"
+        "Saruman",
+        "Celebrimbor",
+        "Sauron",
+        "Feanor"
+      ],
+      "correct": 2,
+      "explanation": "Sauron forged the One Ring in Mount Doom.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is Aragorn’s royal house called?",
+      "options": [
+        "House of Hador",
+        "House of Elendil",
+        "House of Finwë",
+        "House of Bëor"
       ],
       "correct": 1,
-      "explanation": "Denethor II ruled as Steward when Sauron's forces attacked.",
+      "explanation": "Aragorn descends from the House of Elendil.",
       "difficulty": "Masters"
     },
     {
-      "question": "Which creature did Gandalf fight in the Mines of Moria?",
+      "question": "Who is the father of Legolas?",
       "options": [
-        "Balrog",
-        "Dragon",
-        "Nazgûl",
-        "Troll"
+        "Elrond",
+        "Thingol",
+        "Thranduil",
+        "Celeborn"
       ],
-      "correct": 0,
-      "explanation": "Gandalf battles the Balrog of Moria on the Bridge of Khazad-dûm.",
+      "correct": 2,
+      "explanation": "Legolas is the son of Thranduil, king of the Woodland Realm.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which realm is ruled by Lady Galadriel and Celeborn in the Third Age?",
+      "options": [
+        "Rivendell",
+        "Lothlórien",
+        "Mirkwood",
+        "Gondolin"
+      ],
+      "correct": 1,
+      "explanation": "Galadriel and Celeborn rule Lothlórien.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was Gollum’s original name?",
+      "options": [
+        "Déagol",
+        "Sméagol",
+        "Isildur",
+        "Gríma"
+      ],
+      "correct": 1,
+      "explanation": "Gollum was originally known as Sméagol.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which mountain was the destination for destroying the One Ring?",
+      "options": [
+        "Caradhras",
+        "Erebor",
+        "Orodruin (Mount Doom)",
+        "Mindolluin"
+      ],
+      "correct": 2,
+      "explanation": "The Ring had to be cast into the fires of Orodruin, Mount Doom.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who says, 'You shall not pass!' in Moria?",
+      "options": [
+        "Aragorn",
+        "Gandalf",
+        "Boromir",
+        "Elrond"
+      ],
+      "correct": 1,
+      "explanation": "Gandalf speaks this line confronting the Balrog.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What race are the Ents?",
+      "options": [
+        "Dwarves",
+        "Tree-shepherds",
+        "Maiar",
+        "Eagles"
+      ],
+      "correct": 1,
+      "explanation": "Ents are the shepherds of the trees in Middle-earth.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who was the last king of Gondor before Aragorn’s coronation?",
+      "options": [
+        "Denethor II",
+        "Eärnur",
+        "Isildur",
+        "Anárion"
+      ],
+      "correct": 1,
+      "explanation": "Eärnur was the last king; thereafter Gondor had ruling stewards.",
       "difficulty": "Masters"
     }
   ],
   "wortschatz": [
     {
-      "question": "Deutsch → Englisch: 'die Herausforderung'",
+      "question": "What does 'die Herausforderung' mean?",
       "options": [
-        "challenge",
-        "reward",
-        "investment",
-        "celebration"
+        "the challenge",
+        "the habit",
+        "the lecture",
+        "the result"
       ],
       "correct": 0,
-      "explanation": "'Herausforderung' translates to challenge.",
+      "explanation": "'Die Herausforderung' translates to 'the challenge'.",
       "difficulty": "B2"
     },
     {
-      "question": "Deutsch → Englisch: 'verzichten'",
+      "question": "Choose the best translation for 'nachhaltig'.",
       "options": [
-        "to renounce",
-        "to anticipate",
-        "to decide",
-        "to imagine"
+        "temporary",
+        "sustainable",
+        "irrelevant",
+        "difficult"
       ],
-      "correct": 0,
-      "explanation": "'Verzichten' means to do without or renounce.",
+      "correct": 1,
+      "explanation": "'Nachhaltig' means sustainable.",
       "difficulty": "B2"
     },
     {
-      "question": "Deutsch → Englisch: 'überzeugen'",
+      "question": "What does 'sich bewerben um' mean?",
       "options": [
-        "to convince",
-        "to hesitate",
-        "to complain",
-        "to agree"
+        "to avoid",
+        "to apply for",
+        "to compare",
+        "to invent"
+      ],
+      "correct": 1,
+      "explanation": "'Sich bewerben um' means to apply for (a job/place).",
+      "difficulty": "B2"
+    },
+    {
+      "question": "'Die Fähigkeit' means...",
+      "options": [
+        "the skill/ability",
+        "the failure",
+        "the opportunity",
+        "the method"
       ],
       "correct": 0,
-      "explanation": "'Überzeugen' means to convince someone.",
+      "explanation": "'Die Fähigkeit' is ability or skill.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "What does 'vermutlich' mean?",
+      "options": [
+        "carefully",
+        "probably",
+        "suddenly",
+        "barely"
+      ],
+      "correct": 1,
+      "explanation": "'Vermutlich' means probably.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "'Der Fortschritt' translates to...",
+      "options": [
+        "the obstacle",
+        "the progress",
+        "the promise",
+        "the origin"
+      ],
+      "correct": 1,
+      "explanation": "'Der Fortschritt' means progress.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "What is the English meaning of 'trotzdem'?",
+      "options": [
+        "therefore",
+        "although",
+        "nevertheless",
+        "otherwise"
+      ],
+      "correct": 2,
+      "explanation": "'Trotzdem' means nevertheless/nonetheless.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "'Die Umgebung' means...",
+      "options": [
+        "the environment/surroundings",
+        "the assignment",
+        "the agreement",
+        "the distance"
+      ],
+      "correct": 0,
+      "explanation": "'Die Umgebung' refers to environment or surroundings.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "What does 'zuverlässig' mean?",
+      "options": [
+        "curious",
+        "reliable",
+        "expensive",
+        "confusing"
+      ],
+      "correct": 1,
+      "explanation": "'Zuverlässig' means reliable.",
+      "difficulty": "B2"
+    },
+    {
+      "question": "Choose the best translation for 'sich gewöhnen an'.",
+      "options": [
+        "to get used to",
+        "to give up",
+        "to depend on",
+        "to show off"
+      ],
+      "correct": 0,
+      "explanation": "'Sich gewöhnen an' means to get used to something.",
       "difficulty": "B2"
     }
   ]
 }</script>
 
 <script>
-/* ---------- Seed minimal data so it runs immediately. Replace via Import ---------- */
 let BANK = {};
+let deferredInstallPrompt = null;
 
-/* ---------- Merge embedded payload (one-file backups) ---------- */
 (function mergeEmbedded(){
   try{
     const raw = document.getElementById('embeddedBank')?.textContent || '{}';
@@ -507,7 +1099,6 @@ let BANK = {};
   }catch{}
 })();
 
-/* ---------- Local overrides (browser) ---------- */
 (function loadLocal(){
   try{
     const x = JSON.parse(localStorage.getItem('BANK_LOCAL')||'null');
@@ -517,15 +1108,14 @@ let BANK = {};
   }catch{}
 })();
 
-/* ---------- UI helpers ---------- */
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 function show(id){ ["#screen-home","#screen-game"].forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
 function updateHomeCounts(){ for (const k of Object.keys(BANK)){ const n = BANK[k]?.length||0; const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = n; } }
+function setInstallStatus(text){ const el = $("#installStatus"); if (el) el.textContent = text; }
 updateHomeCounts();
 if (new URLSearchParams(location.search).get('admin') === '1') { const p = document.getElementById('adminPanel'); if (p) p.style.display = ''; }
 
-/* ---------- Game logic ---------- */
 const ROUND_COUNT = 10;
 const PER_Q = 45;
 let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false};
@@ -577,13 +1167,11 @@ function next(){
   }
 }
 
-/* Buttons */
 $$('[data-start]').forEach(b=> b.onclick = ()=> startGame(b.getAttribute('data-start')));
 $("#btnHome").onclick = ()=>{ clearInterval(state.id); $("#btnHome").classList.add("hidden"); show("#screen-home"); };
 $("#btnNext").onclick  = next;
 $("#btnReveal").onclick= ()=>{ if (!state.answered){ choose(state.deck[state.idx].correct); } };
 
-/* ---------- Admin: import/export, one-file backup (LOCAL ONLY) ---------- */
 function csvToObjects(text){
   const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
   if (!lines.length) return [];
@@ -664,6 +1252,37 @@ $("#btnOneFile")?.addEventListener('click', ()=>{
     msg.textContent='One-file backup downloaded.';
   }catch(e){ msg.textContent='Backup failed: '+e.message; }
 });
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  $("#btnInstall").classList.remove("hidden");
+  setInstallStatus('📲 Installable on Android');
+});
+
+$("#btnInstall").addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  $("#btnInstall").classList.add("hidden");
+});
+
+window.addEventListener('appinstalled', () => {
+  setInstallStatus('✅ Installed as app');
+  $("#btnInstall").classList.add("hidden");
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      await navigator.serviceWorker.register('./service-worker.js');
+      setInstallStatus(navigator.onLine ? '📲 Ready for install' : '📴 Offline mode');
+    } catch {
+      setInstallStatus('⚠️ Offline unavailable');
+    }
+  });
+}
 </script>
 </div>
 </body>
