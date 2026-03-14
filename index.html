@@ -3,6 +3,9 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#2a0f5a"/>
+<meta name="description" content="TriviaQuest: advanced academic trivia that also works offline as a PWA."/>
+<link rel="manifest" href="manifest.webmanifest"/>
 <title>TriviaQuest — Masters Level Edition</title>
 <style>
   :root{
@@ -26,7 +29,7 @@
   h1{margin:0 0 8px;font-size:clamp(26px,3.5vw,40px);letter-spacing:.2px}
   .sub{margin:0;color:var(--muted)}
   .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:#ffffff14;font-size:12px}
-  .meta{display:inline-flex;gap:8px;align-items:center}
+  .meta{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
   .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
   .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#ffffff12;color:#fff;cursor:pointer;text-decoration:none;font-weight:600}
   .btn:hover{background:#ffffff22}
@@ -73,7 +76,7 @@
 <div class="wrap">
 
   <!-- Header -->
-  <header class="glass card" style="display:flex;gap:16px;align-items:center">
+  <header class="glass card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
     <div class="pill">🧠 Ready</div>
     <div>
       <h1>TriviaQuest</h1>
@@ -82,9 +85,11 @@
         <span class="pill">⏱️ 45s / question</span>
         <span class="pill">🔁 10 per round</span>
         <span class="pill">🧪 Masters-level</span>
+        <span id="installStatus" class="pill">📡 Online-first</span>
       </div>
     </div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center">
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+      <button id="btnInstall" class="btn hidden">📲 Install App</button>
       <button id="btnHome" class="btn hidden">🏠 Home</button>
     </div>
   </header>
@@ -238,245 +243,89 @@
     {
       "question": "Which composer wrote the opera 'The Magic Flute'?",
       "options": [
-        "Mozart",
-        "Beethoven",
-        "Wagner",
-        "Haydn"
+        "Wolfgang Amadeus Mozart",
+        "Ludwig van Beethoven",
+        "Johann Sebastian Bach",
+        "Richard Wagner"
       ],
       "correct": 0,
-      "explanation": "Wolfgang Amadeus Mozart composed 'Die Zauberflöte'.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "What is the art of paper folding called?",
-      "options": [
-        "Origami",
-        "Calligraphy",
-        "Ikebana",
-        "Kirigami"
-      ],
-      "correct": 0,
-      "explanation": "Origami is the traditional Japanese art of paper folding.",
+      "explanation": "The Magic Flute was composed by Mozart.",
       "difficulty": "Masters"
     }
   ],
   "geography": [
     {
-      "question": "What is the largest desert in the world?",
+      "question": "Which river is the longest in the world?",
       "options": [
-        "Sahara",
-        "Gobi",
-        "Antarctic Desert",
-        "Arabian Desert"
-      ],
-      "correct": 2,
-      "explanation": "The Antarctic Desert is the largest by area.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "The Ring of Fire is associated with which ocean?",
-      "options": [
-        "Atlantic",
-        "Indian",
-        "Pacific",
-        "Arctic"
-      ],
-      "correct": 2,
-      "explanation": "The Pacific Ocean's Ring of Fire is a major area of tectonic activity.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which river flows through the Grand Canyon?",
-      "options": [
-        "Colorado River",
-        "Mississippi River",
-        "Columbia River",
-        "Rio Grande"
+        "Nile",
+        "Amazon",
+        "Yangtze",
+        "Mississippi"
       ],
       "correct": 0,
-      "explanation": "The Colorado River carved the Grand Canyon.",
+      "explanation": "The Nile is generally considered the longest river in the world.",
       "difficulty": "Masters"
     }
   ],
   "history": [
     {
-      "question": "Who was the first emperor of the Roman Empire?",
+      "question": "In which year did the Berlin Wall fall?",
       "options": [
-        "Julius Caesar",
-        "Augustus",
-        "Nero",
-        "Caligula"
+        "1987",
+        "1989",
+        "1991",
+        "1993"
       ],
       "correct": 1,
-      "explanation": "Augustus became the first Roman emperor in 27 BCE.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "The Magna Carta was signed in which year?",
-      "options": [
-        "1066",
-        "1215",
-        "1492",
-        "1776"
-      ],
-      "correct": 1,
-      "explanation": "King John of England sealed the Magna Carta in 1215.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which war was triggered by the assassination of Archduke Franz Ferdinand?",
-      "options": [
-        "World War I",
-        "World War II",
-        "Crimean War",
-        "Seven Years' War"
-      ],
-      "correct": 0,
-      "explanation": "The 1914 assassination led to the outbreak of World War I.",
+      "explanation": "The Berlin Wall fell in 1989.",
       "difficulty": "Masters"
     }
   ],
   "india": [
     {
-      "question": "Which river is considered the holiest in Hinduism?",
+      "question": "Which article of the Indian Constitution deals with the right to constitutional remedies?",
       "options": [
-        "Ganges",
-        "Yamuna",
-        "Brahmaputra",
-        "Godavari"
+        "Article 19",
+        "Article 21",
+        "Article 32",
+        "Article 45"
       ],
-      "correct": 0,
-      "explanation": "The Ganges River is revered as the holiest in Hinduism.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Who was the first Indian woman to win a Nobel Prize?",
-      "options": [
-        "Mother Teresa",
-        "Indira Gandhi",
-        "Sarojini Naidu",
-        "Amartya Sen"
-      ],
-      "correct": 0,
-      "explanation": "Mother Teresa received the Nobel Peace Prize in 1979.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "The ancient university of Nalanda was located in which present-day Indian state?",
-      "options": [
-        "Bihar",
-        "Maharashtra",
-        "Tamil Nadu",
-        "Gujarat"
-      ],
-      "correct": 0,
-      "explanation": "Nalanda was situated in present-day Bihar.",
+      "correct": 2,
+      "explanation": "Article 32 guarantees the right to constitutional remedies.",
       "difficulty": "Masters"
     }
   ],
   "science": [
     {
-      "question": "What particle carries the electromagnetic force?",
+      "question": "What is the SI unit of electric capacitance?",
       "options": [
-        "Photon",
-        "Gluon",
-        "Graviton",
-        "W Boson"
-      ],
-      "correct": 0,
-      "explanation": "The photon is the gauge boson of electromagnetism.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which law states that for every action there is an equal and opposite reaction?",
-      "options": [
-        "Newton's First Law",
-        "Newton's Second Law",
-        "Newton's Third Law",
-        "Law of Conservation of Energy"
-      ],
-      "correct": 2,
-      "explanation": "Newton's Third Law describes equal and opposite reactions.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "What is the powerhouse of the cell?",
-      "options": [
-        "Nucleus",
-        "Mitochondrion",
-        "Ribosome",
-        "Golgi apparatus"
+        "Ohm",
+        "Farad",
+        "Henry",
+        "Tesla"
       ],
       "correct": 1,
-      "explanation": "Mitochondria generate the cell's ATP.",
+      "explanation": "The SI unit of capacitance is the farad (F).",
       "difficulty": "Masters"
     }
   ],
   "tolkien": [
     {
-      "question": "What is the name of Frodo's sword?",
+      "question": "What is the name of the Elvish city founded by Turgon in Beleriand?",
       "options": [
-        "Sting",
-        "Narsil",
-        "Glamdring",
-        "Andúril"
+        "Doriath",
+        "Nargothrond",
+        "Gondolin",
+        "Valimar"
       ],
-      "correct": 0,
-      "explanation": "Frodo carries the Elvish blade Sting.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Who is the Steward of Gondor during the War of the Ring?",
-      "options": [
-        "Boromir",
-        "Denethor II",
-        "Faramir",
-        "Cirion"
-      ],
-      "correct": 1,
-      "explanation": "Denethor II ruled as Steward when Sauron's forces attacked.",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which creature did Gandalf fight in the Mines of Moria?",
-      "options": [
-        "Balrog",
-        "Dragon",
-        "Nazgûl",
-        "Troll"
-      ],
-      "correct": 0,
-      "explanation": "Gandalf battles the Balrog of Moria on the Bridge of Khazad-dûm.",
+      "correct": 2,
+      "explanation": "Gondolin was the hidden city founded by Turgon.",
       "difficulty": "Masters"
     }
   ],
   "wortschatz": [
     {
-      "question": "Deutsch → Englisch: 'die Herausforderung'",
-      "options": [
-        "challenge",
-        "reward",
-        "investment",
-        "celebration"
-      ],
-      "correct": 0,
-      "explanation": "'Herausforderung' translates to challenge.",
-      "difficulty": "B2"
-    },
-    {
-      "question": "Deutsch → Englisch: 'verzichten'",
-      "options": [
-        "to renounce",
-        "to anticipate",
-        "to decide",
-        "to imagine"
-      ],
-      "correct": 0,
-      "explanation": "'Verzichten' means to do without or renounce.",
-      "difficulty": "B2"
-    },
-    {
-      "question": "Deutsch → Englisch: 'überzeugen'",
+      "question": "What does 'überzeugen' mean in English?",
       "options": [
         "to convince",
         "to hesitate",
@@ -491,10 +340,9 @@
 }</script>
 
 <script>
-/* ---------- Seed minimal data so it runs immediately. Replace via Import ---------- */
 let BANK = {};
+let deferredInstallPrompt = null;
 
-/* ---------- Merge embedded payload (one-file backups) ---------- */
 (function mergeEmbedded(){
   try{
     const raw = document.getElementById('embeddedBank')?.textContent || '{}';
@@ -507,7 +355,6 @@ let BANK = {};
   }catch{}
 })();
 
-/* ---------- Local overrides (browser) ---------- */
 (function loadLocal(){
   try{
     const x = JSON.parse(localStorage.getItem('BANK_LOCAL')||'null');
@@ -517,15 +364,14 @@ let BANK = {};
   }catch{}
 })();
 
-/* ---------- UI helpers ---------- */
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 function show(id){ ["#screen-home","#screen-game"].forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
 function updateHomeCounts(){ for (const k of Object.keys(BANK)){ const n = BANK[k]?.length||0; const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = n; } }
+function setInstallStatus(text){ const el = $("#installStatus"); if (el) el.textContent = text; }
 updateHomeCounts();
 if (new URLSearchParams(location.search).get('admin') === '1') { const p = document.getElementById('adminPanel'); if (p) p.style.display = ''; }
 
-/* ---------- Game logic ---------- */
 const ROUND_COUNT = 10;
 const PER_Q = 45;
 let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false};
@@ -577,13 +423,11 @@ function next(){
   }
 }
 
-/* Buttons */
 $$('[data-start]').forEach(b=> b.onclick = ()=> startGame(b.getAttribute('data-start')));
 $("#btnHome").onclick = ()=>{ clearInterval(state.id); $("#btnHome").classList.add("hidden"); show("#screen-home"); };
 $("#btnNext").onclick  = next;
 $("#btnReveal").onclick= ()=>{ if (!state.answered){ choose(state.deck[state.idx].correct); } };
 
-/* ---------- Admin: import/export, one-file backup (LOCAL ONLY) ---------- */
 function csvToObjects(text){
   const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
   if (!lines.length) return [];
@@ -664,6 +508,37 @@ $("#btnOneFile")?.addEventListener('click', ()=>{
     msg.textContent='One-file backup downloaded.';
   }catch(e){ msg.textContent='Backup failed: '+e.message; }
 });
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredInstallPrompt = e;
+  $("#btnInstall").classList.remove("hidden");
+  setInstallStatus('📲 Installable on Android');
+});
+
+$("#btnInstall").addEventListener('click', async () => {
+  if (!deferredInstallPrompt) return;
+  deferredInstallPrompt.prompt();
+  await deferredInstallPrompt.userChoice;
+  deferredInstallPrompt = null;
+  $("#btnInstall").classList.add("hidden");
+});
+
+window.addEventListener('appinstalled', () => {
+  setInstallStatus('✅ Installed as app');
+  $("#btnInstall").classList.add("hidden");
+});
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', async () => {
+    try {
+      await navigator.serviceWorker.register('./service-worker.js');
+      setInstallStatus(navigator.onLine ? '📲 Ready for install' : '📴 Offline mode');
+    } catch {
+      setInstallStatus('⚠️ Offline unavailable');
+    }
+  });
+}
 </script>
 </div>
 </body>
