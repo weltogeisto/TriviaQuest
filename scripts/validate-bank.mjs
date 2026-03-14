@@ -10,8 +10,8 @@ if (!match) {
 const bank = JSON.parse(match[1]);
 let errorCount = 0;
 for (const [category, questions] of Object.entries(bank)) {
-  if (!Array.isArray(questions) || questions.length === 0) {
-    console.error(`Category ${category} has no questions`);
+  if (!Array.isArray(questions) || questions.length < 10) {
+    console.error(`Category ${category} has fewer than 10 questions`);
     errorCount += 1;
     continue;
   }
@@ -29,4 +29,5 @@ if (errorCount > 0) {
   process.exit(1);
 }
 
-console.log(`Bank OK (${Object.keys(bank).length} categories validated).`);
+const total = Object.values(bank).reduce((sum, arr) => sum + arr.length, 0);
+console.log(`Bank OK (${Object.keys(bank).length} categories, ${total} questions validated).`);
