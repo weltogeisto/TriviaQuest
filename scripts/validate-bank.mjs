@@ -1,14 +1,7 @@
 import { readFileSync } from 'node:fs';
 
-const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
-const match = html.match(/<script id="embeddedBank" type="application\/json">([\s\S]*?)<\/script>/);
-if (!match) {
-  console.error('embeddedBank payload not found');
-  process.exit(1);
-}
-
+const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
 const stem = (text) => String(text || '').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i, '').trim();
-const bank = JSON.parse(match[1]);
 let errorCount = 0;
 
 for (const [category, questions] of Object.entries(bank)) {
@@ -44,9 +37,6 @@ for (const [category, questions] of Object.entries(bank)) {
   }
 }
 
-if (errorCount > 0) {
-  process.exit(1);
-}
-
+if (errorCount > 0) process.exit(1);
 const total = Object.values(bank).reduce((sum, arr) => sum + arr.length, 0);
 console.log(`Bank OK (${Object.keys(bank).length} categories, ${total} questions validated).`);

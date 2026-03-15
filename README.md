@@ -1,6 +1,6 @@
 # TriviaQuest
 
-A single-file-first trivia game, now upgraded to be **installable on Android** as a PWA and testable with a local validation script.
+A trivia game upgraded to be **installable on Android** as a PWA, now with an external `bank.json` to avoid giant merge conflicts and keep PRs clean.
 
 ## Quick start
 
@@ -16,13 +16,19 @@ Then open `http://localhost:4173`.
 - **7 categories**
 - **700 total questions** (100 per category, 4 options each)
 
+## Data layout (merge-conflict friendly)
+
+- Question content is stored in `bank.json` (not embedded in HTML), so content updates no longer create huge `index.html` conflicts.
+- `index.html` still keeps an empty `#embeddedBank` slot only for one-file backup exports.
+- `npm test` validates `bank.json` directly.
+
 ## What changed for "next level"
 
 - **PWA support**: manifest + service worker + install button.
 - **Offline gameplay**: core assets are cached and still open when the network is down.
 - **Install UX**: when install is available, users get a direct **Install App** button.
-- **Basic quality gate**: embedded question bank schema check via `npm test`.
-- **Round randomness**: each round now samples 10 unique question entries directly from the 100-question category pool.
+- **Basic quality gate**: question bank schema check via `npm test`.
+- **Round randomness**: each round samples unique question stems to avoid near-duplicate variants in the same 10-question run.
 
 ## Deploy on GitHub Pages (recommended)
 
