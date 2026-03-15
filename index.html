@@ -3,176 +3,857 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<meta name="theme-color" content="#2a0f5a"/>
+<meta name="theme-color" content="#060614"/>
 <meta name="description" content="TriviaQuest: advanced academic trivia that also works offline as a PWA."/>
 <link rel="manifest" href="manifest.webmanifest"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
 <title>TriviaQuest — Masters Level Edition</title>
 <style>
-  :root{
-    --bg1:#1a1040; --bg2:#2a0f5a;
-    --glass: rgba(255,255,255,.06);
-    --border: #ffffff1a;
-    --text:#e9eef6; --muted:#a9b7d0;
-    --accent:#7dd3fc; --ok:#22c55e; --warn:#facc15; --danger:#ef4444;
-    --card-shadow: 0 10px 30px rgba(0,0,0,.25);
-  }
-  *{box-sizing:border-box}
-  html,body{
-    margin:0;
-    background:radial-gradient(1200px 800px at 20% -10%,#4c1d95 0,#2a0f5a 50%,#120a2b 100%);
-    color:var(--text);
-    font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial
-  }
-  .wrap{max-width:1120px;margin:0 auto;padding:28px 20px 60px}
-  .glass{background:linear-gradient(180deg,var(--glass),transparent);border:1px solid var(--border);backdrop-filter:blur(6px)}
-  .card{border-radius:18px;padding:18px;box-shadow:var(--card-shadow)}
-  h1{margin:0 0 8px;font-size:clamp(26px,3.5vw,40px);letter-spacing:.2px}
-  .sub{margin:0;color:var(--muted)}
-  .pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--border);background:#ffffff14;font-size:12px}
-  .meta{display:inline-flex;gap:8px;align-items:center;flex-wrap:wrap}
-  .row{display:flex;align-items:center;justify-content:space-between;gap:10px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;border:1px solid var(--border);background:#ffffff12;color:#fff;cursor:pointer;text-decoration:none;font-weight:600}
-  .btn:hover{background:#ffffff22}
-  .ghost{background:#ffffff0a}
-  .big{padding:12px 16px;border-radius:14px}
-  .hidden{display:none}
-  .grid{display:grid;gap:16px}
-  @media(min-width:860px){.grid.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
+/* ============================================================
+   DESIGN SYSTEM — COSMIC ARENA
+   UI UX Pro Max: Gaming palette · Aurora aesthetic · Space Grotesk + Inter
+============================================================ */
+:root {
+  /* Backgrounds */
+  --bg:            #060614;
+  --bg2:           #0D0B1F;
+  --surface:       rgba(255,255,255,0.04);
+  --surface-hover: rgba(255,255,255,0.08);
+  --border:        rgba(255,255,255,0.08);
+  --border-bright: rgba(167,139,250,0.35);
 
-  /* category cards */
-  .cat{position:relative;overflow:hidden}
-  .cat h3{margin:2px 0 4px;font-size:20px}
-  .cat p{margin:0 0 8px;color:var(--muted);font-size:14px}
-  .tag{position:absolute;top:14px;right:14px;font-size:12px}
-  .badge{position:absolute;left:14px;top:14px;font-size:12px;background:#00000040}
-  .chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:#ffffff12}
-  .start{margin-top:8px}
-  .c_orange{background:linear-gradient(160deg,#ff7a18 0,#ffb44c 100%)}
-  .c_green{background:linear-gradient(160deg,#10b981 0,#22d3ee 100%)}
-  .c_blue{background:linear-gradient(160deg,#2563eb 0,#7c3aed 100%)}
-  .c_purple{background:linear-gradient(160deg,#a855f7 0,#ec4899 100%)}
-  .c_teal{background:linear-gradient(160deg,#06b6d4 0,#34d399 100%)}
-  .c_emerald{background:linear-gradient(160deg,#059669 0,#22c55e 100%)}
-  .c_rose{background:linear-gradient(160deg,#f43f5e 0,#fb7185 100%)}
-  .cat .overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.28),rgba(0,0,0,.32))}
-  .cat .content{position:relative}
+  /* Brand */
+  --violet:       #7C3AED;
+  --violet-mid:   #8B5CF6;
+  --violet-light: #A78BFA;
+  --rose:         #F43F5E;
+  --cyan:         #06B6D4;
+  --emerald:      #10B981;
 
-  /* game */
-  .bar{height:8px;border-radius:999px;background:#ffffff14;overflow:hidden;margin:10px 0 16px}
-  .fill{height:100%;background:linear-gradient(90deg,#22c55e,#3b82f6)}
-  .q{font-size:20px;font-weight:700;margin:6px 0 12px}
-  .opt{border:1px solid var(--border);background:#ffffff0e;border-radius:14px;padding:12px;margin:10px 0;cursor:pointer}
-  .opt:hover{background:#ffffff1b}
-  .opt.correct{border-color:#22c55e;background:#22c55e22}
-  .opt.wrong{border-color:#ef4444;background:#ef444422}
-  .muted{color:var(--muted)}
-  .foot{opacity:.8;font-size:12px}
-  details>summary{cursor:pointer}
-  select,input{background:#fff;color:#111;border-radius:10px;border:none;padding:8px 10px}
-  code{background:#00000033;padding:1px 6px;border-radius:6px}
+  /* Text */
+  --text:       #F1F5F9;
+  --text-muted: #94A3B8;
+
+  /* Game states */
+  --ok:     #10B981;
+  --warn:   #F59E0B;
+  --danger: #EF4444;
+
+  /* Legacy aliases */
+  --accent:      #A78BFA;
+  --muted-color: #94A3B8;
+  --card-shadow: 0 20px 60px rgba(0,0,0,.5);
+}
+
+/* ============================================================
+   RESET
+============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #3B2D6B #060614;
+}
+::-webkit-scrollbar       { width: 6px; }
+::-webkit-scrollbar-track { background: #060614; }
+::-webkit-scrollbar-thumb { background: #3B2D6B; border-radius: 3px; }
+
+/* ============================================================
+   BODY + AURORA BACKGROUND
+============================================================ */
+body {
+  background: var(--bg);
+  color: var(--text);
+  font: 16px/1.6 'Inter', system-ui, -apple-system, sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Orb 1 — violet, top-left */
+body::before {
+  content: '';
+  position: fixed;
+  top: -25vh; left: -15vw;
+  width: 75vw; height: 75vh;
+  background: radial-gradient(ellipse, rgba(124,58,237,.22) 0%, transparent 70%);
+  animation: drift1 28s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Orb 2 — rose, bottom-right */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: -20vh; right: -15vw;
+  width: 65vw; height: 65vh;
+  background: radial-gradient(ellipse, rgba(244,63,94,.16) 0%, transparent 70%);
+  animation: drift2 34s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Orb 3 — cyan, centre */
+.aurora-orb {
+  position: fixed;
+  top: 25vh; left: 35vw;
+  width: 55vw; height: 55vh;
+  background: radial-gradient(ellipse, rgba(6,182,212,.10) 0%, transparent 70%);
+  animation: drift3 22s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes drift1 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  33%      { transform: translate(8vw, 6vh) scale(1.12); }
+  66%      { transform: translate(-4vw, 12vh) scale(0.94); }
+}
+@keyframes drift2 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  40%     { transform: translate(-10vw,-8vh) scale(1.15); }
+  70%     { transform: translate(5vw, 6vh) scale(0.9); }
+}
+@keyframes drift3 {
+  0%,100% { transform: translate(0,0) scale(1); }
+  50%     { transform: translate(-14vw,-10vh) scale(1.2); }
+}
+
+/* ============================================================
+   LAYOUT
+============================================================ */
+.wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px 20px 80px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ============================================================
+   NAVIGATION HEADER
+============================================================ */
+.nav-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  padding: 16px 24px;
+  border-radius: 22px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  position: relative;
+  overflow: hidden;
+}
+/* animated gradient line at bottom of header */
+.nav-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg,
+    transparent 0%, var(--violet-mid) 30%,
+    var(--rose) 70%, transparent 100%);
+  opacity: .55;
+}
+
+.logo-block {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.logo-icon-wrap {
+  width: 48px; height: 48px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--violet), var(--rose));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 24px;
+  box-shadow: 0 0 22px rgba(124,58,237,.55);
+  flex-shrink: 0;
+}
+.logo-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 700;
+  letter-spacing: -.5px;
+  background: linear-gradient(135deg, var(--violet-light) 0%, #F1F5F9 50%, var(--rose) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.1;
+}
+.logo-sub {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 3px;
+}
+
+.header-chips {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.header-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   PILL / CHIP
+============================================================ */
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 5px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  font-size: 12px; font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.05);
+  font-size: 11px; font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+
+/* ============================================================
+   BUTTONS
+============================================================ */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 10px 20px;
+  min-height: 44px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.08);
+  color: var(--text);
+  cursor: pointer;
+  font: 600 14px/1 'Inter', sans-serif;
+  text-decoration: none;
+  transition: all .2s ease;
+  white-space: nowrap;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover {
+  background: rgba(255,255,255,.14);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+}
+.btn:active { transform: translateY(0); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--violet), var(--rose));
+  border-color: transparent;
+  box-shadow: 0 4px 22px rgba(124,58,237,.45);
+  color: #fff;
+}
+.btn-primary:hover {
+  background: linear-gradient(135deg, var(--violet-mid), #FB7185);
+  box-shadow: 0 8px 32px rgba(124,58,237,.65);
+}
+
+.btn-ghost {
+  background: rgba(255,255,255,.04);
+  border-color: var(--border);
+}
+.btn-ghost:hover { background: rgba(255,255,255,.10); }
+
+.btn-start {
+  background: rgba(255,255,255,.18);
+  border: 1px solid rgba(255,255,255,.28);
+  color: #fff;
+  font: 700 14px/1 'Inter', sans-serif;
+  padding: 10px 20px;
+  min-height: 44px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all .2s;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn-start:hover {
+  background: rgba(255,255,255,.28);
+  box-shadow: 0 6px 24px rgba(0,0,0,.35);
+  transform: translateY(-1px);
+}
+
+/* Legacy aliases */
+.big   { padding: 12px 20px; border-radius: 14px; }
+.ghost { background: rgba(255,255,255,.04); }
+
+/* ============================================================
+   HIDDEN UTILITY
+============================================================ */
+.hidden { display: none !important; }
+
+/* ============================================================
+   HOME — HERO HEADER
+============================================================ */
+.home-hero {
+  margin-top: 36px;
+  text-align: center;
+  margin-bottom: 30px;
+}
+.home-hero-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(28px, 5vw, 52px);
+  font-weight: 700;
+  letter-spacing: -1.5px;
+  line-height: 1.08;
+  background: linear-gradient(135deg, #F1F5F9 20%, var(--violet-light) 60%, var(--rose) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.home-hero-sub {
+  margin-top: 12px;
+  font-size: 16px;
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   CATEGORY GRID
+============================================================ */
+.cat-grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: 1fr;
+}
+@media(min-width:600px){ .cat-grid { grid-template-columns: repeat(2,1fr); } }
+@media(min-width:860px){ .cat-grid { grid-template-columns: repeat(3,1fr); } }
+
+/* Legacy grid alias */
+.grid { display: grid; gap: 16px; }
+@media(min-width:860px){ .grid.cols-3 { grid-template-columns: repeat(3,minmax(0,1fr)); } }
+
+/* ============================================================
+   CATEGORY CARD
+============================================================ */
+.cat {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  min-height: 230px;
+  cursor: pointer;
+  transition: transform .28s cubic-bezier(.34,1.56,.64,1), box-shadow .28s ease;
+  border: 1px solid rgba(255,255,255,.1);
+}
+.cat:hover {
+  transform: translateY(-6px) scale(1.015);
+  box-shadow: 0 24px 64px rgba(0,0,0,.55), 0 0 48px var(--cat-glow, rgba(124,58,237,.3));
+}
+
+/* Vibrant category gradients */
+.c_orange  { background: linear-gradient(155deg,#FF6B35 0%,#F7931E 100%); --cat-glow: rgba(255,107,53,.4); }
+.c_green   { background: linear-gradient(155deg,#00D2FF 0%,#3A7BD5 100%); --cat-glow: rgba(0,210,255,.35); }
+.c_blue    { background: linear-gradient(155deg,#4776E6 0%,#8E54E9 100%); --cat-glow: rgba(71,118,230,.4); }
+.c_purple  { background: linear-gradient(155deg,#F093FB 0%,#F5576C 100%); --cat-glow: rgba(240,147,251,.4); }
+.c_teal    { background: linear-gradient(155deg,#0F9B58 0%,#00BF8F 100%); --cat-glow: rgba(15,155,88,.4); }
+.c_emerald { background: linear-gradient(155deg,#11998E 0%,#38EF7D 100%); --cat-glow: rgba(56,239,125,.35); }
+.c_rose    { background: linear-gradient(155deg,#4E54C8 0%,#8F94FB 100%); --cat-glow: rgba(78,84,200,.4); }
+
+.cat .overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,.04) 0%, rgba(0,0,0,.58) 100%);
+  z-index: 1;
+}
+.cat .content {
+  position: relative;
+  z-index: 2;
+  padding: 52px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  min-height: 230px;
+}
+.cat-icon {
+  font-size: 2.6rem;
+  line-height: 1;
+  margin-bottom: 10px;
+  filter: drop-shadow(0 2px 10px rgba(0,0,0,.45));
+}
+.cat h3 {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: #fff;
+  margin: 0 0 5px;
+  text-shadow: 0 1px 6px rgba(0,0,0,.35);
+}
+.cat p {
+  font-size: 13px;
+  color: rgba(255,255,255,.72);
+  margin: 0 0 auto;
+  line-height: 1.4;
+}
+.cat .chip {
+  color: rgba(255,255,255,.8);
+  border-color: rgba(255,255,255,.2);
+  background: rgba(0,0,0,.28);
+  font-size: 11px;
+  margin-top: 14px;
+  margin-bottom: 10px;
+}
+.badge {
+  position: absolute;
+  left: 14px; top: 14px;
+  font-size: 11px; font-weight: 700;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.22);
+  color: #fff;
+  z-index: 3;
+}
+.tag {
+  position: absolute;
+  top: 14px; right: 14px;
+  font-size: 11px; font-weight: 600;
+  background: rgba(0,0,0,.45);
+  backdrop-filter: blur(8px);
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,.22);
+  color: #fff;
+  z-index: 3;
+}
+.start { margin-top: 4px; }
+
+/* ============================================================
+   GAME SCREEN
+============================================================ */
+#screen-game {
+  margin-top: 22px;
+  padding: 28px 28px 24px;
+  border-radius: 24px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+  position: relative;
+  overflow: hidden;
+}
+/* neon top accent bar */
+#screen-game::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--violet), var(--violet-light), var(--rose));
+  border-radius: 24px 24px 0 0;
+}
+
+/* HUD row */
+.game-hud {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+.hud-cat {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 12px; font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .9px;
+  color: var(--violet-light);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border-bright);
+  background: rgba(124,58,237,.12);
+}
+.hud-chip {
+  font-size: 12px; font-weight: 600;
+  color: var(--text-muted);
+  padding: 6px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.05);
+}
+.hud-score {
+  color: var(--ok);
+  border-color: rgba(16,185,129,.3);
+  background: rgba(16,185,129,.08);
+  margin-left: auto;
+}
+
+/* SVG Timer Widget */
+.timer-widget {
+  position: relative;
+  width: 56px; height: 56px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timer-svg {
+  position: absolute;
+  top: 0; left: 0;
+  width: 56px; height: 56px;
+  transform: rotate(-90deg);
+}
+.t-track {
+  fill: none;
+  stroke: rgba(255,255,255,.09);
+  stroke-width: 3.5;
+}
+.t-ring {
+  fill: none;
+  stroke: var(--ok);
+  stroke-width: 3.5;
+  stroke-linecap: round;
+  stroke-dasharray: 131.95;
+  stroke-dashoffset: 0;
+  transition: stroke-dashoffset .95s linear, stroke .5s ease;
+}
+.timer-num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 15px; font-weight: 700;
+  color: var(--text);
+  position: relative;
+  z-index: 1;
+  line-height: 1;
+}
+
+/* Progress bar */
+.bar {
+  height: 5px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.07);
+  overflow: hidden;
+  margin: 0 0 24px;
+}
+.fill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--emerald), var(--violet-mid), var(--rose));
+  background-size: 200% 100%;
+  transition: width .4s cubic-bezier(.34,1.56,.64,1);
+  animation: shimmer 3s linear infinite;
+}
+@keyframes shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Question text */
+.q {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(17px, 2.4vw, 22px);
+  font-weight: 600;
+  line-height: 1.48;
+  margin: 0 0 20px;
+  color: var(--text);
+  letter-spacing: -.2px;
+  animation: fade-q .35s ease;
+}
+@keyframes fade-q {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Answer options */
+.opt {
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.04);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin: 10px 0;
+  cursor: pointer;
+  font: 500 15px/1.5 'Inter', sans-serif;
+  color: var(--text);
+  transition: background .15s ease, border-color .15s ease, transform .15s ease;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  /* staggered entrance */
+  opacity: 0;
+  transform: translateY(10px);
+  animation: opt-enter .38s ease forwards;
+}
+.opt:nth-child(1) { animation-delay:  0ms; }
+.opt:nth-child(2) { animation-delay: 65ms; }
+.opt:nth-child(3) { animation-delay:130ms; }
+.opt:nth-child(4) { animation-delay:195ms; }
+@keyframes opt-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+.opt:hover {
+  background: rgba(255,255,255,.09);
+  border-color: rgba(255,255,255,.2);
+  transform: translateX(4px);
+}
+.opt.correct {
+  border-color: var(--ok);
+  background: rgba(16,185,129,.16);
+  color: #fff;
+  animation: pulse-correct .55s ease forwards !important;
+}
+.opt.wrong {
+  border-color: var(--danger);
+  background: rgba(239,68,68,.16);
+  color: #fff;
+  animation: shake-wrong .42s ease forwards !important;
+}
+@keyframes pulse-correct {
+  0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(16,185,129,.7); }
+  40%  { transform: scale(1.02); box-shadow: 0 0 0 10px rgba(16,185,129,.0); }
+  100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(16,185,129,.0); }
+}
+@keyframes shake-wrong {
+  0%,100% { transform: translateX(0); }
+  20%,60% { transform: translateX(-7px); }
+  40%,80% { transform: translateX(7px); }
+}
+
+/* Explanation */
+.muted {
+  color: var(--text-muted);
+  font-size: 14px;
+  line-height: 1.65;
+  margin: 12px 0;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border-left: 3px solid var(--violet-mid);
+  background: rgba(139,92,246,.08);
+}
+.muted:empty { display: none; }
+
+/* Game action row */
+.game-actions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   ROW UTILITY
+============================================================ */
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ============================================================
+   SCREEN TRANSITIONS
+============================================================ */
+#screen-home,
+#screen-game {
+  animation: screen-in .42s ease;
+}
+@keyframes screen-in {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ============================================================
+   ADMIN PANEL
+============================================================ */
+#adminPanel {
+  margin-top: 22px;
+  padding: 20px 24px;
+  border-radius: 20px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+#adminPanel summary {
+  cursor: pointer;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 14px; font-weight: 600;
+  color: var(--text-muted);
+  letter-spacing: .3px;
+  user-select: none;
+  padding: 4px 0;
+  list-style: none;
+}
+#adminPanel summary:hover { color: var(--text); }
+#adminPanel summary::-webkit-details-marker { display: none; }
+
+select, input[type=file] {
+  background: rgba(255,255,255,.07);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 8px 10px;
+  font: 14px 'Inter', sans-serif;
+  width: 100%;
+}
+select option { background: #1a1040; color: var(--text); }
+
+label {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: block;
+}
+
+code {
+  background: rgba(0,0,0,.35);
+  padding: 2px 6px;
+  border-radius: 6px;
+  font-size: 13px;
+}
+
+/* ============================================================
+   MISC
+============================================================ */
+.foot { opacity: .75; font-size: 12px; }
+details > summary { cursor: pointer; }
+.meta { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+
+/* ============================================================
+   RESPONSIVE — MOBILE POLISH
+============================================================ */
+@media(max-width:520px) {
+  .nav-header         { padding: 14px 16px; gap: 12px; }
+  .logo-title         { font-size: 18px; }
+  .logo-icon-wrap     { width: 40px; height: 40px; font-size: 20px; }
+  #screen-game        { padding: 20px 16px 18px; }
+  .game-hud           { gap: 8px; }
+  .q                  { font-size: 16px; }
+  .opt                { padding: 12px 14px; font-size: 14px; }
+  .home-hero-title    { letter-spacing: -.8px; }
+}
 </style>
 </head>
 <body>
+<div class="aurora-orb"></div>
 <div class="wrap">
 
   <!-- Header -->
-  <header class="glass card" style="display:flex;gap:16px;align-items:center;flex-wrap:wrap">
-    <div class="pill">🧠 Ready</div>
-    <div>
-      <h1>TriviaQuest</h1>
-      <p class="sub">Advanced academic trivia for graduate students</p>
-      <div class="meta" style="margin-top:6px">
-        <span class="pill">⏱️ 45s / question</span>
-        <span class="pill">🔁 10 per round</span>
-        <span class="pill">🧪 Masters-level</span>
-        <span id="installStatus" class="pill">📡 Online-first</span>
+  <header class="nav-header">
+    <div class="logo-block">
+      <div class="logo-icon-wrap">🧠</div>
+      <div>
+        <div class="logo-title">TriviaQuest</div>
+        <div class="logo-sub">Masters Level Edition</div>
       </div>
     </div>
-    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-      <button id="btnInstall" class="btn hidden">📲 Install App</button>
-      <button id="btnHome" class="btn hidden">🏠 Home</button>
+    <div class="header-chips">
+      <span class="chip">⏱ 45s / question</span>
+      <span class="chip">🔁 10 per round</span>
+      <span class="chip">🧪 Masters-level</span>
+      <span id="installStatus" class="chip">📡 Online-first</span>
+    </div>
+    <div class="header-actions">
+      <button id="btnInstall" class="btn btn-ghost hidden">📲 Install App</button>
+      <button id="btnHome" class="btn btn-ghost hidden">← Home</button>
     </div>
   </header>
 
   <!-- HOME -->
-  <section id="screen-home" class="glass card" style="margin-top:18px">
-    <div class="grid cols-3">
+  <section id="screen-home">
+    <div class="home-hero">
+      <h1 class="home-hero-title">Choose Your Arena</h1>
+      <p class="home-hero-sub">Advanced academic trivia — select a category to begin</p>
+    </div>
+    <div class="cat-grid">
 
-      <div class="cat card c_orange">
+      <div class="cat c_orange">
         <div class="overlay"></div>
         <div class="content">
-          <span class="badge pill">⭐ META</span>
-          <span class="tag pill">45s</span>
+          <span class="badge">⭐ META</span>
+          <span class="tag">45s</span>
+          <div class="cat-icon">🇮🇳</div>
           <h3>Incredible India</h3>
           <p>Masters-level India across disciplines</p>
           <div class="chip">📦 <span data-count="india">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="india">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="india">▶ Start Challenge</button></div>
         </div>
       </div>
 
-      <div class="cat card c_green">
+      <div class="cat c_green">
         <div class="overlay"></div>
         <div class="content">
-          <span class="tag pill">45s</span>
+          <span class="tag">45s</span>
+          <div class="cat-icon">🌍</div>
           <h3>Geography</h3>
-          <p>Advanced physical & human geography</p>
+          <p>Advanced physical &amp; human geography</p>
           <div class="chip">📦 <span data-count="geography">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="geography">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="geography">▶ Start Challenge</button></div>
         </div>
       </div>
 
-      <div class="cat card c_blue">
+      <div class="cat c_blue">
         <div class="overlay"></div>
         <div class="content">
-          <span class="tag pill">45s</span>
+          <span class="tag">45s</span>
+          <div class="cat-icon">⚗️</div>
           <h3>Science</h3>
-          <p>Physics, biology, chemistry & more</p>
+          <p>Physics, biology, chemistry &amp; more</p>
           <div class="chip">📦 <span data-count="science">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="science">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="science">▶ Start Challenge</button></div>
         </div>
       </div>
 
-      <div class="cat card c_purple">
+      <div class="cat c_purple">
         <div class="overlay"></div>
         <div class="content">
-          <span class="tag pill">45s</span>
+          <span class="tag">45s</span>
+          <div class="cat-icon">📜</div>
           <h3>History</h3>
           <p>Global historical events and figures</p>
           <div class="chip">📦 <span data-count="history">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="history">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="history">▶ Start Challenge</button></div>
         </div>
       </div>
 
-      <div class="cat card c_teal">
+      <div class="cat c_teal">
         <div class="overlay"></div>
         <div class="content">
-          <span class="tag pill">45s</span>
-          <h3>Arts & Culture</h3>
+          <span class="tag">45s</span>
+          <div class="cat-icon">🎨</div>
+          <h3>Arts &amp; Culture</h3>
           <p>Visual arts, music, and literature</p>
           <div class="chip">📦 <span data-count="arts">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="arts">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="arts">▶ Start Challenge</button></div>
         </div>
       </div>
 
-      <div class="cat card c_emerald">
+      <div class="cat c_emerald">
         <div class="overlay"></div>
         <div class="content">
-          <span class="tag pill">45s</span>
-          <h3>Tolkien & Middle-earth</h3>
+          <span class="tag">45s</span>
+          <div class="cat-icon">💍</div>
+          <h3>Tolkien &amp; Middle-earth</h3>
           <p>Lore from The Lord of the Rings</p>
           <div class="chip">📦 <span data-count="tolkien">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="tolkien">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="tolkien">▶ Start Challenge</button></div>
         </div>
       </div>
 
-      <div class="cat card c_rose">
+      <div class="cat c_rose">
         <div class="overlay"></div>
         <div class="content">
-          <span class="tag pill">45s</span>
+          <span class="tag">45s</span>
+          <div class="cat-icon">🇩🇪</div>
           <h3>Wortschatz (B2)</h3>
           <p>German vocabulary practice</p>
           <div class="chip">📦 <span data-count="wortschatz">0</span> questions</div>
-          <div class="start"><button class="btn big" data-start="wortschatz">▶ Start Challenge</button></div>
+          <div class="start"><button class="btn btn-start" data-start="wortschatz">▶ Start Challenge</button></div>
         </div>
       </div>
 
@@ -180,27 +861,33 @@
   </section>
 
   <!-- GAME -->
-  <section id="screen-game" class="glass card hidden" style="margin-top:18px">
-    <div class="row">
-      <div id="hudCatName" class="pill"></div>
-      <div class="pill">⏱️ <span id="hudTimer"></span></div>
-      <div class="pill" id="hudCounter"></div>
-      <div class="pill" id="hudScore"></div>
+  <section id="screen-game" class="hidden">
+    <div class="game-hud">
+      <div id="hudCatName" class="hud-cat"></div>
+      <div class="timer-widget">
+        <svg class="timer-svg" viewBox="0 0 52 52" aria-hidden="true">
+          <circle class="t-track" cx="26" cy="26" r="21"/>
+          <circle id="timerRing" class="t-ring" cx="26" cy="26" r="21"/>
+        </svg>
+        <span id="hudTimer" class="timer-num"></span>
+      </div>
+      <div id="hudCounter" class="hud-chip"></div>
+      <div id="hudScore" class="hud-chip hud-score"></div>
     </div>
-    <div class="bar"><div id="hudProgress" class="fill" style="width:0"></div></div>
+    <div class="bar"><div id="hudProgress" class="fill" style="width:0%"></div></div>
     <div id="qText" class="q"></div>
     <div id="opts"></div>
     <div id="explain" class="muted"></div>
-    <div class="row">
-      <button id="btnReveal" class="btn ghost">Reveal</button>
-      <button id="btnNext" class="btn">Next ▶</button>
+    <div class="game-actions">
+      <button id="btnReveal" class="btn btn-ghost">Reveal Answer</button>
+      <button id="btnNext" class="btn btn-primary">Next →</button>
     </div>
   </section>
 
   <!-- ADMIN -->
-  <details id="adminPanel" class="glass card" style="display:none;margin-top:18px">
-    <summary>Admin: Import / Export</summary>
-    <div class="grid" style="gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end">
+  <details id="adminPanel" style="display:none">
+    <summary>⚙ Admin: Import / Export</summary>
+    <div class="grid" style="gap:12px;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));align-items:end;margin-top:16px">
       <label>Category<br/>
         <select id="impCat">
           <option value="india">Incredible India</option>
@@ -217,12 +904,12 @@
       </label>
       <button class="btn" id="btnImport">Import</button>
       <button class="btn" id="btnExportCat">Export Cat</button>
-      <button class="btn ghost" id="btnImportAll">Import ALL</button>
-      <button class="btn ghost" id="btnExportAll">Export ALL</button>
-      <button class="btn ghost" id="btnClearLocal">Clear Local</button>
-      <button class="btn ghost" id="btnOneFile">One-File Backup</button>
+      <button class="btn btn-ghost" id="btnImportAll">Import ALL</button>
+      <button class="btn btn-ghost" id="btnExportAll">Export ALL</button>
+      <button class="btn btn-ghost" id="btnClearLocal">Clear Local</button>
+      <button class="btn btn-ghost" id="btnOneFile">One-File Backup</button>
     </div>
-    <div id="impMsg" class="muted" style="margin-top:8px"></div>
+    <div id="impMsg" class="muted" style="margin-top:12px"></div>
   </details>
 
 <!-- Embedded BANK payload for one-file backups (replaced on backup) -->
@@ -304,6 +991,15 @@ function pickRoundDeck(arr,n){
   return shuffle(deck).slice(0, Math.min(n, deck.length));
 }
 
+// SVG timer ring — 2π × r=21 ≈ 131.95
+function updateTimerRing(t){
+  const ring = document.getElementById('timerRing');
+  if (!ring) return;
+  const circ = 131.95;
+  ring.style.strokeDashoffset = circ * (1 - t / PER_Q);
+  ring.style.stroke = t <= 10 ? '#EF4444' : t <= 20 ? '#F59E0B' : '#10B981';
+}
+
 function startGame(cat){
   if (!bundledBankLoaded){ alert("Question bank is still loading. Please try again in a second."); return; }
   const deck = pickRoundDeck(BANK[cat]||[], ROUND_COUNT);
@@ -314,6 +1010,7 @@ function startGame(cat){
 }
 function renderQ(){
   const q = state.deck[state.idx];
+  updateTimerRing(PER_Q);
   $("#hudCatName").textContent = state.cat;
   $("#hudCounter").textContent = `Q ${state.idx+1} / ${state.deck.length}`;
   $("#hudScore").textContent   = `Score: ${state.score}/${state.deck.length}`;
@@ -337,7 +1034,12 @@ function choose(i){
 }
 function startTimer(){
   clearInterval(state.id); state.t = PER_Q;
-  state.id = setInterval(()=>{ state.t--; $("#hudTimer").textContent = `${state.t}s`; if (state.t<=0){ state.answered=true; next(); } },1000);
+  state.id = setInterval(()=>{
+    state.t--;
+    $("#hudTimer").textContent = `${state.t}s`;
+    updateTimerRing(state.t);
+    if (state.t<=0){ state.answered=true; next(); }
+  },1000);
 }
 function next(){
   if (state.idx < state.deck.length-1){
