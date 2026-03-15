@@ -545,11 +545,15 @@ body::after {
   background: linear-gradient(90deg, var(--emerald), var(--violet-mid), var(--rose));
   background-size: 200% 100%;
   transition: width .4s cubic-bezier(.34,1.56,.64,1);
-  animation: shimmer 3s linear infinite;
+  animation: shimmer 3s linear infinite, bar-glow 2s ease-in-out infinite alternate;
 }
 @keyframes shimmer {
   0%   { background-position: 100% 0; }
   100% { background-position: -100% 0; }
+}
+@keyframes bar-glow {
+  from { box-shadow: 0 0 6px rgba(124,58,237,.45); }
+  to   { box-shadow: 0 0 18px rgba(167,139,250,.85); }
 }
 
 /* Question text */
@@ -584,15 +588,15 @@ body::after {
   align-items: center;
   /* staggered entrance */
   opacity: 0;
-  transform: translateY(10px);
-  animation: opt-enter .38s ease forwards;
+  transform: translateX(-14px);
+  animation: opt-enter .36s cubic-bezier(0.22,1,0.36,1) forwards;
 }
 .opt:nth-child(1) { animation-delay:  0ms; }
-.opt:nth-child(2) { animation-delay: 65ms; }
-.opt:nth-child(3) { animation-delay:130ms; }
-.opt:nth-child(4) { animation-delay:195ms; }
+.opt:nth-child(2) { animation-delay: 60ms; }
+.opt:nth-child(3) { animation-delay:120ms; }
+.opt:nth-child(4) { animation-delay:180ms; }
 @keyframes opt-enter {
-  to { opacity: 1; transform: translateY(0); }
+  to { opacity: 1; transform: translateX(0); }
 }
 .opt:hover {
   background: rgba(255,255,255,.09);
@@ -659,13 +663,34 @@ body::after {
 /* ============================================================
    SCREEN TRANSITIONS
 ============================================================ */
-#screen-home,
-#screen-game {
-  animation: screen-in .42s ease;
+.screen-enter {
+  animation: screen-in .45s cubic-bezier(0.22,1,0.36,1) both !important;
+}
+.screen-exit {
+  animation: screen-out .28s cubic-bezier(0.22,1,0.36,1) both !important;
+  pointer-events: none;
 }
 @keyframes screen-in {
-  from { opacity: 0; transform: translateY(18px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(18px) scale(0.98); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes screen-out {
+  from { opacity: 1; transform: translateY(0) scale(1); }
+  to   { opacity: 0; transform: translateY(-10px) scale(0.98); }
+}
+
+/* Category card staggered entrance */
+.cat { opacity: 0; animation: card-enter .5s cubic-bezier(0.22,1,0.36,1) forwards; }
+.cat:nth-child(1) { animation-delay:.04s; }
+.cat:nth-child(2) { animation-delay:.09s; }
+.cat:nth-child(3) { animation-delay:.14s; }
+.cat:nth-child(4) { animation-delay:.19s; }
+.cat:nth-child(5) { animation-delay:.24s; }
+.cat:nth-child(6) { animation-delay:.29s; }
+.cat:nth-child(7) { animation-delay:.34s; }
+@keyframes card-enter {
+  from { opacity: 0; transform: translateY(22px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 /* ============================================================
@@ -956,7 +981,23 @@ let bundledBankLoaded = false;
 
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
-function show(id){ ["#screen-home","#screen-game"].forEach(s=>$(s).classList.add("hidden")); $(id).classList.remove("hidden"); }
+function show(id){
+  const screens = ["#screen-home","#screen-game"];
+  const cur = screens.find(s=>!$(s).classList.contains("hidden"));
+  if (cur && cur !== id){
+    const out = $(cur);
+    out.classList.add("screen-exit");
+    setTimeout(()=>{
+      out.classList.add("hidden"); out.classList.remove("screen-exit");
+      const el = $(id); el.classList.remove("hidden"); el.classList.add("screen-enter");
+      setTimeout(()=>el.classList.remove("screen-enter"), 500);
+    }, 280);
+  } else {
+    screens.forEach(s=>$(s).classList.add("hidden"));
+    const el = $(id); el.classList.remove("hidden"); el.classList.add("screen-enter");
+    setTimeout(()=>el.classList.remove("screen-enter"), 500);
+  }
+}
 function updateHomeCounts(){ for (const k of Object.keys(BANK)){ const n = BANK[k]?.length||0; const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = n; } }
 function setInstallStatus(text){ const el = $("#installStatus"); if (el) el.textContent = text; }
 updateHomeCounts();
@@ -1016,7 +1057,8 @@ function renderQ(){
   $("#hudScore").textContent   = `Score: ${state.score}/${state.deck.length}`;
   $("#hudProgress").style.width = `${(state.idx/state.deck.length)*100}%`;
   $("#hudTimer").textContent   = `${state.t}s`;
-  $("#qText").textContent      = questionStem(q.question);
+  const qEl = $("#qText"); qEl.style.animation='none'; qEl.offsetHeight; qEl.style.animation='';
+  qEl.textContent = questionStem(q.question);
   $("#explain").textContent    = "";
   const wrap = $("#opts"); wrap.innerHTML = "";
   q.options.forEach((opt,i)=>{
