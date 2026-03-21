@@ -625,6 +625,17 @@ body::after {
   20%,60% { transform: translateX(-7px); }
   40%,80% { transform: translateX(7px); }
 }
+/* Bug 4: disable hover/pointer after answering */
+.done .opt { pointer-events: none; cursor: default; }
+.done .opt:hover { background: rgba(255,255,255,.04) !important; border-color: var(--border) !important; transform: none !important; }
+
+/* Result screen */
+.result-card { max-width: 480px; margin: 60px auto; text-align: center; padding: 40px 24px; background: rgba(255,255,255,.04); border: 1px solid var(--border); border-radius: 20px; }
+.result-stars { font-size: 2.4rem; margin-bottom: 12px; }
+.result-title { font-size: 1.8rem; margin: 0 0 8px; }
+.result-score { font-size: 1.3rem; color: var(--text); margin: 4px 0; }
+.result-pct   { font-size: 1rem; color: rgba(255,255,255,.55); margin: 4px 0 24px; }
+.result-actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
 /* Explanation */
 .muted {
@@ -909,6 +920,20 @@ details > summary { cursor: pointer; }
     </div>
   </section>
 
+  <!-- RESULT -->
+  <section id="screen-result" class="hidden">
+    <div class="result-card">
+      <div class="result-stars" id="resultStars"></div>
+      <h2 class="result-title" id="resultTitle"></h2>
+      <p class="result-score" id="resultScore"></p>
+      <p class="result-pct" id="resultPct"></p>
+      <div class="result-actions">
+        <button id="btnPlayAgain" class="btn btn-primary">▶ Play Again</button>
+        <button id="btnResultHome" class="btn btn-ghost">← Home</button>
+      </div>
+    </div>
+  </section>
+
   <!-- ADMIN -->
   <details id="adminPanel" style="display:none">
     <summary>⚙ Admin: Import / Export</summary>
@@ -982,7 +1007,7 @@ let bundledBankLoaded = false;
 const $  = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 function show(id){
-  const screens = ["#screen-home","#screen-game"];
+  const screens = ["#screen-home","#screen-game","#screen-result"];
   const cur = screens.find(s=>!$(s).classList.contains("hidden"));
   if (cur && cur !== id){
     const out = $(cur);
@@ -1045,7 +1070,7 @@ function startGame(cat){
   if (!bundledBankLoaded){ alert("Question bank is still loading. Please try again in a second."); return; }
   const deck = pickRoundDeck(BANK[cat]||[], ROUND_COUNT);
   if (!deck.length){ alert("No questions in this category yet."); return; }
-  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false};
+  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false, _transitioning:false};
   $("#btnHome").classList.remove("hidden");
   show("#screen-game"); renderQ(); startTimer();
 }
@@ -1060,7 +1085,8 @@ function renderQ(){
   const qEl = $("#qText"); qEl.style.animation='none'; qEl.offsetHeight; qEl.style.animation='';
   qEl.textContent = questionStem(q.question);
   $("#explain").textContent    = "";
-  const wrap = $("#opts"); wrap.innerHTML = "";
+  $("#btnNext").classList.add("hidden");
+  const wrap = $("#opts"); wrap.innerHTML = ""; wrap.className = "";
   q.options.forEach((opt,i)=>{
     const d = document.createElement("div");
     d.className="opt"; d.textContent=opt; d.onclick = ()=> choose(i);
@@ -1068,11 +1094,15 @@ function renderQ(){
   });
 }
 function choose(i){
-  if (state.answered) return; state.answered = true;
+  if (state.answered) return;
+  state.answered = true;
+  clearInterval(state.id);
   const q = state.deck[state.idx]; const nodes = [...$("#opts").children];
   nodes.forEach((n,idx)=>{ if (idx===q.correct) n.classList.add("correct"); if (idx===i && i!==q.correct) n.classList.add("wrong"); });
   if (i===q.correct) state.score++;
   $("#explain").textContent = cleanExplanation(q.explanation);
+  $("#opts").classList.add("done");
+  $("#btnNext").classList.remove("hidden");
 }
 function startTimer(){
   clearInterval(state.id); state.t = PER_Q;
@@ -1080,23 +1110,38 @@ function startTimer(){
     state.t--;
     $("#hudTimer").textContent = `${state.t}s`;
     updateTimerRing(state.t);
-    if (state.t<=0){ state.answered=true; next(); }
+    if (state.t<=0){ clearInterval(state.id); if (!state.answered) choose(state.deck[state.idx].correct); }
   },1000);
 }
 function next(){
+  if (state._transitioning) return;
+  state._transitioning = true;
   if (state.idx < state.deck.length-1){
     state.idx++; state.answered=false; state.t=PER_Q; renderQ(); startTimer();
+    state._transitioning = false;
   }else{
     clearInterval(state.id);
-    alert(`Finished! Score ${state.score}/${state.deck.length}`);
-    $("#btnHome").classList.add("hidden"); show("#screen-home");
+    showResult();
   }
+}
+function showResult(){
+  const pct = Math.round(state.score / state.deck.length * 100);
+  const stars = pct >= 80 ? '⭐⭐⭐' : pct >= 50 ? '⭐⭐' : '⭐';
+  const title = pct >= 80 ? 'Excellent!' : pct >= 50 ? 'Well done!' : 'Keep practising!';
+  $("#resultStars").textContent = stars;
+  $("#resultTitle").textContent = title;
+  $("#resultScore").textContent = `Score: ${state.score} / ${state.deck.length}`;
+  $("#resultPct").textContent   = `${pct}% correct`;
+  $("#btnPlayAgain")._cat = state.cat;
+  show("#screen-result");
 }
 
 $$('[data-start]').forEach(b=> b.onclick = ()=> startGame(b.getAttribute('data-start')));
 $("#btnHome").onclick = ()=>{ clearInterval(state.id); $("#btnHome").classList.add("hidden"); show("#screen-home"); };
 $("#btnNext").onclick  = next;
 $("#btnReveal").onclick= ()=>{ if (!state.answered){ choose(state.deck[state.idx].correct); } };
+$("#btnPlayAgain").onclick = ()=> startGame($("#btnPlayAgain")._cat);
+$("#btnResultHome").onclick= ()=> show("#screen-home");
 
 function csvToObjects(text){
   const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
