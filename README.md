@@ -14,7 +14,9 @@ Then open `http://localhost:4173`.
 ## Current content volume
 
 - **7 categories**
-- **700 total questions** (100 per category, 4 options each)
+- **840 raw rows total in `bank.json`** (**120 rows per category**)
+- **84 unique playable stems total** (**12 unique stems per category**) once `Practice Variant N` suffixes are normalized
+- Each stem currently appears as multiple practice variants, so the bank does **not** yet contain 100 distinct prompts per category
 
 ## Data layout (merge-conflict friendly)
 
@@ -27,8 +29,9 @@ Then open `http://localhost:4173`.
 - **PWA support**: manifest + service worker + install button.
 - **Offline gameplay**: core assets are cached and still open when the network is down.
 - **Install UX**: when install is available, users get a direct **Install App** button.
-- **Basic quality gate**: question bank schema check via `npm test`.
-- **Round randomness**: each round samples unique question stems to avoid near-duplicate variants in the same 10-question run.
+- **Basic quality gate**: `npm test` validates `bank.json` structure, answer integrity, at least 100 raw rows per category, and a minimum unique-stem floor.
+- **Round selection behavior**: rounds are built by **randomized sampling**, not by a fully exhaustive fixed queue. The app groups practice variants by normalized stem, picks up to 10 unique stems per round, prefers stems not seen in the most recent rounds for that category, and only reuses prior stems after that shortlist is exhausted.
+- **Content target (not yet met)**: ship-ready content should reach **100 distinct playable prompts per category**. The current bank is still variant-heavy, so README claims should distinguish raw row count from unique stems until the validator is tightened to enforce that final requirement.
 
 ## Deploy on GitHub Pages (recommended)
 
@@ -66,7 +69,9 @@ If you want a direct `.apk`:
 
 ## Iteration checklist (vibecode to ship-ready)
 
-- [ ] Increase question volume per category.
+- [ ] Expand every category from the current **12 unique stems** to **100 distinct playable prompts** (raw row count alone is not enough).
+- [ ] Tighten the validator so `npm test` fails unless each category has **100 unique normalized stems**, not just 100+ rows and a minimum stem-variety floor.
+- [ ] Keep round generation on randomized stem sampling unless product direction changes to an explicitly exhaustive queue.
 - [ ] Add progress persistence (last category, high scores).
 - [ ] Add UI polish: haptics/sounds, streaks, animations.
 - [ ] Add automated browser E2E checks (Playwright).
