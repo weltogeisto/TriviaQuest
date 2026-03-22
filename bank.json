@@ -1199,6 +1199,246 @@
       "correct": 1,
       "explanation": "Kathakali is the classical dance-drama tradition from Kerala.",
       "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 1)",
+      "options": [
+        "Rajasthan",
+        "Gujarat",
+        "Madhya Pradesh",
+        "Haryana"
+      ],
+      "correct": 0,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 2)",
+      "options": [
+        "Gujarat",
+        "Madhya Pradesh",
+        "Haryana",
+        "Rajasthan"
+      ],
+      "correct": 3,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 3)",
+      "options": [
+        "Madhya Pradesh",
+        "Haryana",
+        "Rajasthan",
+        "Gujarat"
+      ],
+      "correct": 2,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 4)",
+      "options": [
+        "Haryana",
+        "Rajasthan",
+        "Gujarat",
+        "Madhya Pradesh"
+      ],
+      "correct": 1,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 5)",
+      "options": [
+        "Rajasthan",
+        "Madhya Pradesh",
+        "Gujarat",
+        "Haryana"
+      ],
+      "correct": 0,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 6)",
+      "options": [
+        "Gujarat",
+        "Haryana",
+        "Madhya Pradesh",
+        "Rajasthan"
+      ],
+      "correct": 3,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 7)",
+      "options": [
+        "Madhya Pradesh",
+        "Rajasthan",
+        "Haryana",
+        "Gujarat"
+      ],
+      "correct": 1,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 8)",
+      "options": [
+        "Haryana",
+        "Gujarat",
+        "Rajasthan",
+        "Madhya Pradesh"
+      ],
+      "correct": 2,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 9)",
+      "options": [
+        "Rajasthan",
+        "Haryana",
+        "Gujarat",
+        "Madhya Pradesh"
+      ],
+      "correct": 0,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which Indian state has Jaipur as its capital? (Practice Variant 10)",
+      "options": [
+        "Gujarat",
+        "Rajasthan",
+        "Madhya Pradesh",
+        "Haryana"
+      ],
+      "correct": 1,
+      "explanation": "Jaipur is the capital city of Rajasthan.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 1)",
+      "options": [
+        "Bankim Chandra Chattopadhyay",
+        "Rabindranath Tagore",
+        "Sarojini Naidu",
+        "Subramania Bharati"
+      ],
+      "correct": 0,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 2)",
+      "options": [
+        "Rabindranath Tagore",
+        "Sarojini Naidu",
+        "Subramania Bharati",
+        "Bankim Chandra Chattopadhyay"
+      ],
+      "correct": 3,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 3)",
+      "options": [
+        "Sarojini Naidu",
+        "Subramania Bharati",
+        "Bankim Chandra Chattopadhyay",
+        "Rabindranath Tagore"
+      ],
+      "correct": 2,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 4)",
+      "options": [
+        "Subramania Bharati",
+        "Bankim Chandra Chattopadhyay",
+        "Rabindranath Tagore",
+        "Sarojini Naidu"
+      ],
+      "correct": 1,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 5)",
+      "options": [
+        "Bankim Chandra Chattopadhyay",
+        "Sarojini Naidu",
+        "Rabindranath Tagore",
+        "Subramania Bharati"
+      ],
+      "correct": 0,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 6)",
+      "options": [
+        "Rabindranath Tagore",
+        "Subramania Bharati",
+        "Sarojini Naidu",
+        "Bankim Chandra Chattopadhyay"
+      ],
+      "correct": 3,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 7)",
+      "options": [
+        "Sarojini Naidu",
+        "Bankim Chandra Chattopadhyay",
+        "Subramania Bharati",
+        "Rabindranath Tagore"
+      ],
+      "correct": 1,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 8)",
+      "options": [
+        "Subramania Bharati",
+        "Rabindranath Tagore",
+        "Bankim Chandra Chattopadhyay",
+        "Sarojini Naidu"
+      ],
+      "correct": 2,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 9)",
+      "options": [
+        "Bankim Chandra Chattopadhyay",
+        "Subramania Bharati",
+        "Rabindranath Tagore",
+        "Sarojini Naidu"
+      ],
+      "correct": 0,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who wrote the Indian national song \"Vande Mataram\"? (Practice Variant 10)",
+      "options": [
+        "Rabindranath Tagore",
+        "Bankim Chandra Chattopadhyay",
+        "Sarojini Naidu",
+        "Subramania Bharati"
+      ],
+      "correct": 1,
+      "explanation": "Bankim Chandra Chattopadhyay wrote \"Vande Mataram,\" later adopted as India's national song.",
+      "difficulty": "Masters"
     }
   ],
   "geography": [
@@ -2400,6 +2640,246 @@
       ],
       "correct": 0,
       "explanation": "Permafrost is a key physical feature of tundra regions.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 1)",
+      "options": [
+        "Danube",
+        "Rhine",
+        "Seine",
+        "Vistula"
+      ],
+      "correct": 0,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 2)",
+      "options": [
+        "Rhine",
+        "Seine",
+        "Vistula",
+        "Danube"
+      ],
+      "correct": 3,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 3)",
+      "options": [
+        "Seine",
+        "Vistula",
+        "Danube",
+        "Rhine"
+      ],
+      "correct": 2,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 4)",
+      "options": [
+        "Vistula",
+        "Danube",
+        "Rhine",
+        "Seine"
+      ],
+      "correct": 1,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 5)",
+      "options": [
+        "Danube",
+        "Seine",
+        "Rhine",
+        "Vistula"
+      ],
+      "correct": 0,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 6)",
+      "options": [
+        "Rhine",
+        "Vistula",
+        "Seine",
+        "Danube"
+      ],
+      "correct": 3,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 7)",
+      "options": [
+        "Seine",
+        "Danube",
+        "Vistula",
+        "Rhine"
+      ],
+      "correct": 1,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 8)",
+      "options": [
+        "Vistula",
+        "Rhine",
+        "Danube",
+        "Seine"
+      ],
+      "correct": 2,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 9)",
+      "options": [
+        "Danube",
+        "Vistula",
+        "Rhine",
+        "Seine"
+      ],
+      "correct": 0,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which river flows through the city of Budapest? (Practice Variant 10)",
+      "options": [
+        "Rhine",
+        "Danube",
+        "Seine",
+        "Vistula"
+      ],
+      "correct": 1,
+      "explanation": "Budapest is divided by the Danube River into Buda and Pest.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 1)",
+      "options": [
+        "Gobi Desert",
+        "Arabian Desert",
+        "Karakum Desert",
+        "Thar Desert"
+      ],
+      "correct": 0,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 2)",
+      "options": [
+        "Arabian Desert",
+        "Karakum Desert",
+        "Thar Desert",
+        "Gobi Desert"
+      ],
+      "correct": 3,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 3)",
+      "options": [
+        "Karakum Desert",
+        "Thar Desert",
+        "Gobi Desert",
+        "Arabian Desert"
+      ],
+      "correct": 2,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 4)",
+      "options": [
+        "Thar Desert",
+        "Gobi Desert",
+        "Arabian Desert",
+        "Karakum Desert"
+      ],
+      "correct": 1,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 5)",
+      "options": [
+        "Gobi Desert",
+        "Karakum Desert",
+        "Arabian Desert",
+        "Thar Desert"
+      ],
+      "correct": 0,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 6)",
+      "options": [
+        "Arabian Desert",
+        "Thar Desert",
+        "Karakum Desert",
+        "Gobi Desert"
+      ],
+      "correct": 3,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 7)",
+      "options": [
+        "Karakum Desert",
+        "Gobi Desert",
+        "Thar Desert",
+        "Arabian Desert"
+      ],
+      "correct": 1,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 8)",
+      "options": [
+        "Thar Desert",
+        "Arabian Desert",
+        "Gobi Desert",
+        "Karakum Desert"
+      ],
+      "correct": 2,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 9)",
+      "options": [
+        "Gobi Desert",
+        "Thar Desert",
+        "Arabian Desert",
+        "Karakum Desert"
+      ],
+      "correct": 0,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the largest desert in Asia? (Practice Variant 10)",
+      "options": [
+        "Arabian Desert",
+        "Gobi Desert",
+        "Karakum Desert",
+        "Thar Desert"
+      ],
+      "correct": 1,
+      "explanation": "The Gobi is Asia's largest desert, stretching across northern China and southern Mongolia.",
       "difficulty": "Masters"
     }
   ],
@@ -3603,6 +4083,246 @@
       "correct": 1,
       "explanation": "Natural gas is primarily methane.",
       "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 1)",
+      "options": [
+        "Photon",
+        "Electron",
+        "Neutrino",
+        "Gluon"
+      ],
+      "correct": 0,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 2)",
+      "options": [
+        "Electron",
+        "Neutrino",
+        "Gluon",
+        "Photon"
+      ],
+      "correct": 3,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 3)",
+      "options": [
+        "Neutrino",
+        "Gluon",
+        "Photon",
+        "Electron"
+      ],
+      "correct": 2,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 4)",
+      "options": [
+        "Gluon",
+        "Photon",
+        "Electron",
+        "Neutrino"
+      ],
+      "correct": 1,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 5)",
+      "options": [
+        "Photon",
+        "Neutrino",
+        "Electron",
+        "Gluon"
+      ],
+      "correct": 0,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 6)",
+      "options": [
+        "Electron",
+        "Gluon",
+        "Neutrino",
+        "Photon"
+      ],
+      "correct": 3,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 7)",
+      "options": [
+        "Neutrino",
+        "Photon",
+        "Gluon",
+        "Electron"
+      ],
+      "correct": 1,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 8)",
+      "options": [
+        "Gluon",
+        "Electron",
+        "Photon",
+        "Neutrino"
+      ],
+      "correct": 2,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 9)",
+      "options": [
+        "Photon",
+        "Gluon",
+        "Electron",
+        "Neutrino"
+      ],
+      "correct": 0,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What particle carries the electromagnetic force? (Practice Variant 10)",
+      "options": [
+        "Electron",
+        "Photon",
+        "Neutrino",
+        "Gluon"
+      ],
+      "correct": 1,
+      "explanation": "In the Standard Model, the photon is the gauge boson that mediates electromagnetism.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 1)",
+      "options": [
+        "Mitochondrion",
+        "Golgi apparatus",
+        "Lysosome",
+        "Ribosome"
+      ],
+      "correct": 0,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 2)",
+      "options": [
+        "Golgi apparatus",
+        "Lysosome",
+        "Ribosome",
+        "Mitochondrion"
+      ],
+      "correct": 3,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 3)",
+      "options": [
+        "Lysosome",
+        "Ribosome",
+        "Mitochondrion",
+        "Golgi apparatus"
+      ],
+      "correct": 2,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 4)",
+      "options": [
+        "Ribosome",
+        "Mitochondrion",
+        "Golgi apparatus",
+        "Lysosome"
+      ],
+      "correct": 1,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 5)",
+      "options": [
+        "Mitochondrion",
+        "Lysosome",
+        "Golgi apparatus",
+        "Ribosome"
+      ],
+      "correct": 0,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 6)",
+      "options": [
+        "Golgi apparatus",
+        "Ribosome",
+        "Lysosome",
+        "Mitochondrion"
+      ],
+      "correct": 3,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 7)",
+      "options": [
+        "Lysosome",
+        "Mitochondrion",
+        "Ribosome",
+        "Golgi apparatus"
+      ],
+      "correct": 1,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 8)",
+      "options": [
+        "Ribosome",
+        "Golgi apparatus",
+        "Mitochondrion",
+        "Lysosome"
+      ],
+      "correct": 2,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 9)",
+      "options": [
+        "Mitochondrion",
+        "Ribosome",
+        "Golgi apparatus",
+        "Lysosome"
+      ],
+      "correct": 0,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which organelle is primarily responsible for ATP production in eukaryotic cells? (Practice Variant 10)",
+      "options": [
+        "Golgi apparatus",
+        "Mitochondrion",
+        "Lysosome",
+        "Ribosome"
+      ],
+      "correct": 1,
+      "explanation": "Mitochondria generate most cellular ATP through aerobic respiration.",
+      "difficulty": "Masters"
     }
   ],
   "history": [
@@ -4804,6 +5524,246 @@
       ],
       "correct": 1,
       "explanation": "The Berlin Wall physically divided Berlin during the Cold War.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 1)",
+      "options": [
+        "1989",
+        "1987",
+        "1991",
+        "1993"
+      ],
+      "correct": 0,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 2)",
+      "options": [
+        "1987",
+        "1991",
+        "1993",
+        "1989"
+      ],
+      "correct": 3,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 3)",
+      "options": [
+        "1991",
+        "1993",
+        "1989",
+        "1987"
+      ],
+      "correct": 2,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 4)",
+      "options": [
+        "1993",
+        "1989",
+        "1987",
+        "1991"
+      ],
+      "correct": 1,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 5)",
+      "options": [
+        "1989",
+        "1991",
+        "1987",
+        "1993"
+      ],
+      "correct": 0,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 6)",
+      "options": [
+        "1987",
+        "1993",
+        "1991",
+        "1989"
+      ],
+      "correct": 3,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 7)",
+      "options": [
+        "1991",
+        "1989",
+        "1993",
+        "1987"
+      ],
+      "correct": 1,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 8)",
+      "options": [
+        "1993",
+        "1987",
+        "1989",
+        "1991"
+      ],
+      "correct": 2,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 9)",
+      "options": [
+        "1989",
+        "1993",
+        "1987",
+        "1991"
+      ],
+      "correct": 0,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "In what year did the Berlin Wall fall? (Practice Variant 10)",
+      "options": [
+        "1987",
+        "1989",
+        "1991",
+        "1993"
+      ],
+      "correct": 1,
+      "explanation": "The Berlin Wall fell in 1989, symbolizing the end of the Cold War division of Germany.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 1)",
+      "options": [
+        "Peace of Westphalia",
+        "Treaty of Utrecht",
+        "Treaty of Versailles",
+        "Congress of Vienna"
+      ],
+      "correct": 0,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 2)",
+      "options": [
+        "Treaty of Utrecht",
+        "Treaty of Versailles",
+        "Congress of Vienna",
+        "Peace of Westphalia"
+      ],
+      "correct": 3,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 3)",
+      "options": [
+        "Treaty of Versailles",
+        "Congress of Vienna",
+        "Peace of Westphalia",
+        "Treaty of Utrecht"
+      ],
+      "correct": 2,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 4)",
+      "options": [
+        "Congress of Vienna",
+        "Peace of Westphalia",
+        "Treaty of Utrecht",
+        "Treaty of Versailles"
+      ],
+      "correct": 1,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 5)",
+      "options": [
+        "Peace of Westphalia",
+        "Treaty of Versailles",
+        "Treaty of Utrecht",
+        "Congress of Vienna"
+      ],
+      "correct": 0,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 6)",
+      "options": [
+        "Treaty of Utrecht",
+        "Congress of Vienna",
+        "Treaty of Versailles",
+        "Peace of Westphalia"
+      ],
+      "correct": 3,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 7)",
+      "options": [
+        "Treaty of Versailles",
+        "Peace of Westphalia",
+        "Congress of Vienna",
+        "Treaty of Utrecht"
+      ],
+      "correct": 1,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 8)",
+      "options": [
+        "Congress of Vienna",
+        "Treaty of Utrecht",
+        "Peace of Westphalia",
+        "Treaty of Versailles"
+      ],
+      "correct": 2,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 9)",
+      "options": [
+        "Peace of Westphalia",
+        "Congress of Vienna",
+        "Treaty of Utrecht",
+        "Treaty of Versailles"
+      ],
+      "correct": 0,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which treaty ended the Thirty Years' War in 1648? (Practice Variant 10)",
+      "options": [
+        "Treaty of Utrecht",
+        "Peace of Westphalia",
+        "Treaty of Versailles",
+        "Congress of Vienna"
+      ],
+      "correct": 1,
+      "explanation": "The Peace of Westphalia ended the Thirty Years' War in 1648.",
       "difficulty": "Masters"
     }
   ],
@@ -6007,6 +6967,246 @@
       "correct": 3,
       "explanation": "The Four Seasons concertos were composed by Vivaldi.",
       "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 1)",
+      "options": [
+        "Frank Gehry",
+        "Zaha Hadid",
+        "I. M. Pei",
+        "Santiago Calatrava"
+      ],
+      "correct": 0,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 2)",
+      "options": [
+        "Zaha Hadid",
+        "I. M. Pei",
+        "Santiago Calatrava",
+        "Frank Gehry"
+      ],
+      "correct": 3,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 3)",
+      "options": [
+        "I. M. Pei",
+        "Santiago Calatrava",
+        "Frank Gehry",
+        "Zaha Hadid"
+      ],
+      "correct": 2,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 4)",
+      "options": [
+        "Santiago Calatrava",
+        "Frank Gehry",
+        "Zaha Hadid",
+        "I. M. Pei"
+      ],
+      "correct": 1,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 5)",
+      "options": [
+        "Frank Gehry",
+        "I. M. Pei",
+        "Zaha Hadid",
+        "Santiago Calatrava"
+      ],
+      "correct": 0,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 6)",
+      "options": [
+        "Zaha Hadid",
+        "Santiago Calatrava",
+        "I. M. Pei",
+        "Frank Gehry"
+      ],
+      "correct": 3,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 7)",
+      "options": [
+        "I. M. Pei",
+        "Frank Gehry",
+        "Santiago Calatrava",
+        "Zaha Hadid"
+      ],
+      "correct": 1,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 8)",
+      "options": [
+        "Santiago Calatrava",
+        "Zaha Hadid",
+        "Frank Gehry",
+        "I. M. Pei"
+      ],
+      "correct": 2,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 9)",
+      "options": [
+        "Frank Gehry",
+        "Santiago Calatrava",
+        "Zaha Hadid",
+        "I. M. Pei"
+      ],
+      "correct": 0,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which architect designed the Guggenheim Museum in Bilbao? (Practice Variant 10)",
+      "options": [
+        "Zaha Hadid",
+        "Frank Gehry",
+        "I. M. Pei",
+        "Santiago Calatrava"
+      ],
+      "correct": 1,
+      "explanation": "Frank Gehry designed the Guggenheim Museum Bilbao, completed in 1997.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 1)",
+      "options": [
+        "Wolfgang Amadeus Mozart",
+        "Ludwig van Beethoven",
+        "Gioachino Rossini",
+        "Joseph Haydn"
+      ],
+      "correct": 0,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 2)",
+      "options": [
+        "Ludwig van Beethoven",
+        "Gioachino Rossini",
+        "Joseph Haydn",
+        "Wolfgang Amadeus Mozart"
+      ],
+      "correct": 3,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 3)",
+      "options": [
+        "Gioachino Rossini",
+        "Joseph Haydn",
+        "Wolfgang Amadeus Mozart",
+        "Ludwig van Beethoven"
+      ],
+      "correct": 2,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 4)",
+      "options": [
+        "Joseph Haydn",
+        "Wolfgang Amadeus Mozart",
+        "Ludwig van Beethoven",
+        "Gioachino Rossini"
+      ],
+      "correct": 1,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 5)",
+      "options": [
+        "Wolfgang Amadeus Mozart",
+        "Gioachino Rossini",
+        "Ludwig van Beethoven",
+        "Joseph Haydn"
+      ],
+      "correct": 0,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 6)",
+      "options": [
+        "Ludwig van Beethoven",
+        "Joseph Haydn",
+        "Gioachino Rossini",
+        "Wolfgang Amadeus Mozart"
+      ],
+      "correct": 3,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 7)",
+      "options": [
+        "Gioachino Rossini",
+        "Wolfgang Amadeus Mozart",
+        "Joseph Haydn",
+        "Ludwig van Beethoven"
+      ],
+      "correct": 1,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 8)",
+      "options": [
+        "Joseph Haydn",
+        "Ludwig van Beethoven",
+        "Wolfgang Amadeus Mozart",
+        "Gioachino Rossini"
+      ],
+      "correct": 2,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 9)",
+      "options": [
+        "Wolfgang Amadeus Mozart",
+        "Joseph Haydn",
+        "Ludwig van Beethoven",
+        "Gioachino Rossini"
+      ],
+      "correct": 0,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which composer wrote the opera \"The Magic Flute\"? (Practice Variant 10)",
+      "options": [
+        "Ludwig van Beethoven",
+        "Wolfgang Amadeus Mozart",
+        "Gioachino Rossini",
+        "Joseph Haydn"
+      ],
+      "correct": 1,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "difficulty": "Masters"
     }
   ],
   "tolkien": [
@@ -7208,6 +8408,246 @@
       ],
       "correct": 0,
       "explanation": "Eärnur was the last king; thereafter Gondor had ruling stewards.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 1)",
+      "options": [
+        "Imladris",
+        "Lothlórien",
+        "Mithlond",
+        "Menegroth"
+      ],
+      "correct": 0,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 2)",
+      "options": [
+        "Lothlórien",
+        "Mithlond",
+        "Menegroth",
+        "Imladris"
+      ],
+      "correct": 3,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 3)",
+      "options": [
+        "Mithlond",
+        "Menegroth",
+        "Imladris",
+        "Lothlórien"
+      ],
+      "correct": 2,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 4)",
+      "options": [
+        "Menegroth",
+        "Imladris",
+        "Lothlórien",
+        "Mithlond"
+      ],
+      "correct": 1,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 5)",
+      "options": [
+        "Imladris",
+        "Mithlond",
+        "Lothlórien",
+        "Menegroth"
+      ],
+      "correct": 0,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 6)",
+      "options": [
+        "Lothlórien",
+        "Menegroth",
+        "Mithlond",
+        "Imladris"
+      ],
+      "correct": 3,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 7)",
+      "options": [
+        "Mithlond",
+        "Imladris",
+        "Menegroth",
+        "Lothlórien"
+      ],
+      "correct": 1,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 8)",
+      "options": [
+        "Menegroth",
+        "Lothlórien",
+        "Imladris",
+        "Mithlond"
+      ],
+      "correct": 2,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 9)",
+      "options": [
+        "Imladris",
+        "Menegroth",
+        "Lothlórien",
+        "Mithlond"
+      ],
+      "correct": 0,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the Elvish name of Rivendell? (Practice Variant 10)",
+      "options": [
+        "Lothlórien",
+        "Imladris",
+        "Mithlond",
+        "Menegroth"
+      ],
+      "correct": 1,
+      "explanation": "Rivendell is called Imladris in Sindarin.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 1)",
+      "options": [
+        "Andúril",
+        "Glamdring",
+        "Orcrist",
+        "Ringil"
+      ],
+      "correct": 0,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 2)",
+      "options": [
+        "Glamdring",
+        "Orcrist",
+        "Ringil",
+        "Andúril"
+      ],
+      "correct": 3,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 3)",
+      "options": [
+        "Orcrist",
+        "Ringil",
+        "Andúril",
+        "Glamdring"
+      ],
+      "correct": 2,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 4)",
+      "options": [
+        "Ringil",
+        "Andúril",
+        "Glamdring",
+        "Orcrist"
+      ],
+      "correct": 1,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 5)",
+      "options": [
+        "Andúril",
+        "Orcrist",
+        "Glamdring",
+        "Ringil"
+      ],
+      "correct": 0,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 6)",
+      "options": [
+        "Glamdring",
+        "Ringil",
+        "Orcrist",
+        "Andúril"
+      ],
+      "correct": 3,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 7)",
+      "options": [
+        "Orcrist",
+        "Andúril",
+        "Ringil",
+        "Glamdring"
+      ],
+      "correct": 1,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 8)",
+      "options": [
+        "Ringil",
+        "Glamdring",
+        "Andúril",
+        "Orcrist"
+      ],
+      "correct": 2,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 9)",
+      "options": [
+        "Andúril",
+        "Ringil",
+        "Glamdring",
+        "Orcrist"
+      ],
+      "correct": 0,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What was the name of Aragorn's sword after it was reforged? (Practice Variant 10)",
+      "options": [
+        "Glamdring",
+        "Andúril",
+        "Orcrist",
+        "Ringil"
+      ],
+      "correct": 1,
+      "explanation": "Aragorn wielded Andúril, the sword reforged from the shards of Narsil.",
       "difficulty": "Masters"
     }
   ],
@@ -8411,6 +9851,246 @@
       "correct": 3,
       "explanation": "'Sich gewöhnen an' means to get used to something.",
       "difficulty": "B2"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 1)",
+      "options": [
+        "Speed",
+        "History",
+        "Skill",
+        "Weight"
+      ],
+      "correct": 0,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 2)",
+      "options": [
+        "History",
+        "Skill",
+        "Weight",
+        "Speed"
+      ],
+      "correct": 3,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 3)",
+      "options": [
+        "Skill",
+        "Weight",
+        "Speed",
+        "History"
+      ],
+      "correct": 2,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 4)",
+      "options": [
+        "Weight",
+        "Speed",
+        "History",
+        "Skill"
+      ],
+      "correct": 1,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 5)",
+      "options": [
+        "Speed",
+        "Skill",
+        "History",
+        "Weight"
+      ],
+      "correct": 0,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 6)",
+      "options": [
+        "History",
+        "Weight",
+        "Skill",
+        "Speed"
+      ],
+      "correct": 3,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 7)",
+      "options": [
+        "Skill",
+        "Speed",
+        "Weight",
+        "History"
+      ],
+      "correct": 1,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 8)",
+      "options": [
+        "Weight",
+        "History",
+        "Speed",
+        "Skill"
+      ],
+      "correct": 2,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 9)",
+      "options": [
+        "Speed",
+        "Weight",
+        "History",
+        "Skill"
+      ],
+      "correct": 0,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "What is the English meaning of the German word \"Geschwindigkeit\"? (Practice Variant 10)",
+      "options": [
+        "History",
+        "Speed",
+        "Skill",
+        "Weight"
+      ],
+      "correct": 1,
+      "explanation": "\"Geschwindigkeit\" means speed or velocity in English.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 1)",
+      "options": [
+        "Wissenschaft",
+        "Freundschaft",
+        "Landschaft",
+        "Mannschaft"
+      ],
+      "correct": 0,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 2)",
+      "options": [
+        "Freundschaft",
+        "Landschaft",
+        "Mannschaft",
+        "Wissenschaft"
+      ],
+      "correct": 3,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 3)",
+      "options": [
+        "Landschaft",
+        "Mannschaft",
+        "Wissenschaft",
+        "Freundschaft"
+      ],
+      "correct": 2,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 4)",
+      "options": [
+        "Mannschaft",
+        "Wissenschaft",
+        "Freundschaft",
+        "Landschaft"
+      ],
+      "correct": 1,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 5)",
+      "options": [
+        "Wissenschaft",
+        "Landschaft",
+        "Freundschaft",
+        "Mannschaft"
+      ],
+      "correct": 0,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 6)",
+      "options": [
+        "Freundschaft",
+        "Mannschaft",
+        "Landschaft",
+        "Wissenschaft"
+      ],
+      "correct": 3,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 7)",
+      "options": [
+        "Landschaft",
+        "Wissenschaft",
+        "Mannschaft",
+        "Freundschaft"
+      ],
+      "correct": 1,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 8)",
+      "options": [
+        "Mannschaft",
+        "Freundschaft",
+        "Wissenschaft",
+        "Landschaft"
+      ],
+      "correct": 2,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 9)",
+      "options": [
+        "Wissenschaft",
+        "Mannschaft",
+        "Freundschaft",
+        "Landschaft"
+      ],
+      "correct": 0,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Which German noun means \"science\"? (Practice Variant 10)",
+      "options": [
+        "Freundschaft",
+        "Wissenschaft",
+        "Landschaft",
+        "Mannschaft"
+      ],
+      "correct": 1,
+      "explanation": "\"Wissenschaft\" is the German noun for science or scholarship.",
+      "difficulty": "Masters"
     }
   ]
 }

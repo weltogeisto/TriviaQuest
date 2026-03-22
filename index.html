@@ -1039,20 +1039,26 @@ if (new URLSearchParams(location.search).get('admin') === '1') { const p = docum
 
 const ROUND_COUNT = 10;
 const PER_Q = 45;
-let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false};
+let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false, recentStems:[]};
+const roundHistory = {};
 
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function pickN(arr,n){ const copy=[...(arr||[])]; shuffle(copy); return copy.slice(0, Math.min(n, copy.length)); }
 function questionStem(text){ return String(text||'').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i,'').trim(); }
 function cleanExplanation(text){ return String(text||'').replace(/\s*Variant\s+\d+\s+keeps\s+the\s+same\s+concept\s+with\s+reordered\s+options\.?\s*$/i,'').trim(); }
-function pickRoundDeck(arr,n){
+function pickRoundDeck(arr,n,recentStems=[]){
   const groups = new Map();
   for (const q of (arr||[])){
     const stem = questionStem(q.question);
     if (!groups.has(stem)) groups.set(stem, []);
     groups.get(stem).push(q);
   }
-  const stems = shuffle([...groups.keys()]);
+  const uniqueStems = [...groups.keys()];
+  const recent = new Set(recentStems);
+  const freshStems = uniqueStems.filter(stem => !recent.has(stem));
+  const prioritized = shuffle(freshStems);
+  const fallback = shuffle(uniqueStems.filter(stem => recent.has(stem)));
+  const stems = [...prioritized, ...fallback];
   const deck = [];
   for (const stem of stems){
     const variants = groups.get(stem);
@@ -1077,9 +1083,15 @@ function updateTimerRing(t){
 
 function startGame(cat){
   if (!bundledBankLoaded){ alert("Question bank is still loading. Please try again in a second."); return; }
-  const deck = pickRoundDeck(BANK[cat]||[], ROUND_COUNT);
+  const recentStems = roundHistory[cat] || [];
+  const deck = pickRoundDeck(BANK[cat]||[], ROUND_COUNT, recentStems);
   if (!deck.length){ alert("No questions in this category yet."); return; }
-  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false, _transitioning:false};
+  const roundStems = [...new Set(deck.map(q => questionStem(q.question)))];
+  const totalStems = new Set((BANK[cat]||[]).map(q => questionStem(q.question))).size;
+  const usedStems = [...recentStems];
+  roundStems.forEach(stem => { if (!usedStems.includes(stem)) usedStems.push(stem); });
+  roundHistory[cat] = usedStems.length >= totalStems ? roundStems : usedStems;
+  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false, _transitioning:false, recentStems:roundHistory[cat]};
   $("#btnHome").classList.remove("hidden");
   show("#screen-game"); renderQ(); startTimer();
 }
