@@ -997,7 +997,21 @@ let bundledBankLoaded = false;
     if (!res.ok) throw new Error('bank fetch failed');
     const obj = await res.json();
     if (obj && typeof obj==='object'){
-      for (const k of Object.keys(obj)) if (Array.isArray(obj[k]) && obj[k].length) BANK[k]=obj[k];
+      for (const k of Object.keys(obj)){
+        if (!Array.isArray(obj[k]) || !obj[k].length) continue;
+        if (!Array.isArray(BANK[k]) || !BANK[k].length){
+          // No local data for this category — use bundled as-is
+          BANK[k] = obj[k];
+        } else {
+          // Local data exists (from localStorage) — merge bundled questions in,
+          // keeping local additions and avoiding duplicates
+          const seen = new Set(BANK[k].map(x=>x.question.trim().toLowerCase()));
+          for (const q of obj[k]){
+            const key = q.question?.trim().toLowerCase();
+            if (key && !seen.has(key)){ BANK[k].push(q); seen.add(key); }
+          }
+        }
+      }
     }
   }catch{}
   bundledBankLoaded = true;
