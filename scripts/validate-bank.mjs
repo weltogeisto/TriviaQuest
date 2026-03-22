@@ -1,40 +1,51 @@
 import { readFileSync } from 'node:fs';
 
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
-const stem = (text) => String(text || '').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i, '').trim();
+const normalize = (text) => String(text || '')
+  .toLowerCase()
+  .replace(/[“”]/g, '"')
+  .replace(/[‘’]/g, "'")
+  .replace(/\s+/g, ' ')
+  .trim();
+
 let errorCount = 0;
 
 for (const [category, questions] of Object.entries(bank)) {
-  if (!Array.isArray(questions) || questions.length < 100) {
-    console.error(`Category ${category} has fewer than 100 questions`);
+  if (!Array.isArray(questions) || questions.length !== 120) {
+    console.error(`Category ${category} must contain exactly 120 questions`);
     errorCount += 1;
     continue;
   }
 
-  const seenExact = new Set();
-  const stemSet = new Set();
+  const seenQuestions = new Set();
 
   questions.forEach((q, idx) => {
-    const valid = q && typeof q.question === 'string' && Array.isArray(q.options) && q.options.length === 4 && Number.isInteger(q.correct) && q.correct >= 0 && q.correct <= 3;
+    const valid = q
+      && typeof q.question === 'string'
+      && !/practice variant/i.test(q.question)
+      && Array.isArray(q.options)
+      && q.options.length === 4
+      && q.options.every((opt) => typeof opt === 'string' && opt.trim())
+      && new Set(q.options.map((opt) => normalize(opt))).size === 4
+      && Number.isInteger(q.correct)
+      && q.correct >= 0
+      && q.correct <= 3
+      && typeof q.category === 'string'
+      && q.category === category;
+
     if (!valid) {
       console.error(`Invalid question schema in ${category}[${idx}]`);
       errorCount += 1;
       return;
     }
 
-    const key = q.question.trim().toLowerCase();
-    if (seenExact.has(key)) {
+    const key = normalize(q.question);
+    if (seenQuestions.has(key)) {
       console.error(`Exact duplicate question in ${category}[${idx}]`);
       errorCount += 1;
     }
-    seenExact.add(key);
-    stemSet.add(stem(q.question).toLowerCase());
+    seenQuestions.add(key);
   });
-
-  if (stemSet.size < 10) {
-    console.error(`Category ${category} has low stem variety (${stemSet.size}); expected at least 10 unique stems`);
-    errorCount += 1;
-  }
 }
 
 if (errorCount > 0) process.exit(1);
