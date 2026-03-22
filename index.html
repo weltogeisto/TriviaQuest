@@ -1010,6 +1010,7 @@ let bundledBankLoaded = false;
     }
   }catch{}
   bundledBankLoaded = true;
+  rebuildCategoryPools();
   updateHomeCounts();
 })();
 
@@ -1039,37 +1040,88 @@ if (new URLSearchParams(location.search).get('admin') === '1') { const p = docum
 
 const ROUND_COUNT = 10;
 const PER_Q = 45;
+const ROUND_QUEUE_STORAGE_KEY = 'ROUND_QUEUE_STATE_V1';
 let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false, recentStems:[]};
 const roundHistory = {};
+const categoryPools = {};
+let persistedRoundQueues = loadRoundQueueState();
 
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function pickN(arr,n){ const copy=[...(arr||[])]; shuffle(copy); return copy.slice(0, Math.min(n, copy.length)); }
 function questionStem(text){ return String(text||'').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i,'').trim(); }
 function cleanExplanation(text){ return String(text||'').replace(/\s*Variant\s+\d+\s+keeps\s+the\s+same\s+concept\s+with\s+reordered\s+options\.?\s*$/i,'').trim(); }
-function pickRoundDeck(arr,n,recentStems=[]){
+function loadRoundQueueState(){
+  try{
+    const raw = localStorage.getItem(ROUND_QUEUE_STORAGE_KEY);
+    const parsed = JSON.parse(raw || '{}');
+    return parsed && typeof parsed === 'object' ? parsed : {};
+  }catch{
+    return {};
+  }
+}
+function saveRoundQueueState(){
+  try{
+    const payload = {};
+    for (const [cat, pool] of Object.entries(categoryPools)){
+      payload[cat] = { queue: [...pool.queue], index: pool.index };
+    }
+    persistedRoundQueues = payload;
+    localStorage.setItem(ROUND_QUEUE_STORAGE_KEY, JSON.stringify(payload));
+  }catch{}
+}
+function buildCategoryPool(cat){
   const groups = new Map();
-  for (const q of (arr||[])){
+  for (const q of (BANK[cat] || [])){
     const stem = questionStem(q.question);
+    if (!stem) continue;
     if (!groups.has(stem)) groups.set(stem, []);
     groups.get(stem).push(q);
   }
   const uniqueStems = [...groups.keys()];
-  const recent = new Set(recentStems);
-  const freshStems = uniqueStems.filter(stem => !recent.has(stem));
-  const prioritized = shuffle(freshStems);
-  const fallback = shuffle(uniqueStems.filter(stem => recent.has(stem)));
-  const stems = [...prioritized, ...fallback];
-  const deck = [];
-  for (const stem of stems){
-    const variants = groups.get(stem);
-    deck.push(variants[Math.floor(Math.random()*variants.length)]);
-    if (deck.length >= n) break;
+  const persisted = persistedRoundQueues[cat] || {};
+  let queue = Array.isArray(persisted.queue)
+    ? persisted.queue.filter(stem => groups.has(stem))
+    : [];
+  const missingStems = uniqueStems.filter(stem => !queue.includes(stem));
+  if (!queue.length || missingStems.length){
+    queue = [...queue, ...shuffle([...missingStems])];
   }
-  if (deck.length < n){
-    const leftovers = (arr||[]).filter(q => !deck.includes(q));
-    deck.push(...pickN(leftovers, n - deck.length));
+  let index = Number.isInteger(persisted.index) ? persisted.index : 0;
+  if (!queue.length) index = 0;
+  else index = Math.min(Math.max(index, 0), queue.length);
+  categoryPools[cat] = { groups, queue, index };
+}
+function rebuildCategoryPools(){
+  for (const cat of Object.keys(BANK)) buildCategoryPool(cat);
+  for (const cat of Object.keys(categoryPools)){
+    if (!(cat in BANK)) delete categoryPools[cat];
   }
-  return shuffle(deck).slice(0, Math.min(n, deck.length));
+  saveRoundQueueState();
+}
+function drawStemQueue(cat, n){
+  const pool = categoryPools[cat];
+  if (!pool || !pool.queue.length) return [];
+  const stems = [];
+  while (stems.length < n && pool.queue.length){
+    if (pool.index >= pool.queue.length){
+      pool.queue = shuffle([...pool.queue]);
+      pool.index = 0;
+    }
+    stems.push(pool.queue[pool.index]);
+    pool.index++;
+  }
+  saveRoundQueueState();
+  return stems;
+}
+function pickRoundDeck(cat,n){
+  const pool = categoryPools[cat];
+  if (!pool) return [];
+  const stems = drawStemQueue(cat, n);
+  roundHistory[cat] = stems;
+  return stems.map(stem => {
+    const variants = pool.groups.get(stem) || [];
+    return variants[Math.floor(Math.random() * variants.length)];
+  }).filter(Boolean);
 }
 
 // SVG timer ring — 2π × r=21 ≈ 131.95
@@ -1083,15 +1135,10 @@ function updateTimerRing(t){
 
 function startGame(cat){
   if (!bundledBankLoaded){ alert("Question bank is still loading. Please try again in a second."); return; }
-  const recentStems = roundHistory[cat] || [];
-  const deck = pickRoundDeck(BANK[cat]||[], ROUND_COUNT, recentStems);
+  if (!categoryPools[cat]) buildCategoryPool(cat);
+  const deck = pickRoundDeck(cat, ROUND_COUNT);
   if (!deck.length){ alert("No questions in this category yet."); return; }
-  const roundStems = [...new Set(deck.map(q => questionStem(q.question)))];
-  const totalStems = new Set((BANK[cat]||[]).map(q => questionStem(q.question))).size;
-  const usedStems = [...recentStems];
-  roundStems.forEach(stem => { if (!usedStems.includes(stem)) usedStems.push(stem); });
-  roundHistory[cat] = usedStems.length >= totalStems ? roundStems : usedStems;
-  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false, _transitioning:false, recentStems:roundHistory[cat]};
+  state = {cat, deck, idx:0, score:0, t:PER_Q, id:null, answered:false, _transitioning:false, recentStems:roundHistory[cat] || []};
   $("#btnHome").classList.remove("hidden");
   show("#screen-game"); renderQ(); startTimer();
 }
@@ -1214,7 +1261,7 @@ $("#btnImport")?.addEventListener('click', async ()=>{
   catch(e){ msg.textContent='Parse error: '+e.message; return; }
   if (!Array.isArray(arr)){ msg.textContent='File must be an array of questions.'; return; }
   BANK[cat] = BANK[cat]||[]; const res = dedupeMerge(BANK[cat], arr);
-  saveLocal(); updateHomeCounts();
+  saveLocal(); rebuildCategoryPools(); updateHomeCounts();
   msg.textContent = `Imported into "${cat}": +${res.add} added, ${res.skip} duplicates, ${res.bad} invalid. Total ${BANK[cat].length}.`;
 });
 
@@ -1234,7 +1281,7 @@ $("#btnImportAll")?.addEventListener('click', async ()=>{
       totals.bad += res.bad;
       totals.imported++;
     }
-    saveLocal(); updateHomeCounts();
+    saveLocal(); rebuildCategoryPools(); updateHomeCounts();
     const detail = totals.imported
       ? `Imported ${totals.imported} categories: +${totals.add} added, ${totals.skip} duplicates, ${totals.bad} invalid.`
       : 'No supported categories found in ALL import.';
@@ -1252,7 +1299,11 @@ $("#btnExportAll")?.addEventListener('click', ()=>{
   download(`all_categories.json`, JSON.stringify(BANK, null, 2));
 });
 $("#btnClearLocal")?.addEventListener('click', ()=>{
-  localStorage.removeItem('BANK_LOCAL'); msg.textContent='Local overrides cleared. Reload to use embedded data.';
+  localStorage.removeItem('BANK_LOCAL');
+  localStorage.removeItem(ROUND_QUEUE_STORAGE_KEY);
+  persistedRoundQueues = {};
+  for (const cat of Object.keys(categoryPools)) delete categoryPools[cat];
+  msg.textContent='Local overrides cleared. Reload to use embedded data.';
 });
 $("#btnOneFile")?.addEventListener('click', ()=>{
   try{
