@@ -3,10 +3,28 @@ import { readFileSync } from 'node:fs';
 const MIN_ROWS_PER_CATEGORY = 100;
 const MIN_UNIQUE_STEMS_PER_CATEGORY = 100;
 const MAX_ALLOWED_VARIANTS_PER_STEM = 1;
+const PRACTICE_VARIANT_SUFFIX = /\s*\(Practice Variant\s+\d+\)\s*$/i;
+const WRAPPER_PREFIXES = [
+  /^\s*Identify the correct answer for this prompt:\s*/i,
+  /^\s*Choose the option that best answers this question:\s*/i,
+];
 
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
-const stem = (text) => String(text || '').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i, '').trim();
-const isPracticeVariant = (text) => /\(Practice Variant\s+\d+\)\s*$/i.test(String(text || ''));
+
+function normalizeStem(text) {
+  let normalized = String(text || '').trim().toLowerCase();
+  normalized = normalized.replace(PRACTICE_VARIANT_SUFFIX, '').trim();
+  for (const prefix of WRAPPER_PREFIXES) {
+    normalized = normalized.replace(prefix, '').trim();
+  }
+  normalized = normalized
+    .replace(/([!?.,:;])\1+/g, '$1')
+    .replace(/\s*([!?.,:;])\s*/g, '$1 ')
+    .replace(/\s+/g, ' ')
+    .trim();
+  return normalized;
+}
+
 let errorCount = 0;
 const summaries = [];
 
@@ -19,7 +37,6 @@ for (const [category, questions] of Object.entries(bank)) {
 
   const seenExact = new Set();
   const stemCounts = new Map();
-  const practiceVariantCounts = new Map();
 
   questions.forEach((q, idx) => {
     const valid = q
@@ -43,12 +60,8 @@ for (const [category, questions] of Object.entries(bank)) {
     }
     seenExact.add(normalizedQuestion);
 
-    const normalizedStem = stem(q.question).toLowerCase();
+    const normalizedStem = normalizeStem(q.question);
     stemCounts.set(normalizedStem, (stemCounts.get(normalizedStem) || 0) + 1);
-
-    if (isPracticeVariant(q.question)) {
-      practiceVariantCounts.set(normalizedStem, (practiceVariantCounts.get(normalizedStem) || 0) + 1);
-    }
   });
 
   const uniqueStemCount = stemCounts.size;
@@ -66,10 +79,10 @@ for (const [category, questions] of Object.entries(bank)) {
     errorCount += 1;
   }
 
-  for (const [normalizedStem, count] of practiceVariantCounts.entries()) {
+  for (const [normalizedStem, count] of stemCounts.entries()) {
     if (count > MAX_ALLOWED_VARIANTS_PER_STEM) {
       console.error(
-        `Category ${category} repeats stem "${normalizedStem}" across ${count} practice variants; allowed maximum is ${MAX_ALLOWED_VARIANTS_PER_STEM}`,
+        `Category ${category} repeats normalized stem "${normalizedStem}" across ${count} rows; allowed maximum is ${MAX_ALLOWED_VARIANTS_PER_STEM}`,
       );
       errorCount += 1;
     }
