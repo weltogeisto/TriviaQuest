@@ -14,18 +14,42 @@ self.addEventListener('activate', (event) => {
 });
 
 self.addEventListener('fetch', (event) => {
+  if (event.request.method !== 'GET') {
+    return;
+  }
+
+  const accepts = event.request.headers.get('accept') || '';
+  const isNavigationRequest =
+    event.request.mode === 'navigate' ||
+    event.request.destination === 'document' ||
+    accepts.includes('text/html');
+
   event.respondWith(
     caches.match(event.request).then((cached) => {
-      if (cached) return cached;
+      if (cached) {
+        return cached;
+      }
+
       return fetch(event.request)
         .then((response) => {
-          if (event.request.method === 'GET' && response.ok) {
+          if (response.ok) {
             const copy = response.clone();
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+            event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy)));
           }
           return response;
         })
-        .catch(() => caches.match('./index.html'));
+        .catch(async () => {
+          if (isNavigationRequest) {
+            return caches.match('./index.html');
+          }
+
+          const cachedResponse = await caches.match(event.request);
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+
+          throw new Error(`Network request failed for ${event.request.url}`);
+        });
     })
   );
 });
