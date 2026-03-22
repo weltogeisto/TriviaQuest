@@ -1048,7 +1048,29 @@ let persistedRoundQueues = loadRoundQueueState();
 
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function pickN(arr,n){ const copy=[...(arr||[])]; shuffle(copy); return copy.slice(0, Math.min(n, copy.length)); }
-function questionStem(text){ return String(text||'').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i,'').trim(); }
+const PRACTICE_VARIANT_SUFFIX = /\s*\(Practice Variant\s+\d+\)\s*$/i;
+const STEM_WRAPPER_PREFIXES = [
+  /^\s*Identify the correct answer for this prompt:\s*/i,
+  /^\s*Choose the option that best answers this question:\s*/i,
+];
+function stripStemWrappers(text){
+  let normalized = String(text||'').trim();
+  normalized = normalized.replace(PRACTICE_VARIANT_SUFFIX, '').trim();
+  STEM_WRAPPER_PREFIXES.forEach(prefix => {
+    normalized = normalized.replace(prefix, '').trim();
+  });
+  return normalized
+    .replace(/([!?.,:;])\1+/g, '$1')
+    .replace(/\s*([!?.,:;])\s*/g, '$1 ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+function normalizeQuestionStem(text){
+  return stripStemWrappers(text).toLowerCase();
+}
+function questionStem(text){
+  return stripStemWrappers(text);
+}
 function cleanExplanation(text){ return String(text||'').replace(/\s*Variant\s+\d+\s+keeps\s+the\s+same\s+concept\s+with\s+reordered\s+options\.?\s*$/i,'').trim(); }
 function loadRoundQueueState(){
   try{
@@ -1072,7 +1094,7 @@ function saveRoundQueueState(){
 function buildCategoryPool(cat){
   const groups = new Map();
   for (const q of (BANK[cat] || [])){
-    const stem = questionStem(q.question);
+    const stem = normalizeQuestionStem(q.question);
     if (!stem) continue;
     if (!groups.has(stem)) groups.set(stem, []);
     groups.get(stem).push(q);
