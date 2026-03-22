@@ -1192,6 +1192,7 @@ function download(name, text, type='application/json'){
   a.href = URL.createObjectURL(new Blob([text],{type})); a.download = name; a.click(); URL.revokeObjectURL(a.href);
 }
 const elCat=$("#impCat"), elFile=$("#impFile"), msg=$("#impMsg");
+const supportedCategories = new Set([...elCat.options].map(option => option.value));
 
 $("#btnImport")?.addEventListener('click', async ()=>{
   const cat = elCat.value; const f = elFile.files[0];
@@ -1210,8 +1211,25 @@ $("#btnImportAll")?.addEventListener('click', async ()=>{
   try{
     const obj = JSON.parse(await f.text());
     if (!obj || typeof obj!=='object') throw new Error('Not an object');
-    for (const k of Object.keys(obj)) if (Array.isArray(obj[k])) BANK[k]=obj[k];
-    saveLocal(); updateHomeCounts(); msg.textContent='Imported ALL categories.';
+    const totals = { add:0, skip:0, bad:0, imported:0, ignored:[] };
+    for (const [k, arr] of Object.entries(obj)){
+      if (!Array.isArray(arr)) continue;
+      if (!supportedCategories.has(k)) { totals.ignored.push(k); continue; }
+      BANK[k] = BANK[k] || [];
+      const res = dedupeMerge(BANK[k], arr);
+      totals.add += res.add;
+      totals.skip += res.skip;
+      totals.bad += res.bad;
+      totals.imported++;
+    }
+    saveLocal(); updateHomeCounts();
+    const detail = totals.imported
+      ? `Imported ${totals.imported} categories: +${totals.add} added, ${totals.skip} duplicates, ${totals.bad} invalid.`
+      : 'No supported categories found in ALL import.';
+    const ignored = totals.ignored.length
+      ? ` Ignored unknown categories: ${totals.ignored.join(', ')}.`
+      : '';
+    msg.textContent = detail + ignored;
   }catch(e){ msg.textContent='Parse error: '+e.message; }
 });
 
