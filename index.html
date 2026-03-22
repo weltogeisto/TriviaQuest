@@ -959,6 +959,7 @@ details > summary { cursor: pointer; }
       <button class="btn btn-ghost" id="btnClearLocal">Clear Local</button>
       <button class="btn btn-ghost" id="btnOneFile">One-File Backup</button>
     </div>
+    <div class="muted" style="margin-top:12px">CSV import expects the header row <code>question,optionA,optionB,optionC,optionD,correct,explanation,difficulty,category</code>. Wrap any text field that contains commas in double quotes; escape literal quotes inside quoted text as <code>""</code>.</div>
     <div id="impMsg" class="muted" style="margin-top:12px"></div>
   </details>
 
@@ -1234,12 +1235,55 @@ $("#btnPlayAgain").onclick = ()=> startGame($("#btnPlayAgain")._cat);
 $("#btnResultHome").onclick= ()=> show("#screen-home");
 
 function csvToObjects(text){
-  const lines = text.replace(/\r/g,'').split('\n').filter(Boolean);
-  if (!lines.length) return [];
-  const head = lines.shift().split(',').map(s=>s.trim());
-  return lines.map(row=>{
-    const cols = row.split(',').map(s=>s.trim()); const obj = {};
-    head.forEach((h,i)=>obj[h]=cols[i] ?? '');
+  const rows = [];
+  let row = [];
+  let field = '';
+  let inQuotes = false;
+
+  for (let i = 0; i < text.length; i++){
+    const ch = text[i];
+
+    if (ch === '"'){
+      if (inQuotes && text[i + 1] === '"'){
+        field += '"';
+        i++;
+      }else{
+        inQuotes = !inQuotes;
+      }
+      continue;
+    }
+
+    if (ch === ',' && !inQuotes){
+      row.push(field);
+      field = '';
+      continue;
+    }
+
+    if ((ch === '\n' || ch === '\r') && !inQuotes){
+      if (ch === '\r' && text[i + 1] === '\n') i++;
+      row.push(field);
+      const hasContent = row.some(col => String(col).trim() !== '');
+      if (hasContent) rows.push(row);
+      row = [];
+      field = '';
+      continue;
+    }
+
+    field += ch;
+  }
+
+  if (field.length || row.length){
+    row.push(field);
+    const hasContent = row.some(col => String(col).trim() !== '');
+    if (hasContent) rows.push(row);
+  }
+
+  if (!rows.length) return [];
+
+  const head = rows.shift().map(s => String(s).trim());
+  return rows.map(cols => {
+    const obj = {};
+    head.forEach((h, i) => { obj[h] = cols[i] ?? ''; });
     return {
       question: obj.question,
       options: [obj.optionA, obj.optionB, obj.optionC, obj.optionD],

@@ -24,6 +24,13 @@ Then open `http://localhost:4173`.
 - `index.html` still keeps an empty `#embeddedBank` slot only for one-file backup exports.
 - `npm test` validates `bank.json` directly.
 
+## Admin CSV import format
+
+- CSV imports must use this header row: `question,optionA,optionB,optionC,optionD,correct,explanation,difficulty,category`.
+- Wrap any text field that contains commas in double quotes so it stays in a single column.
+- Escape literal double quotes inside quoted text by doubling them as `""`.
+- Blank trailing columns are allowed and will still be imported as empty values.
+
 ## What changed for "next level"
 
 - **PWA support**: manifest + service worker + install button.
