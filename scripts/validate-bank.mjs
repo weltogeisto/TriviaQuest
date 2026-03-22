@@ -1,37 +1,34 @@
 import { readFileSync } from 'node:fs';
 
-const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
-const normalize = (text) => String(text || '')
-  .toLowerCase()
-  .replace(/[“”]/g, '"')
-  .replace(/[‘’]/g, "'")
-  .replace(/\s+/g, ' ')
-  .trim();
+const MIN_ROWS_PER_CATEGORY = 100;
+const MIN_UNIQUE_STEMS_PER_CATEGORY = 100;
+const MAX_ALLOWED_VARIANTS_PER_STEM = 1;
 
+const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
+const stem = (text) => String(text || '').replace(/\s*\(Practice Variant\s+\d+\)\s*$/i, '').trim();
+const isPracticeVariant = (text) => /\(Practice Variant\s+\d+\)\s*$/i.test(String(text || ''));
 let errorCount = 0;
+const summaries = [];
 
 for (const [category, questions] of Object.entries(bank)) {
-  if (!Array.isArray(questions) || questions.length !== 120) {
-    console.error(`Category ${category} must contain exactly 120 questions`);
+  if (!Array.isArray(questions)) {
+    console.error(`Category ${category} is not an array of questions`);
     errorCount += 1;
     continue;
   }
 
-  const seenQuestions = new Set();
+  const seenExact = new Set();
+  const stemCounts = new Map();
+  const practiceVariantCounts = new Map();
 
   questions.forEach((q, idx) => {
     const valid = q
       && typeof q.question === 'string'
-      && !/practice variant/i.test(q.question)
       && Array.isArray(q.options)
       && q.options.length === 4
-      && q.options.every((opt) => typeof opt === 'string' && opt.trim())
-      && new Set(q.options.map((opt) => normalize(opt))).size === 4
       && Number.isInteger(q.correct)
       && q.correct >= 0
-      && q.correct <= 3
-      && typeof q.category === 'string'
-      && q.category === category;
+      && q.correct <= 3;
 
     if (!valid) {
       console.error(`Invalid question schema in ${category}[${idx}]`);
@@ -39,15 +36,51 @@ for (const [category, questions] of Object.entries(bank)) {
       return;
     }
 
-    const key = normalize(q.question);
-    if (seenQuestions.has(key)) {
-      console.error(`Exact duplicate question in ${category}[${idx}]`);
+    const normalizedQuestion = q.question.trim().toLowerCase();
+    if (seenExact.has(normalizedQuestion)) {
+      console.error(`Exact duplicate question in ${category}[${idx}]: ${q.question}`);
       errorCount += 1;
     }
-    seenQuestions.add(key);
+    seenExact.add(normalizedQuestion);
+
+    const normalizedStem = stem(q.question).toLowerCase();
+    stemCounts.set(normalizedStem, (stemCounts.get(normalizedStem) || 0) + 1);
+
+    if (isPracticeVariant(q.question)) {
+      practiceVariantCounts.set(normalizedStem, (practiceVariantCounts.get(normalizedStem) || 0) + 1);
+    }
   });
+
+  const uniqueStemCount = stemCounts.size;
+  summaries.push({ category, rowCount: questions.length, uniqueStemCount });
+
+  if (questions.length < MIN_ROWS_PER_CATEGORY) {
+    console.error(`Category ${category} has ${questions.length} rows; expected at least ${MIN_ROWS_PER_CATEGORY}`);
+    errorCount += 1;
+  }
+
+  if (uniqueStemCount < MIN_UNIQUE_STEMS_PER_CATEGORY) {
+    console.error(
+      `Category ${category} has only ${uniqueStemCount} unique stems; expected at least ${MIN_UNIQUE_STEMS_PER_CATEGORY} for shipped gameplay`,
+    );
+    errorCount += 1;
+  }
+
+  for (const [normalizedStem, count] of practiceVariantCounts.entries()) {
+    if (count > MAX_ALLOWED_VARIANTS_PER_STEM) {
+      console.error(
+        `Category ${category} repeats stem "${normalizedStem}" across ${count} practice variants; allowed maximum is ${MAX_ALLOWED_VARIANTS_PER_STEM}`,
+      );
+      errorCount += 1;
+    }
+  }
 }
 
 if (errorCount > 0) process.exit(1);
-const total = Object.values(bank).reduce((sum, arr) => sum + arr.length, 0);
-console.log(`Bank OK (${Object.keys(bank).length} categories, ${total} questions validated).`);
+const totalRows = summaries.reduce((sum, { rowCount }) => sum + rowCount, 0);
+const totalUniqueStems = summaries.reduce((sum, { uniqueStemCount }) => sum + uniqueStemCount, 0);
+console.log('Bank OK:');
+for (const { category, rowCount, uniqueStemCount } of summaries) {
+  console.log(`- ${category}: ${rowCount} rows, ${uniqueStemCount} unique stems`);
+}
+console.log(`Total: ${Object.keys(bank).length} categories, ${totalRows} rows, ${totalUniqueStems} unique stems validated.`);

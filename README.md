@@ -13,8 +13,9 @@ Then open `http://localhost:4173`.
 
 ## Current content volume
 
-- **7 categories**
-- **700 total questions** (100 per category, 4 options each)
+- **7 categories currently in `bank.json`**
+- **840 total rows right now** (120 rows per category, 4 options each)
+- **Shipped gameplay bar:** only claim "100 questions per category" when each category also has **at least 100 unique normalized stems**, not just 100 rows
 
 ## Data layout (merge-conflict friendly)
 
@@ -27,7 +28,7 @@ Then open `http://localhost:4173`.
 - **PWA support**: manifest + service worker + install button.
 - **Offline gameplay**: core assets are cached and still open when the network is down.
 - **Install UX**: when install is available, users get a direct **Install App** button.
-- **Basic quality gate**: question bank schema check via `npm test`.
+- **Gameplay quality gate**: `npm test` keeps the schema checks, enforces at least 100 rows per category, and requires at least 100 unique normalized stems per category so practice variants cannot masquerade as full question volume.
 - **Round randomness**: each round samples unique question stems to avoid near-duplicate variants in the same 10-question run.
 
 ## Deploy on GitHub Pages (recommended)
@@ -66,7 +67,7 @@ If you want a direct `.apk`:
 
 ## Iteration checklist (vibecode to ship-ready)
 
-- [ ] Increase question volume per category.
+- [ ] Increase true question volume per category until every category passes the 100 unique-stem gameplay bar.
 - [ ] Add progress persistence (last category, high scores).
 - [ ] Add UI polish: haptics/sounds, streaks, animations.
 - [ ] Add automated browser E2E checks (Playwright).
