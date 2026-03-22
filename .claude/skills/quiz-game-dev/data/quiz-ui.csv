@@ -1,0 +1,40 @@
+No,Category,Element,Description,Do,Don't,Severity
+1,Question Card,Layout,Question text should be prominent and readable,Large font (18-24px) centered in card with padding,Small text crammed with other elements,High
+2,Question Card,Typography,Use clear readable font for questions,Sans-serif body font (Inter Space Grotesk) at 1.5 line-height,Decorative fonts or tight line spacing for question text,High
+3,Question Card,Contrast,Question text must be highly readable,Light text on dark card (or dark on light) with 7:1+ contrast,Low contrast text on patterned backgrounds,High
+4,Question Card,Spacing,Give question room to breathe,32px+ padding inside card generous margin below,Tight padding cramped layout,Medium
+5,Question Card,Animation,Smooth question transitions,Fade or slide-in when new question appears (200-300ms),Instant swap with no transition,Low
+6,Answer Button,Size,Touch-friendly answer buttons,Full-width buttons minimum 48px height with 12px gap,Small inline buttons hard to tap,High
+7,Answer Button,Layout,Stack answers vertically on mobile,Column layout with full-width buttons,Grid layout with tiny buttons on mobile,High
+8,Answer Button,States,Clear visual states for each button,Default + hover + selected + correct + incorrect states,Same appearance in all states,High
+9,Answer Button,Correct feedback,Visually confirm correct answer,Green background + checkmark icon + pulse animation,Only text change,High
+10,Answer Button,Incorrect feedback,Show wrong answer clearly,Red background on selected + green highlight on correct,No indication of which was correct,High
+11,Answer Button,Disabled after answer,Prevent multiple selections,Disable all buttons after first selection,Allow changing answer after seeing feedback,High
+12,Answer Button,Option labels,Prefix options with A B C D,Letter prefix helps keyboard users and readability,No labels just text,Medium
+13,Timer Display,Visual format,Timer should be visually prominent,SVG ring or arc that depletes clockwise,Small text number in corner,High
+14,Timer Display,Color transition,Urgency increases as time runs out,Green (>50%) → Yellow (25-50%) → Red (<25%),Static color throughout,High
+15,Timer Display,Size,Timer visible without searching,40-60px ring or bar at top of screen,Tiny indicator easy to miss,Medium
+16,Timer Display,Animation,Smooth countdown animation,CSS transition on stroke-dashoffset or width,Jumpy step-wise changes,Medium
+17,Timer Display,Final warning,Extra urgency in last 5 seconds,Pulse animation or flash when <5 seconds,No change at low time,Low
+18,Progress Bar,Position,Show round progress clearly,Top of game screen horizontal bar or dots,Hidden or at bottom of page,Medium
+19,Progress Bar,Format,Clear progress indication,Question 3 of 10 text + visual bar,Just a percentage number,Medium
+20,Progress Bar,Fill animation,Smooth progress updates,Animated width transition on progress bar,Instant jumps in progress,Low
+21,Results Screen,Score display,Prominent score presentation,Large centered score with fraction and percentage,Small text somewhere on page,High
+22,Results Screen,Star rating,Visual performance rating,Star icons (1-3) based on score threshold,No visual rating,Medium
+23,Results Screen,Category label,Remind player which category they played,Category name at top of results,No category context,Low
+24,Results Screen,Actions,Clear next-step buttons,Play Again (same cat) + Home + Share buttons,No clear action buttons,High
+25,Results Screen,Score breakdown,Show correct vs incorrect count,7 correct 3 incorrect out of 10,Only percentage,Medium
+26,Results Screen,Animation,Celebrate achievement,Confetti or particle effect for 80%+ scores,Static results page,Low
+27,Category Select,Card layout,Visually appealing category grid,Cards with icon + name + best score in 2-column grid,Plain text list of categories,Medium
+28,Category Select,Progress shown,Show previous performance,Star rating or best score on each category card,No history shown,Medium
+29,Category Select,Touch targets,Easy to tap on mobile,Full card clickable with minimum 80px height,Small text links,High
+30,Category Select,Visual distinction,Categories look different from each other,Unique color or icon per category,All categories look identical,Medium
+31,Explanation,Timing,Show after answer selection,Display for 3-5 seconds or until Next tap,Skip explanation entirely,High
+32,Explanation,Visibility,Explanation should be readable,Below question card or in expanded section,Tiny text or hidden behind interaction,Medium
+33,Explanation,Content,Educational not just confirmatory,Explain why the answer is correct with context,Just says 'Correct!' or 'Wrong!',Medium
+34,Home Screen,Install prompt,Guide PWA installation,Show install button when beforeinstallprompt fires,No install guidance,Medium
+35,Home Screen,Branding,Clear app identity,App name + icon + tagline prominently displayed,Generic unnamed interface,Medium
+36,Animation,Page transitions,Smooth navigation between screens,Fade or slide transitions (200-400ms),Instant screen swaps,Medium
+37,Animation,Reduced motion,Respect user preferences,Check prefers-reduced-motion disable animations,Force animations on everyone,High
+38,Dark Mode,Default theme,Dark themes reduce eye strain during extended play,Dark background with light text as default,Bright white default for game apps,Medium
+39,Dark Mode,Accent colors,Use vibrant accents on dark backgrounds,Cyan emerald violet rose accents,Muted or muddy colors on dark,Medium
