@@ -997,7 +997,16 @@ let bundledBankLoaded = false;
     if (!res.ok) throw new Error('bank fetch failed');
     const obj = await res.json();
     if (obj && typeof obj==='object'){
-      for (const k of Object.keys(obj)) if (Array.isArray(obj[k]) && obj[k].length) BANK[k]=obj[k];
+      for (const k of Object.keys(obj)){
+        if (!Array.isArray(obj[k]) || !obj[k].length) continue;
+        if (!Array.isArray(BANK[k]) || !BANK[k].length){
+          BANK[k] = obj[k];
+          continue;
+        }
+        dedupeMerge(BANK[k], obj[k]);
+        // Review note: if embedded/local already loaded 120 questions first,
+        // bundled loading only appends unseen question keys, so the final count stays 120.
+      }
     }
   }catch{}
   bundledBankLoaded = true;
@@ -1165,12 +1174,13 @@ function validateQ(q){
       && Array.isArray(q.options) && q.options.length===4
       && [0,1,2,3].includes(q.correct);
 }
+function questionDedupKey(question){ return String(question||'').trim().toLowerCase(); }
 function dedupeMerge(targetArr, incoming){
-  const seen = new Set(targetArr.map(x=>x.question.trim().toLowerCase()));
+  const seen = new Set(targetArr.map(x=>questionDedupKey(x.question)));
   let add=0, skip=0, bad=0;
   for (const q of incoming){
     if (!validateQ(q)) { bad++; continue; }
-    const key = q.question.trim().toLowerCase();
+    const key = questionDedupKey(q.question);
     if (seen.has(key)) { skip++; continue; }
     targetArr.push(q); seen.add(key); add++;
   }
