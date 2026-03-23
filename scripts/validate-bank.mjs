@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 
-const MIN_ROWS_PER_CATEGORY = 100;
-const MIN_UNIQUE_STEMS_PER_CATEGORY = 100;
+const REQUIRED_ROWS_PER_CATEGORY = 120;
+const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
 const MAX_ALLOWED_VARIANTS_PER_STEM = 1;
 const PRACTICE_VARIANT_SUFFIX = /\s*\(Practice Variant\s+\d+\)\s*$/i;
 const WRAPPER_PREFIXES = [
@@ -53,12 +53,12 @@ for (const [category, questions] of Object.entries(bank)) {
       return;
     }
 
-    const normalizedQuestion = q.question.trim().toLowerCase();
-    if (seenExact.has(normalizedQuestion)) {
+    const exactQuestionText = q.question.trim();
+    if (seenExact.has(exactQuestionText)) {
       console.error(`Exact duplicate question in ${category}[${idx}]: ${q.question}`);
       errorCount += 1;
     }
-    seenExact.add(normalizedQuestion);
+    seenExact.add(exactQuestionText);
 
     const normalizedStem = normalizeStem(q.question);
     stemCounts.set(normalizedStem, (stemCounts.get(normalizedStem) || 0) + 1);
@@ -67,14 +67,14 @@ for (const [category, questions] of Object.entries(bank)) {
   const uniqueStemCount = stemCounts.size;
   summaries.push({ category, rowCount: questions.length, uniqueStemCount });
 
-  if (questions.length < MIN_ROWS_PER_CATEGORY) {
-    console.error(`Category ${category} has ${questions.length} rows; expected at least ${MIN_ROWS_PER_CATEGORY}`);
+  if (questions.length !== REQUIRED_ROWS_PER_CATEGORY) {
+    console.error(`Category ${category} has ${questions.length} rows; expected exactly ${REQUIRED_ROWS_PER_CATEGORY}`);
     errorCount += 1;
   }
 
-  if (uniqueStemCount < MIN_UNIQUE_STEMS_PER_CATEGORY) {
+  if (uniqueStemCount !== REQUIRED_UNIQUE_STEMS_PER_CATEGORY) {
     console.error(
-      `Category ${category} has only ${uniqueStemCount} unique stems; expected at least ${MIN_UNIQUE_STEMS_PER_CATEGORY} for shipped gameplay`,
+      `Category ${category} has ${uniqueStemCount} unique normalized prompts; expected exactly ${REQUIRED_UNIQUE_STEMS_PER_CATEGORY} for shipped gameplay`,
     );
     errorCount += 1;
   }
@@ -92,8 +92,10 @@ for (const [category, questions] of Object.entries(bank)) {
 if (errorCount > 0) process.exit(1);
 const totalRows = summaries.reduce((sum, { rowCount }) => sum + rowCount, 0);
 const totalUniqueStems = summaries.reduce((sum, { uniqueStemCount }) => sum + uniqueStemCount, 0);
+const expectedTotalRows = summaries.length * REQUIRED_ROWS_PER_CATEGORY;
+const expectedTotalUniqueStems = summaries.length * REQUIRED_UNIQUE_STEMS_PER_CATEGORY;
 console.log('Bank OK:');
 for (const { category, rowCount, uniqueStemCount } of summaries) {
-  console.log(`- ${category}: ${rowCount} rows, ${uniqueStemCount} unique stems`);
+  console.log(`- ${category}: ${rowCount}/${REQUIRED_ROWS_PER_CATEGORY} rows, ${uniqueStemCount}/${REQUIRED_UNIQUE_STEMS_PER_CATEGORY} unique normalized prompts`);
 }
-console.log(`Total: ${Object.keys(bank).length} categories, ${totalRows} rows, ${totalUniqueStems} unique stems validated.`);
+console.log(`Total: ${Object.keys(bank).length} categories, ${totalRows}/${expectedTotalRows} rows, ${totalUniqueStems}/${expectedTotalUniqueStems} unique normalized prompts validated.`);
