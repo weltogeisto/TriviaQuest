@@ -1,29 +1,15 @@
 import { readFileSync } from 'node:fs';
+import promptNormalization from '../shared/prompt-normalization.js';
 
 const REQUIRED_ROWS_PER_CATEGORY = 120;
 const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
 const MAX_ALLOWED_VARIANTS_PER_STEM = 1;
-const PRACTICE_VARIANT_SUFFIX = /\s*\(Practice Variant\s+\d+\)\s*$/i;
-const WRAPPER_PREFIXES = [
-  /^\s*Identify the correct answer for this prompt:\s*/i,
-  /^\s*Choose the option that best answers this question:\s*/i,
-];
+const {
+  findPromptWrapperMatch,
+  normalizePromptStem,
+} = promptNormalization;
 
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
-
-function normalizeStem(text) {
-  let normalized = String(text || '').trim().toLowerCase();
-  normalized = normalized.replace(PRACTICE_VARIANT_SUFFIX, '').trim();
-  for (const prefix of WRAPPER_PREFIXES) {
-    normalized = normalized.replace(prefix, '').trim();
-  }
-  normalized = normalized
-    .replace(/([!?.,:;])\1+/g, '$1')
-    .replace(/\s*([!?.,:;])\s*/g, '$1 ')
-    .replace(/\s+/g, ' ')
-    .trim();
-  return normalized;
-}
 
 let errorCount = 0;
 const summaries = [];
@@ -60,7 +46,15 @@ for (const [category, questions] of Object.entries(bank)) {
     }
     seenExact.add(exactQuestionText);
 
-    const normalizedStem = normalizeStem(q.question);
+    const wrapperMatch = findPromptWrapperMatch(q.question);
+    if (wrapperMatch) {
+      console.error(
+        `Banned wrapper pattern "${wrapperMatch.name}" in ${category}[${idx}]: ${q.question}`,
+      );
+      errorCount += 1;
+    }
+
+    const normalizedStem = normalizePromptStem(q.question);
     stemCounts.set(normalizedStem, (stemCounts.get(normalizedStem) || 0) + 1);
   });
 
