@@ -64,6 +64,14 @@ for (const [category, questions] of Object.entries(bank)) {
     }
 
     const promptKey = q.question.trim().toLowerCase();
+    if (category === 'wortschatz') {
+      const bareTranslationMatch = q.question.match(BARE_TRANSLATION_PROMPT_RE);
+      if (bareTranslationMatch && AMBIGUOUS_WORTSCHATZ_TERMS.has(bareTranslationMatch[1])) {
+        console.error(`Ambiguous wortschatz item must use sentence context in ${category}[${idx}]: ${q.question}`);
+        errorCount += 1;
+      }
+    }
+
     if (seenExact.has(promptKey)) {
       fail(`Duplicate prompt in ${category}[${idx}]: ${q.question}`);
     }

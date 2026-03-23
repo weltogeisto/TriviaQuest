@@ -9568,15 +9568,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'die Nachricht' mean in English?",
+      "question": "In the sentence 'Ich habe dir gestern eine lange Nachricht geschickt,' what does 'Nachricht' mean in English?",
       "options": [
+        "news",
         "message",
-        "challenge",
-        "environment",
-        "opportunity"
+        "report",
+        "appointment"
       ],
-      "correct": 0,
-      "explanation": "'die Nachricht' translates to 'message'.",
+      "correct": 1,
+      "explanation": "Here, 'Nachricht' refers to something sent to a person, so 'message' fits the sentence best.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -9776,15 +9776,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'die Vorstellung' mean in English?",
+      "question": "In the sentence 'Ich habe eine klare Vorstellung davon, wie das Projekt aussehen soll,' what does 'Vorstellung' mean in English?",
       "options": [
-        "opportunity",
+        "performance",
+        "introduction",
         "idea",
-        "challenge",
-        "environment"
+        "memory"
       ],
-      "correct": 1,
-      "explanation": "'die Vorstellung' translates to 'idea'.",
+      "correct": 2,
+      "explanation": "In this sentence, 'Vorstellung' means a mental concept of how something should look, so 'idea' is the best match.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -10062,15 +10062,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'der Umgang' mean in English?",
+      "question": "In the sentence 'Der Umgang mit vertraulichen Daten erfordert große Sorgfalt,' what does 'Umgang' mean in English?",
       "options": [
-        "environment",
-        "challenge",
-        "opportunity",
+        "origin",
+        "handling",
+        "overview",
         "interaction"
       ],
-      "correct": 3,
-      "explanation": "'der Umgang' translates to 'interaction'.",
+      "correct": 1,
+      "explanation": "Because the sentence is about dealing carefully with confidential data, 'Umgang' means 'handling' here, not social interaction.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -10309,15 +10309,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'das Verhältnis' mean in English?",
+      "question": "In the sentence 'Nach dem Streit war ihr Verhältnis zu ihrer Schwester immer noch angespannt,' what does 'Verhältnis' mean in English?",
       "options": [
-        "environment",
-        "opportunity",
+        "procedure",
         "relationship",
-        "challenge"
+        "ratio",
+        "network"
       ],
-      "correct": 2,
-      "explanation": "'das Verhältnis' translates to 'relationship'.",
+      "correct": 1,
+      "explanation": "The sentence describes how two sisters get along, so 'Verhältnis' means 'relationship' in this context.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -10439,15 +10439,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'deutlich' mean in English?",
+      "question": "In the sentence 'Bitte sprich deutlich, damit dich alle verstehen können,' what does 'deutlich' mean in English?",
       "options": [
-        "clear",
-        "challenge",
-        "environment",
-        "opportunity"
+        "quietly",
+        "clearly",
+        "briefly",
+        "casually"
       ],
-      "correct": 0,
-      "explanation": "'deutlich' translates to 'clear'.",
+      "correct": 1,
+      "explanation": "Since the speaker wants everyone to understand, 'deutlich' means speaking 'clearly' here.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -10595,15 +10595,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'komisch' mean in English?",
+      "question": "In the sentence 'Irgendwas riecht komisch in der Küche,' what does 'komisch' mean in English?",
       "options": [
+        "lively",
+        "helpful",
         "strange",
-        "environment",
-        "challenge",
-        "opportunity"
+        "funny"
       ],
-      "correct": 0,
-      "explanation": "'komisch' translates to 'strange'.",
+      "correct": 2,
+      "explanation": "A smell in the kitchen can seem unusual, so 'komisch' means 'strange' here rather than 'funny'.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -10660,15 +10660,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'offenbar' mean in English?",
+      "question": "In the sentence 'Sie hat den Termin offenbar vergessen, denn sie ist gar nicht gekommen,' what does 'offenbar' mean in English?",
       "options": [
-        "environment",
-        "opportunity",
-        "apparent",
-        "challenge"
+        "apparently",
+        "constantly",
+        "carefully",
+        "voluntarily"
       ],
-      "correct": 2,
-      "explanation": "'offenbar' translates to 'apparent'.",
+      "correct": 0,
+      "explanation": "The speaker is inferring what happened from the evidence, so 'offenbar' means 'apparently' in this sentence.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
@@ -10725,28 +10725,28 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'ständig' mean in English?",
+      "question": "In the sentence 'Mein Handy klingelt heute ständig,' what does 'ständig' mean in English?",
       "options": [
-        "opportunity",
-        "constant",
-        "challenge",
-        "environment"
+        "precisely",
+        "constantly",
+        "voluntarily",
+        "quietly"
       ],
       "correct": 1,
-      "explanation": "'ständig' translates to 'constant'.",
+      "explanation": "Because the phone keeps ringing again and again, 'ständig' means 'constantly' here.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'tatsächlich' mean in English?",
+      "question": "In the sentence 'Ich dachte, der Zug hätte Verspätung, aber er war tatsächlich pünktlich,' what does 'tatsächlich' mean in English?",
       "options": [
-        "opportunity",
-        "actual",
-        "environment",
-        "challenge"
+        "actually",
+        "artificial",
+        "usual",
+        "apparent"
       ],
-      "correct": 1,
-      "explanation": "'tatsächlich' translates to 'actual'.",
+      "correct": 0,
+      "explanation": "The sentence contrasts expectation with reality, so 'tatsächlich' means 'actually' here, not 'actual'.",
       "category": "wortschatz",
       "difficulty": "Masters"
     },
