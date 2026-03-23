@@ -109,7 +109,9 @@ for (const [category, questions] of Object.entries(bank)) {
 
     const reviewKey = buildQuestionKey(category, q.question, correctOption);
     const reviewEntry = reviewIndex.get(reviewKey);
-    if (reviewEntry && reviewEntry.status !== 'verified') {
+    if (!reviewEntry) {
+      fail(`Missing fact review entry for ${category}[${idx}]: ${q.question}`);
+    } else if (reviewEntry.status !== 'verified') {
       fail(`Fact review entry is not verified for ${category}[${idx}]: ${q.question}`);
     }
   });
