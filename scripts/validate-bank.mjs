@@ -7,6 +7,19 @@ const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
 const EXPECTED_CATEGORIES = 7;
 const { normalizePromptStem } = promptNormalization;
 
+const AMBIGUOUS_WORTSCHATZ_TERMS = new Set([
+  'die Nachricht',
+  'die Vorstellung',
+  'der Umgang',
+  'das Verhältnis',
+  'deutlich',
+  'komisch',
+  'offenbar',
+  'ständig',
+  'tatsächlich',
+]);
+const BARE_TRANSLATION_PROMPT_RE = /^What does '(.+)' mean in English\?$/;
+
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
 const canonicalBank = buildBank();
 
@@ -69,6 +82,14 @@ for (const [category, questions] of Object.entries(bank)) {
     }
 
     const promptKey = q.question.trim().toLowerCase();
+    if (category === 'wortschatz') {
+      const bareTranslationMatch = q.question.match(BARE_TRANSLATION_PROMPT_RE);
+      if (bareTranslationMatch && AMBIGUOUS_WORTSCHATZ_TERMS.has(bareTranslationMatch[1])) {
+        console.error(`Ambiguous wortschatz item must use sentence context in ${category}[${idx}]: ${q.question}`);
+        errorCount += 1;
+      }
+    }
+
     if (seenExact.has(promptKey)) {
       console.error(`Duplicate prompt in ${category}[${idx}]: ${q.question}`);
       errorCount += 1;
