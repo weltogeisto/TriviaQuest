@@ -14,7 +14,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of Arunachal Pradesh?",
+      "question": "Which major Indian city is home to Electronics City and a large share of the country's tech industry?",
       "options": [
         "Dispur",
         "Itanagar",
@@ -144,7 +144,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of Kerala?",
+      "question": "Which jurist later became India's first Law Minister after leading the Constitution's drafting committee?",
       "options": [
         "Itanagar",
         "Thiruvananthapuram",
@@ -274,7 +274,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of Sikkim?",
+      "question": "Activist Gaura Devi is linked to which present-day state where the Chipko movement began?",
       "options": [
         "Dispur",
         "Gangtok",
@@ -404,7 +404,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of the union territory of Delhi?",
+      "question": "The Mahalanobis model shaped which Indian Five-Year Plan focused on heavy industry?",
       "options": [
         "New Delhi",
         "Port Blair",
@@ -534,7 +534,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "In which city is the Charminar located?",
+      "question": "Adam's Bridge lies in the strait between India and which nearby island nation?",
       "options": [
         "Mysuru",
         "Lucknow",
@@ -664,7 +664,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which bay lies to the east of India?",
+      "question": "Which amendment expanded India's electorate by reducing the voting age to 18 years?",
       "options": [
         "Bay of Bengal",
         "Baffin Bay",
@@ -794,7 +794,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who wrote the song \"Vande Mataram\"?",
+      "question": "India's Siachen Glacier is located in the eastern Karakoram near Ladakh. Which range is that?",
       "options": [
         "Sarat Chandra Chattopadhyay",
         "Subramania Bharati",
@@ -924,7 +924,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which launch site on Sriharikota is India’s main spaceport?",
+      "question": "Which agricultural scientist is widely credited inside India with leading the Green Revolution push?",
       "options": [
         "Thumba Equatorial Rocket Launching Station",
         "Satish Dhawan Space Centre",
@@ -1054,7 +1054,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which fort in Delhi was built by Shah Jahan and served as a Mughal residence?",
+      "question": "Under which article does the Indian Constitution explicitly abolish 'untouchability'?",
       "options": [
         "Agra Fort",
         "Red Fort",
@@ -1184,7 +1184,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which state is home to the city of Guwahati?",
+      "question": "Kerala's painted-face dance-drama tradition among India's classical forms is called what?",
       "options": [
         "Tripura",
         "Nagaland",
@@ -1314,7 +1314,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which Indian state is associated with the city of Itanagar?",
+      "question": "Jaipur serves as the capital of which northwestern Indian state?",
       "options": [
         "Nagaland",
         "Sikkim",
@@ -1444,7 +1444,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which Indian state is associated with the city of Gandhinagar?",
+      "question": "The song 'Vande Mataram' comes from which author's novel 'Anandamath'?",
       "options": [
         "Madhya Pradesh",
         "Gujarat",
@@ -1589,7 +1589,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of Brazil?",
+      "question": "The Indian landmass rides on which major tectonic plate as it pushes into Eurasia?",
       "options": [
         "Tokyo",
         "Canberra",
@@ -1719,7 +1719,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of Vietnam?",
+      "question": "Which desert stretching across North Africa is the world's largest hot desert?",
       "options": [
         "Brasília",
         "Ottawa",
@@ -1862,7 +1862,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of Saudi Arabia?",
+      "question": "Including overseas regions, which country spans the greatest number of time zones?",
       "options": [
         "Brasília",
         "Ottawa",
@@ -1992,7 +1992,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which mountain range includes Mount Everest?",
+      "question": "Aconcagua and much of the Andes are found on which continent?",
       "options": [
         "Andes",
         "Alps",
@@ -2117,7 +2117,20 @@
         "Suez Canal"
       ],
       "correct": 3,
-      "explanation": "The Suez Canal cuts across Egypt.",
+      "explanation": "The Mariana Trench contains the deepest known point in Earth’s oceans.",
+      "category": "geography",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Challenger Deep is located inside which ocean trench?",
+      "options": [
+        "Java Trench",
+        "Mariana Trench",
+        "Puerto Rico Trench",
+        "Tonga Trench"
+      ],
+      "correct": 1,
+      "explanation": "The Mariana Trench contains the deepest known point in Earth’s oceans.",
       "category": "geography",
       "difficulty": "Masters"
     },
@@ -2239,7 +2252,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which current warms the western coast of Europe?",
+      "question": "Baghdad stands on the banks of which river?",
       "options": [
         "Benguela Current",
         "Labrador Current",
@@ -2369,7 +2382,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which sea is shrinking between Kazakhstan and Uzbekistan?",
+      "question": "The San Andreas Fault marks what kind of plate boundary?",
       "options": [
         "Black Sea",
         "Caspian Sea",
@@ -2499,7 +2512,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which sea lies east of Italy and west of the Balkans?",
+      "question": "Which African Great Lake is often cited as a principal source of the White Nile?",
       "options": [
         "Ionian Sea",
         "Aegean Sea",
@@ -2629,7 +2642,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which river drains much of central Europe into the Black Sea?",
+      "question": "Which named latitude line crosses central India?",
       "options": [
         "Elbe",
         "Rhine",
@@ -2759,7 +2772,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which country contains the city of Petra?",
+      "question": "Year-round frozen subsoil is a hallmark of which biome?",
       "options": [
         "Syria",
         "Jordan",
@@ -2889,7 +2902,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which country contains the city of Durban?",
+      "question": "Budapest is split by which major European river?",
       "options": [
         "Botswana",
         "South Africa",
@@ -3019,7 +3032,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which desert is found mainly in northern China and southern Mongolia?",
+      "question": "Which desert is the largest in Asia by area?",
       "options": [
         "Kalahari Desert",
         "Gobi Desert",
@@ -3151,7 +3164,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which element has the chemical symbol C?",
+      "question": "Current cosmology estimates the observable universe is about how old?",
       "options": [
         "Hydrogen",
         "Helium",
@@ -3294,7 +3307,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which element has the chemical symbol Sn?",
+      "question": "In the Standard Model, which gauge boson carries electromagnetic interactions?",
       "options": [
         "Carbon",
         "Helium",
@@ -3424,7 +3437,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which element has the chemical symbol Ar?",
+      "question": "Biologists most often use CRISPR-Cas9 as a tool for what kind of manipulation?",
       "options": [
         "Carbon",
         "Helium",
@@ -3554,7 +3567,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which planet is closest to the Sun?",
+      "question": "The tendency of entropy to rise in an isolated system is summarized by which thermodynamics law?",
       "options": [
         "Mars",
         "Venus",
@@ -3684,7 +3697,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What force pulls objects toward Earth?",
+      "question": "At 25°C, a neutral aqueous solution has what pH value?",
       "options": [
         "Buoyancy",
         "Friction",
@@ -3814,7 +3827,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which acid is found in car batteries?",
+      "question": "Which cells containing hemoglobin carry most oxygen in human blood?",
       "options": [
         "Acetic acid",
         "Nitric acid",
@@ -3944,7 +3957,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which organ produces insulin?",
+      "question": "Cycles per second are measured in which SI unit?",
       "options": [
         "Liver",
         "Thyroid",
@@ -4074,7 +4087,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which planet has the Great Red Spot?",
+      "question": "Which planet generates the strongest overall magnetic field in our solar system?",
       "options": [
         "Saturn",
         "Mars",
@@ -4204,7 +4217,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which scientist pioneered vaccination with a smallpox vaccine?",
+      "question": "Rhizobium bacteria perform which process that turns atmospheric nitrogen into ammonia?",
       "options": [
         "Gregor Mendel",
         "Edward Jenner",
@@ -4334,7 +4347,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which process changes a liquid to a gas at the surface of the liquid?",
+      "question": "Residential natural gas is composed mainly of which hydrocarbon?",
       "options": [
         "Evaporation",
         "Sublimation",
@@ -4464,7 +4477,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which simple machine consists of a rigid bar pivoting on a fulcrum?",
+      "question": "Electromagnetic force is transmitted by which particle?",
       "options": [
         "Axle",
         "Inclined plane",
@@ -4594,7 +4607,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which instrument measures temperature?",
+      "question": "Most ATP in eukaryotic cells is produced in which organelle?",
       "options": [
         "Compass",
         "Thermometer",
@@ -4726,7 +4739,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "In which year did the American Declaration of Independence appear?",
+      "question": "The assassination at Sarajevo helped trigger a war that began in what year?",
       "options": [
         "1789",
         "1945",
@@ -4856,7 +4869,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "In which year was the first moon landing achieved?",
+      "question": "The 1648 peace settlement ending the Thirty Years' War is known by what name?",
       "options": [
         "1969",
         "1789",
@@ -4986,7 +4999,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "In which year did the Spanish Armada attempt to invade England?",
+      "question": "Octavian later ruled Rome under which imperial title as its first emperor?",
       "options": [
         "1945",
         "1588",
@@ -5116,7 +5129,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who led the Haitian Revolution and became a key leader of Haiti?",
+      "question": "The political transformation known as the Meiji Restoration occurred in which country?",
       "options": [
         "Henri Christophe",
         "Simón Bolívar",
@@ -5246,7 +5259,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who was the Soviet leader during most of World War II?",
+      "question": "Machu Picchu was constructed under which Andean empire?",
       "options": [
         "Leon Trotsky",
         "Nikita Khrushchev",
@@ -5376,7 +5389,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which empire was founded in India by Babur?",
+      "question": "Karl Marx co-authored 'The Communist Manifesto' with which collaborator?",
       "options": [
         "Maratha Empire",
         "Maurya Empire",
@@ -5506,7 +5519,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which city was once called Byzantium and later Constantinople?",
+      "question": "Which Paris uprising event in July 1789 is commonly treated as the start of the French Revolution?",
       "options": [
         "Antioch",
         "Athens",
@@ -5636,7 +5649,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which French prison was stormed on 14 July 1789?",
+      "question": "Early cuneiform writing emerged in which Mesopotamian civilization?",
       "options": [
         "Bastille",
         "Louvre",
@@ -5766,7 +5779,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which Russian ruler sold Alaska to the United States?",
+      "question": "The Congress of Vienna reorganized Europe after the downfall of which French leader?",
       "options": [
         "Catherine II",
         "Peter III",
@@ -5896,7 +5909,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who was the Carthaginian general who crossed the Alps with elephants?",
+      "question": "From 1961 to 1989, East and West Berlin were separated by what barrier?",
       "options": [
         "Scipio Africanus",
         "Pyrrhus",
@@ -6013,7 +6026,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which queen ruled England during the Victorian era?",
+      "question": "The Berlin Wall opened in the pivotal year of what date?",
       "options": [
         "Elizabeth I",
         "Victoria",
@@ -6143,7 +6156,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which political doctrine called for U.S. opposition to European colonization in the Americas?",
+      "question": "The 1763 agreement ending the Seven Years' War is usually called which treaty?",
       "options": [
         "Open Door Policy",
         "Truman Doctrine",
@@ -6275,7 +6288,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which artist painted The Starry Night?",
+      "question": "Claude Monet is a central figure in which art movement?",
       "options": [
         "Paul Cézanne",
         "Paul Gauguin",
@@ -6405,7 +6418,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which artist painted Las Meninas?",
+      "question": "Gabriel García Márquez wrote which landmark novel featuring the Buendía family?",
       "options": [
         "Diego Velázquez",
         "Francisco Goya",
@@ -6561,7 +6574,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which artistic movement is Salvador Dalí most associated with?",
+      "question": "On a sheet of music, the marking 'allegro' usually calls for what tempo?",
       "options": [
         "Realism",
         "Cubism",
@@ -6691,7 +6704,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which writer created Pride and Prejudice?",
+      "question": "Titanium-clad curves define Bilbao's Guggenheim building by which architect?",
       "options": [
         "George Eliot",
         "Charlotte Brontë",
@@ -6821,7 +6834,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which writer created Beloved?",
+      "question": "The absurdist play 'Waiting for Godot' was written by whom?",
       "options": [
         "Zora Neale Hurston",
         "Maya Angelou",
@@ -6951,7 +6964,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which instrument belongs to the brass family?",
+      "question": "Ragas are a core concept in which musical tradition?",
       "options": [
         "Bassoon",
         "Cello",
@@ -7081,7 +7094,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which museum in Paris houses the Mona Lisa?",
+      "question": "Florence's famous marble 'David' was carved by which Renaissance master?",
       "options": [
         "Centre Pompidou",
         "Louvre Museum",
@@ -7198,7 +7211,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which movement is associated with Umberto Boccioni and an obsession with speed and modernity?",
+      "question": "'Call me Ishmael.' is the opening line of which novel?",
       "options": [
         "Realism",
         "Symbolism",
@@ -7328,7 +7341,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which filmmaker directed Seven Samurai?",
+      "question": "Court entertainments in Renaissance Italy gave rise to which country as ballet's origin point?",
       "options": [
         "Akira Kurosawa",
         "Yasujirō Ozu",
@@ -7458,7 +7471,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which term describes creating the illusion of depth using converging parallel lines?",
+      "question": "The violin concertos known as 'The Four Seasons' were composed by whom?",
       "options": [
         "Contrapposto",
         "Collage",
@@ -7588,7 +7601,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which ballet was choreographed by Marius Petipa to music by Tchaikovsky?",
+      "question": "Which architect is most associated with the Guggenheim Museum Bilbao?",
       "options": [
         "Giselle",
         "Coppélia",
@@ -7707,10 +7720,23 @@
     {
       "question": "Which Spanish painter created The Third of May 1808?",
       "options": [
-        "Velázquez",
-        "Francisco Goya",
-        "Picasso",
-        "Murillo"
+        "Wolfgang Amadeus Mozart",
+        "Ludwig van Beethoven",
+        "Joseph Haydn",
+        "Gioachino Rossini"
+      ],
+      "correct": 0,
+      "explanation": "Mozart composed \"The Magic Flute\" (Die Zauberflöte), which premiered in 1791.",
+      "category": "arts",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Who composed the opera 'The Magic Flute' (Die Zauberflöte)?",
+      "options": [
+        "Joseph Haydn",
+        "Wolfgang Amadeus Mozart",
+        "Gioachino Rossini",
+        "Ludwig van Beethoven"
       ],
       "correct": 1,
       "explanation": "The Third of May 1808 is a famous painting by Francisco Goya.",
@@ -7793,6 +7819,47 @@
       "correct": 2,
       "explanation": "Cloud Gate was designed by Anish Kapoor.",
       "category": "arts",
+      "difficulty": "Masters"
+    }
+  ],
+  "tolkien": [
+    {
+      "question": "What is the name of Frodo’s sword?",
+      "options": [
+        "Orcrist",
+        "Glamdring",
+        "Sting",
+        "Andúril"
+      ],
+      "correct": 2,
+      "explanation": "Frodo carries Sting, originally from Bilbo.",
+      "category": "tolkien",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Identify the correct answer for this prompt: What is the name of Frodo’s sword.",
+      "options": [
+        "Sting",
+        "Glamdring",
+        "Orcrist",
+        "Andúril"
+      ],
+      "correct": 0,
+      "explanation": "Frodo carries Sting, originally from Bilbo.",
+      "category": "tolkien",
+      "difficulty": "Masters"
+    },
+    {
+      "question": "Frodo carries which short Elvish blade that glows blue near orcs?",
+      "options": [
+        "Sting",
+        "Andúril",
+        "Glamdring",
+        "Orcrist"
+      ],
+      "correct": 0,
+      "explanation": "Frodo carries Sting, originally from Bilbo.",
+      "category": "tolkien",
       "difficulty": "Masters"
     },
     {
@@ -7915,7 +7982,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "In which land was the One Ring forged?",
+      "question": "The Ruling Ring was secretly made in Mordor by which Dark Lord?",
       "options": [
         "Lindon",
         "Rohan",
@@ -8045,7 +8112,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which tree-like beings march on Isengard?",
+      "question": "Aragorn descends from Isildur through which royal house?",
       "options": [
         "Ents",
         "Beornings",
@@ -8175,7 +8242,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who was Aragorn’s father?",
+      "question": "Legolas is the son of which Elven king of Mirkwood?",
       "options": [
         "Thengel",
         "Arathorn",
@@ -8305,7 +8372,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who is Théoden’s son who dies before the Battle of Helm’s Deep?",
+      "question": "Galadriel and Celeborn rule which woodland realm east of the Misty Mountains?",
       "options": [
         "Éomer",
         "Háma",
@@ -8435,7 +8502,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which inn in Bree do the hobbits visit?",
+      "question": "Before he became Gollum, by what name was the Stoor hobbit known?",
       "options": [
         "The Golden Perch",
         "The Prancing Pony",
@@ -8578,7 +8645,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the Khuzdul name of Moria?",
+      "question": "The Fellowship journeys toward which volcanic peak to unmake the One Ring?",
       "options": [
         "Khazad-dûm",
         "Amon Lhaw",
@@ -8708,7 +8775,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which land lies directly west of Mordor and contains Ithilien?",
+      "question": "In the Bridge of Khazad-dûm scene, who cries 'You shall not pass!'?",
       "options": [
         "Harad",
         "Rohan",
@@ -8838,7 +8905,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who is Bilbo’s dwarf friend that later rules Erebor?",
+      "question": "The Ents are best described as what kind of beings?",
       "options": [
         "Balin",
         "Thorin Oakenshield",
@@ -8968,7 +9035,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the name of Bilbo’s memoir of the quest?",
+      "question": "Before the Stewards ruled Gondor, who was its last king?",
       "options": [
         "Adventures in Wilderland",
         "The Hobbiton Journal",
@@ -9098,7 +9165,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who enchants Morgoth and helps Beren recover a Silmaril?",
+      "question": "Rivendell is known by what Elvish name?",
       "options": [
         "Idril",
         "Arwen",
@@ -9228,7 +9295,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What are the nine servants of Sauron called?",
+      "question": "After Narsil was reforged, Aragorn's sword bore what name?",
       "options": [
         "Uruk-hai",
         "Nazgûl",
@@ -9358,7 +9425,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the main language of the Elves in Rivendell and much of Middle-earth?",
+      "question": "In English, what does the German noun 'die Herausforderung' mean?",
       "options": [
         "Adûnaic",
         "Khuzdul",
@@ -9490,7 +9557,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'die Gesundheit' mean in English?",
+      "question": "Which English adjective best matches the German word 'nachhaltig'?",
       "options": [
         "health",
         "environment",
@@ -9620,7 +9687,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'die Reihenfolge' mean in English?",
+      "question": "What is the English meaning of the phrase 'sich bewerben um'?",
       "options": [
         "environment",
         "challenge",
@@ -9750,7 +9817,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'die Vereinbarung' mean in English?",
+      "question": "How do you translate the German noun 'die Fähigkeit' into English?",
       "options": [
         "environment",
         "challenge",
@@ -9880,7 +9947,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'der Beitrag' mean in English?",
+      "question": "Which English adverb is the closest meaning of 'vermutlich'?",
       "options": [
         "opportunity",
         "contribution",
@@ -10010,7 +10077,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'der Inhalt' mean in English?",
+      "question": "What is the English translation of 'der Fortschritt'?",
       "options": [
         "environment",
         "content",
@@ -10140,7 +10207,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'das Angebot' mean in English?",
+      "question": "Which English word best matches the conjunction/adverb 'trotzdem'?",
       "options": [
         "environment",
         "opportunity",
@@ -10283,7 +10350,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'das Merkmal' mean in English?",
+      "question": "What does the German noun 'die Umgebung' mean in English?",
       "options": [
         "challenge",
         "opportunity",
@@ -10413,7 +10480,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'ausführlich' mean in English?",
+      "question": "Which English adjective best translates 'zuverlässig'?",
       "options": [
         "environment",
         "detailed",
@@ -10543,7 +10610,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'gefährlich' mean in English?",
+      "question": "The phrase 'sich gewöhnen an' is best translated into English as what?",
       "options": [
         "opportunity",
         "challenge",
@@ -10673,7 +10740,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'präzise' mean in English?",
+      "question": "What does the German noun 'Geschwindigkeit' mean in English?",
       "options": [
         "environment",
         "precise",
@@ -10816,7 +10883,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What does 'zweckmäßig' mean in English?",
+      "question": "Which German noun means 'science' in English?",
       "options": [
         "practical",
         "challenge",

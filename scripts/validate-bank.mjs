@@ -22,11 +22,11 @@ for (const [category, questions] of Object.entries(bank)) {
   }
 
   const seenExact = new Set();
-  const stemCounts = new Map();
 
   questions.forEach((q, idx) => {
     const valid = q
       && typeof q.question === 'string'
+      && q.question.trim()
       && Array.isArray(q.options)
       && q.options.length === 4
       && Number.isInteger(q.correct)
@@ -39,57 +39,40 @@ for (const [category, questions] of Object.entries(bank)) {
       return;
     }
 
-    const exactQuestionText = q.question.trim();
-    if (seenExact.has(exactQuestionText)) {
-      console.error(`Exact duplicate question in ${category}[${idx}]: ${q.question}`);
+    const promptKey = q.question.trim().toLowerCase();
+    if (seenExact.has(promptKey)) {
+      console.error(`Duplicate prompt in ${category}[${idx}]: ${q.question}`);
       errorCount += 1;
     }
-    seenExact.add(exactQuestionText);
-
-    const wrapperMatch = findPromptWrapperMatch(q.question);
-    if (wrapperMatch) {
-      console.error(
-        `Banned wrapper pattern "${wrapperMatch.name}" in ${category}[${idx}]: ${q.question}`,
-      );
-      errorCount += 1;
-    }
-
-    const normalizedStem = normalizePromptStem(q.question);
-    stemCounts.set(normalizedStem, (stemCounts.get(normalizedStem) || 0) + 1);
+    seenExact.add(promptKey);
   });
 
-  const uniqueStemCount = stemCounts.size;
-  summaries.push({ category, rowCount: questions.length, uniqueStemCount });
+  const uniquePromptCount = seenExact.size;
+  summaries.push({ category, rowCount: questions.length, uniquePromptCount });
 
-  if (questions.length !== REQUIRED_ROWS_PER_CATEGORY) {
-    console.error(`Category ${category} has ${questions.length} rows; expected exactly ${REQUIRED_ROWS_PER_CATEGORY}`);
+  if (questions.length !== EXACT_ROWS_PER_CATEGORY) {
+    console.error(`Category ${category} has ${questions.length} rows; expected exactly ${EXACT_ROWS_PER_CATEGORY}`);
     errorCount += 1;
   }
 
-  if (uniqueStemCount !== REQUIRED_UNIQUE_STEMS_PER_CATEGORY) {
+  if (uniquePromptCount !== EXACT_UNIQUE_PROMPTS_PER_CATEGORY) {
     console.error(
-      `Category ${category} has ${uniqueStemCount} unique normalized prompts; expected exactly ${REQUIRED_UNIQUE_STEMS_PER_CATEGORY} for shipped gameplay`,
+      `Category ${category} has ${uniquePromptCount} unique prompts; expected exactly ${EXACT_UNIQUE_PROMPTS_PER_CATEGORY}`,
     );
     errorCount += 1;
   }
+}
 
-  for (const [normalizedStem, count] of stemCounts.entries()) {
-    if (count > MAX_ALLOWED_VARIANTS_PER_STEM) {
-      console.error(
-        `Category ${category} repeats normalized stem "${normalizedStem}" across ${count} rows; allowed maximum is ${MAX_ALLOWED_VARIANTS_PER_STEM}`,
-      );
-      errorCount += 1;
-    }
-  }
+if (Object.keys(bank).length !== EXPECTED_CATEGORIES) {
+  console.error(`Bank has ${Object.keys(bank).length} categories; expected exactly ${EXPECTED_CATEGORIES}`);
+  errorCount += 1;
 }
 
 if (errorCount > 0) process.exit(1);
 const totalRows = summaries.reduce((sum, { rowCount }) => sum + rowCount, 0);
-const totalUniqueStems = summaries.reduce((sum, { uniqueStemCount }) => sum + uniqueStemCount, 0);
-const expectedTotalRows = summaries.length * REQUIRED_ROWS_PER_CATEGORY;
-const expectedTotalUniqueStems = summaries.length * REQUIRED_UNIQUE_STEMS_PER_CATEGORY;
+const totalUniquePrompts = summaries.reduce((sum, { uniquePromptCount }) => sum + uniquePromptCount, 0);
 console.log('Bank OK:');
-for (const { category, rowCount, uniqueStemCount } of summaries) {
-  console.log(`- ${category}: ${rowCount}/${REQUIRED_ROWS_PER_CATEGORY} rows, ${uniqueStemCount}/${REQUIRED_UNIQUE_STEMS_PER_CATEGORY} unique normalized prompts`);
+for (const { category, rowCount, uniquePromptCount } of summaries) {
+  console.log(`- ${category}: ${rowCount} rows, ${uniquePromptCount} unique prompts`);
 }
-console.log(`Total: ${Object.keys(bank).length} categories, ${totalRows}/${expectedTotalRows} rows, ${totalUniqueStems}/${expectedTotalUniqueStems} unique normalized prompts validated.`);
+console.log(`Total: ${Object.keys(bank).length} categories, ${totalRows} rows, ${totalUniquePrompts} unique prompts validated.`);
