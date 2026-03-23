@@ -1324,7 +1324,7 @@ function csvToObjects(text){
   if (!rows.length) return [];
 
   const head = rows.shift().map(s => String(s).trim());
-  return rows.map(cols => {
+  return rows.map((cols, rowIndex) => {
     const obj = {};
     head.forEach((h, i) => { obj[h] = cols[i] ?? ''; });
     return {
@@ -1333,26 +1333,141 @@ function csvToObjects(text){
       correct: Number(obj.correct||0),
       explanation: obj.explanation||'',
       difficulty: obj.difficulty||'Masters',
-      category: obj.category||''
+      category: obj.category||'',
+      _importMeta: { source: 'csv', rowNumber: rowIndex + 2 },
     };
   });
 }
+function normalizeImportText(value){
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim()
+    .toLowerCase();
+}
+function explanationSupportsAnswer(explanation, answer){
+  const normalizedAnswer = normalizeImportText(answer);
+  if (!normalizedAnswer) return false;
+  return normalizeImportText(explanation).includes(normalizedAnswer);
+}
 function validateQ(q){
+  const correctOption = Array.isArray(q?.options) ? q.options[q.correct] : '';
   return q && typeof q.question==='string' && q.question.trim()
       && Array.isArray(q.options) && q.options.length===4
-      && [0,1,2,3].includes(q.correct);
+      && [0,1,2,3].includes(q.correct)
+      && typeof q.explanation === 'string' && q.explanation.trim()
+      && typeof correctOption === 'string' && correctOption.trim();
 }
 function questionDedupKey(question){ return normalizeQuestionStem(question); }
-function dedupeMerge(targetArr, incoming){
-  const seen = new Set(targetArr.map(x=>questionDedupKey(x.question)));
-  let add=0, skip=0, bad=0;
-  for (const q of incoming){
-    if (!validateQ(q)) { bad++; continue; }
-    const key = questionDedupKey(q.question);
-    if (seen.has(key)) { skip++; continue; }
-    targetArr.push(q); seen.add(key); add++;
+function formatImportRowLabel(q, fallbackIndex){
+  const rowNumber = q?._importMeta?.rowNumber;
+  if (Number.isInteger(rowNumber)) return `row ${rowNumber}`;
+  return `item ${fallbackIndex + 1}`;
+}
+function validateImportedQuestion(q, context = {}){
+  const reasons = [];
+  const rowLabel = formatImportRowLabel(q, context.index ?? 0);
+  const options = Array.isArray(q?.options) ? q.options : [];
+  const normalizedStem = questionDedupKey(q?.question || '');
+  const strippedQuestion = stripQuestionWrappers(q?.question || '');
+
+  if (!validateQ(q)) {
+    if (!(q && typeof q.question === 'string' && q.question.trim())) reasons.push('question is empty');
+    if (!Array.isArray(q?.options) || q.options.length !== 4) reasons.push('must provide exactly four options');
+    if (![0,1,2,3].includes(q?.correct)) reasons.push('correct must be 0, 1, 2, or 3');
+    if (!(typeof q?.explanation === 'string' && q.explanation.trim())) reasons.push('explanation is required');
+    const correctOption = Array.isArray(q?.options) ? q.options[q.correct] : '';
+    if (!(typeof correctOption === 'string' && correctOption.trim())) reasons.push('correct option must be a non-empty string');
   }
-  return {add,skip,bad};
+
+  if (Array.isArray(options) && options.length === 4) {
+    const normalizedOptions = options.map(opt => typeof opt === 'string' ? opt.trim() : '');
+    normalizedOptions.forEach((opt, idx) => {
+      if (!opt) {
+        reasons.push(idx === q.correct ? `correct option ${idx + 1} is empty` : `distractor option ${idx + 1} is empty`);
+      }
+    });
+    const seenOptions = new Map();
+    normalizedOptions.forEach((opt, idx) => {
+      if (!opt) return;
+      const key = normalizeImportText(opt);
+      if (!key) return;
+      if (seenOptions.has(key)) {
+        reasons.push(`options ${seenOptions.get(key) + 1} and ${idx + 1} are duplicates`);
+      } else {
+        seenOptions.set(key, idx);
+      }
+    });
+  }
+
+  if (typeof q?.question === 'string' && q.question.trim()) {
+    if (!normalizedStem) reasons.push('question stem is empty after normalization');
+    if (normalizeImportText(q.question) !== normalizeImportText(strippedQuestion)) {
+      reasons.push('question uses a wrapped/variant prompt; import the canonical prompt stem instead');
+    }
+  }
+
+  const correctAnswer = Array.isArray(options) ? options[q.correct] : '';
+  if (typeof q?.explanation === 'string' && q.explanation.trim() && typeof correctAnswer === 'string' && correctAnswer.trim()) {
+    if (!explanationSupportsAnswer(q.explanation, correctAnswer)) {
+      reasons.push('explanation must reference or support the marked correct answer');
+    }
+  }
+
+  if (normalizedStem && context.seenBatchStems?.has(normalizedStem)) {
+    reasons.push('duplicate prompt stem within this import batch');
+  }
+  if (normalizedStem && context.existingStems?.has(normalizedStem)) {
+    reasons.push('duplicate prompt stem already exists in this category');
+  }
+
+  return { valid: reasons.length === 0, reasons, rowLabel, normalizedStem };
+}
+function dedupeMerge(targetArr, incoming){
+  const existingStems = new Set(targetArr.map(x=>questionDedupKey(x.question)));
+  const seenBatchStems = new Set();
+  const accepted = [];
+  const rejected = [];
+  for (const [index, rawQuestion] of incoming.entries()){
+    const q = rawQuestion && typeof rawQuestion === 'object'
+      ? { ...rawQuestion, _importMeta: rawQuestion._importMeta || { source: 'json', rowNumber: index + 1 } }
+      : rawQuestion;
+    const result = validateImportedQuestion(q, { index, existingStems, seenBatchStems });
+    if (!result.valid) {
+      rejected.push({ rowLabel: result.rowLabel, question: q?.question || '', reasons: result.reasons });
+      continue;
+    }
+    accepted.push({
+      question: q.question,
+      options: q.options,
+      correct: q.correct,
+      explanation: q.explanation,
+      difficulty: q.difficulty || 'Masters',
+      category: q.category || '',
+    });
+    seenBatchStems.add(result.normalizedStem);
+  }
+
+  if (rejected.length) {
+    return { add:0, skip:0, bad:rejected.length, rejected, committed:false };
+  }
+
+  for (const q of accepted){
+    targetArr.push(q);
+    existingStems.add(questionDedupKey(q.question));
+  }
+  return { add:accepted.length, skip:0, bad:0, rejected:[], committed:true };
+}
+function formatRejectedRows(rejected, limit = 6){
+  if (!rejected.length) return '';
+  const lines = rejected.slice(0, limit).map(entry => {
+    const question = String(entry.question || '').trim();
+    const label = `${entry.rowLabel}: ${entry.reasons.join('; ')}`;
+    return question ? `${label} — ${question}` : label;
+  });
+  const more = rejected.length > limit ? ` (+${rejected.length - limit} more)` : '';
+  return ` Rejected rows: ${lines.join(' | ')}${more}`;
 }
 function saveLocal(){ try{ localStorage.setItem(BANK_LOCAL_STORAGE_KEY, JSON.stringify(BANK)); persistBundledBankVersion(); }catch{} }
 function download(name, text, type='application/json'){
@@ -1369,9 +1484,16 @@ $("#btnImport")?.addEventListener('click', async ()=>{
   try{ arr = f.name.toLowerCase().endsWith('.csv') ? csvToObjects(txt) : JSON.parse(txt); }
   catch(e){ msg.textContent='Parse error: '+e.message; return; }
   if (!Array.isArray(arr)){ msg.textContent='File must be an array of questions.'; return; }
-  BANK[cat] = BANK[cat]||[]; const res = dedupeMerge(BANK[cat], arr);
+  const current = BANK[cat] || [];
+  const next = current.slice();
+  const res = dedupeMerge(next, arr);
+  if (!res.committed) {
+    msg.textContent = `Import blocked for "${cat}": ${res.bad} invalid row(s). Nothing was saved.` + formatRejectedRows(res.rejected);
+    return;
+  }
+  BANK[cat] = next;
   saveLocal(); rebuildCategoryPools(); updateHomeCounts();
-  msg.textContent = `Imported into "${cat}": +${res.add} added, ${res.skip} duplicates, ${res.bad} invalid. Total ${BANK[cat].length}.`;
+  msg.textContent = `Imported into "${cat}": +${res.add} added. Total ${BANK[cat].length}. Batch passed strict validation.`;
 });
 
 $("#btnImportAll")?.addEventListener('click', async ()=>{
@@ -1379,20 +1501,31 @@ $("#btnImportAll")?.addEventListener('click', async ()=>{
   try{
     const obj = JSON.parse(await f.text());
     if (!obj || typeof obj!=='object') throw new Error('Not an object');
-    const totals = { add:0, skip:0, bad:0, imported:0, ignored:[] };
+    const nextBank = { ...BANK };
+    const totals = { add:0, skip:0, bad:0, imported:0, ignored:[], rejected:[] };
     for (const [k, arr] of Object.entries(obj)){
       if (!Array.isArray(arr)) continue;
       if (!supportedCategories.has(k)) { totals.ignored.push(k); continue; }
-      BANK[k] = BANK[k] || [];
-      const res = dedupeMerge(BANK[k], arr);
+      const nextCategory = (nextBank[k] || []).slice();
+      const res = dedupeMerge(nextCategory, arr);
       totals.add += res.add;
       totals.skip += res.skip;
       totals.bad += res.bad;
       totals.imported++;
+      if (!res.committed) {
+        totals.rejected.push(`${k}: ${res.bad} invalid row(s).${formatRejectedRows(res.rejected)}`);
+        continue;
+      }
+      nextBank[k] = nextCategory;
     }
+    if (totals.rejected.length) {
+      msg.textContent = `ALL import blocked: ${totals.bad} invalid row(s) across ${totals.rejected.length} categorie(s). Nothing was saved. ${totals.rejected.join(' ')}`;
+      return;
+    }
+    Object.assign(BANK, nextBank);
     saveLocal(); rebuildCategoryPools(); updateHomeCounts();
     const detail = totals.imported
-      ? `Imported ${totals.imported} categories: +${totals.add} added, ${totals.skip} duplicates, ${totals.bad} invalid.`
+      ? `Imported ${totals.imported} categories: +${totals.add} added. Batch passed strict validation.`
       : 'No supported categories found in ALL import.';
     const ignored = totals.ignored.length
       ? ` Ignored unknown categories: ${totals.ignored.join(', ')}.`
