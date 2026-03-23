@@ -2291,19 +2291,6 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which country has the most time zones when overseas territories are included?",
-      "options": [
-        "United States",
-        "France",
-        "Russia",
-        "Canada"
-      ],
-      "correct": 1,
-      "explanation": "Including overseas territories, France spans the most time zones.",
-      "category": "geography",
-      "difficulty": "Masters"
-    },
-    {
       "question": "Which country contains the Patagonia region shared with Chile?",
       "options": [
         "Uruguay",
@@ -7818,60 +7805,6 @@
       ],
       "correct": 2,
       "explanation": "Cloud Gate was designed by Anish Kapoor.",
-      "category": "arts",
-      "difficulty": "Masters"
-    }
-  ],
-  "tolkien": [
-    {
-      "question": "What is the name of Frodo’s sword?",
-      "options": [
-        "Orcrist",
-        "Glamdring",
-        "Sting",
-        "Andúril"
-      ],
-      "correct": 2,
-      "explanation": "Frodo carries Sting, originally from Bilbo.",
-      "category": "tolkien",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Identify the correct answer for this prompt: What is the name of Frodo’s sword.",
-      "options": [
-        "Sting",
-        "Glamdring",
-        "Orcrist",
-        "Andúril"
-      ],
-      "correct": 0,
-      "explanation": "Frodo carries Sting, originally from Bilbo.",
-      "category": "tolkien",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Frodo carries which short Elvish blade that glows blue near orcs?",
-      "options": [
-        "Sting",
-        "Andúril",
-        "Glamdring",
-        "Orcrist"
-      ],
-      "correct": 0,
-      "explanation": "Frodo carries Sting, originally from Bilbo.",
-      "category": "tolkien",
-      "difficulty": "Masters"
-    },
-    {
-      "question": "Which contemporary artist made large balloon-animal-inspired sculptures?",
-      "options": [
-        "Banksy",
-        "Damien Hirst",
-        "Jeff Koons",
-        "Takashi Murakami"
-      ],
-      "correct": 2,
-      "explanation": "Jeff Koons is famous for reflective balloon-animal sculptures.",
       "category": "arts",
       "difficulty": "Masters"
     }

@@ -3,11 +3,8 @@ import promptNormalization from '../shared/prompt-normalization.js';
 
 const REQUIRED_ROWS_PER_CATEGORY = 120;
 const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
-const MAX_ALLOWED_VARIANTS_PER_STEM = 1;
-const {
-  findPromptWrapperMatch,
-  normalizePromptStem,
-} = promptNormalization;
+const EXPECTED_CATEGORIES = 7;
+const { normalizePromptStem } = promptNormalization;
 
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
 
@@ -47,17 +44,17 @@ for (const [category, questions] of Object.entries(bank)) {
     seenExact.add(promptKey);
   });
 
-  const uniquePromptCount = seenExact.size;
+  const uniquePromptCount = new Set(questions.map((q) => normalizePromptStem(q.question))).size;
   summaries.push({ category, rowCount: questions.length, uniquePromptCount });
 
-  if (questions.length !== EXACT_ROWS_PER_CATEGORY) {
-    console.error(`Category ${category} has ${questions.length} rows; expected exactly ${EXACT_ROWS_PER_CATEGORY}`);
+  if (questions.length !== REQUIRED_ROWS_PER_CATEGORY) {
+    console.error(`Category ${category} has ${questions.length} rows; expected exactly ${REQUIRED_ROWS_PER_CATEGORY}`);
     errorCount += 1;
   }
 
-  if (uniquePromptCount !== EXACT_UNIQUE_PROMPTS_PER_CATEGORY) {
+  if (uniquePromptCount !== REQUIRED_UNIQUE_STEMS_PER_CATEGORY) {
     console.error(
-      `Category ${category} has ${uniquePromptCount} unique prompts; expected exactly ${EXACT_UNIQUE_PROMPTS_PER_CATEGORY}`,
+      `Category ${category} has ${uniquePromptCount} unique prompts; expected exactly ${REQUIRED_UNIQUE_STEMS_PER_CATEGORY}`,
     );
     errorCount += 1;
   }

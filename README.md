@@ -34,9 +34,9 @@ Then open `http://localhost:4173`.
 
 ## What changed for "next level"
 
-- **PWA support**: manifest + service worker + install button.
+- **PWA support**: manifest + service worker + install button, with text-based SVG app icons for repo-friendly diffs.
 - **Offline gameplay**: core assets are cached and still open when the network is down.
-- **Install UX**: when install is available, users get a direct **Install App** button.
+- **Install UX**: users always get an **Install App** button, with a Chrome menu fallback when the native install prompt is not exposed.
 - **Shipped quality gate**: `npm test` validates `bank.json` structure, answer integrity, and enforces **exactly 120 rows plus 120 unique prompts per category**.
 - **Audit visibility**: `npm run audit:bank` reports duplicate-prompt and wrapper/variant health without changing the ship gate.
 - **Round selection behavior**: rounds are built by randomized sampling from the category's **real full 120-prompt pool**, so each round draws from the shipped bank instead of a reduced transitional subset.
@@ -48,13 +48,13 @@ Then open `http://localhost:4173`.
 3. In GitHub: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
 4. Push to `main` (or `master`) to auto-deploy.
 5. Open your live URL: `https://<your-user>.github.io/<repo-name>/`.
-6. On Android Chrome, open that URL and tap **Install App**.
+6. On Android Chrome, open that URL and tap **Install App**. If Chrome does not open the prompt, use **⋮ → Install app**.
 
 ## Use on Android (fastest path)
 
 1. Deploy these files to HTTPS (Netlify, Vercel, GitHub Pages, Firebase Hosting, etc.).
 2. Open the URL in Chrome on Android.
-3. Tap the in-app **Install App** button (or Chrome menu → *Install app*).
+3. Tap the in-app **Install App** button. If no prompt appears, use Chrome menu → *Install app* (or *Add to Home screen* on older Chrome builds).
 4. App runs fullscreen and can work offline after first load.
 
 ## Downloadable Android APK (ship-ready path)
