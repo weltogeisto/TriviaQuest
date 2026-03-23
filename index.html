@@ -771,6 +771,8 @@ details > summary { cursor: pointer; }
 }
 .install-tip strong { color: var(--text); }
 .install-tip.hidden { display: none; }
+.recovery-actions { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+.recovery-note { font-size: 13px; color: var(--text-muted); }
 
 /* ============================================================
    RESPONSIVE — MOBILE POLISH
@@ -819,6 +821,10 @@ details > summary { cursor: pointer; }
       <p class="home-hero-sub">Advanced academic trivia — select a category to begin</p>
       <div id="installTip" class="install-tip">
         <strong>Android install:</strong> Tap <strong>Install App</strong>. If Chrome does not open the install sheet, use <strong>⋮ → Install app</strong> after the page finishes loading once.
+      </div>
+      <div class="recovery-actions">
+        <button id="btnResetDownloadedData" class="btn btn-ghost" type="button">Reset downloaded question data</button>
+        <span class="recovery-note">Use this if categories look outdated, duplicated, or broken offline.</span>
       </div>
     </div>
     <div class="cat-grid">
@@ -986,26 +992,55 @@ details > summary { cursor: pointer; }
 let BANK = {};
 let deferredInstallPrompt = null;
 let bundledBankLoaded = false;
+const BUNDLED_BANK_VERSION = 'bank-6e37513e878c84b4';
+const BANK_LOCAL_STORAGE_KEY = 'BANK_LOCAL';
+const ROUND_QUEUE_STORAGE_KEY = 'ROUND_QUEUE_STATE_V1';
+const BANK_VERSION_STORAGE_KEY = 'BANK_VERSION_V1';
+let pendingLocalBank = null;
+
+function isPlainObject(value){ return !!value && typeof value === 'object' && !Array.isArray(value); }
+function getStoredBankVersion(){
+  try{ return localStorage.getItem(BANK_VERSION_STORAGE_KEY) || ''; }catch{ return ''; }
+}
+function hasCurrentBundledBankVersion(){ return getStoredBankVersion() === BUNDLED_BANK_VERSION; }
+function persistBundledBankVersion(){ try{ localStorage.setItem(BANK_VERSION_STORAGE_KEY, BUNDLED_BANK_VERSION); }catch{} }
+function pruneOutdatedStoredBankData(){
+  try{
+    localStorage.removeItem(BANK_LOCAL_STORAGE_KEY);
+    localStorage.removeItem(ROUND_QUEUE_STORAGE_KEY);
+    localStorage.removeItem(BANK_VERSION_STORAGE_KEY);
+  }catch{}
+}
+function resetDownloadedQuestionData(){
+  pruneOutdatedStoredBankData();
+  pendingLocalBank = null;
+}
+function cloneBankPayload(source){
+  const out = {};
+  if (!isPlainObject(source)) return out;
+  for (const [k, arr] of Object.entries(source)) if (Array.isArray(arr) && arr.length) out[k] = [...arr];
+  return out;
+}
 
 (function mergeEmbedded(){
   try{
     const raw = document.getElementById('embeddedBank')?.textContent || '{}';
     const obj = JSON.parse(raw);
-    if (obj && typeof obj==='object'){
-      for (const k of Object.keys(obj)){
-        if (Array.isArray(obj[k]) && obj[k].length) BANK[k] = obj[k];
-      }
-    }
+    Object.assign(BANK, cloneBankPayload(obj));
   }catch{}
 })();
 
 (function loadLocal(){
   try{
-    const x = JSON.parse(localStorage.getItem('BANK_LOCAL')||'null');
-    if (x && typeof x==='object'){
-      for (const k of Object.keys(x)) if (Array.isArray(x[k])) BANK[k]=x[k];
+    if (!hasCurrentBundledBankVersion()){
+      pruneOutdatedStoredBankData();
+      return;
     }
-  }catch{}
+    const x = JSON.parse(localStorage.getItem(BANK_LOCAL_STORAGE_KEY)||'null');
+    pendingLocalBank = cloneBankPayload(x);
+  }catch{
+    pruneOutdatedStoredBankData();
+  }
 })();
 
 (async function loadBundledBank(){
@@ -1013,18 +1048,16 @@ let bundledBankLoaded = false;
     const res = await fetch('./bank.json');
     if (!res.ok) throw new Error('bank fetch failed');
     const obj = await res.json();
-    if (obj && typeof obj==='object'){
-      for (const k of Object.keys(obj)){
-        if (!Array.isArray(obj[k]) || !obj[k].length) continue;
-        if (!Array.isArray(BANK[k]) || !BANK[k].length){
-          BANK[k] = obj[k];
-          continue;
-        }
-        dedupeMerge(BANK[k], obj[k]);
-        // Review note: if embedded/local already loaded 120 questions first,
-        // bundled loading only appends unseen question keys, so the final count stays 120.
+    const bundledBank = cloneBankPayload(obj);
+    if (Object.keys(bundledBank).length) BANK = bundledBank;
+    if (isPlainObject(pendingLocalBank)){
+      for (const [k, arr] of Object.entries(pendingLocalBank)){
+        if (!Array.isArray(arr) || !arr.length) continue;
+        BANK[k] = Array.isArray(BANK[k]) ? BANK[k] : [];
+        dedupeMerge(BANK[k], arr);
       }
     }
+    persistBundledBankVersion();
   }catch{}
   bundledBankLoaded = true;
   rebuildCategoryPools();
@@ -1060,7 +1093,6 @@ if (new URLSearchParams(location.search).get('admin') === '1') { const p = docum
 
 const ROUND_COUNT = 10;
 const PER_Q = 45;
-const ROUND_QUEUE_STORAGE_KEY = 'ROUND_QUEUE_STATE_V1';
 let state = {cat:null, deck:[], idx:0, score:0, t:PER_Q, id:null, answered:false, recentStems:[]};
 const roundHistory = {};
 const categoryPools = {};
@@ -1078,6 +1110,7 @@ function questionStem(text){
 function cleanExplanation(text){ return String(text||'').replace(/\s*Variant\s+\d+\s+keeps\s+the\s+same\s+concept\s+with\s+reordered\s+options\.?\s*$/i,'').trim(); }
 function loadRoundQueueState(){
   try{
+    if (!hasCurrentBundledBankVersion()) return {};
     const raw = localStorage.getItem(ROUND_QUEUE_STORAGE_KEY);
     const parsed = JSON.parse(raw || '{}');
     return parsed && typeof parsed === 'object' ? parsed : {};
@@ -1093,6 +1126,7 @@ function saveRoundQueueState(){
     }
     persistedRoundQueues = payload;
     localStorage.setItem(ROUND_QUEUE_STORAGE_KEY, JSON.stringify(payload));
+    persistBundledBankVersion();
   }catch{}
 }
 function buildCategoryPool(cat){
@@ -1236,6 +1270,12 @@ $("#btnNext").onclick  = next;
 $("#btnReveal").onclick= ()=>{ if (!state.answered){ choose(state.deck[state.idx].correct); } };
 $("#btnPlayAgain").onclick = ()=> startGame($("#btnPlayAgain")._cat);
 $("#btnResultHome").onclick= ()=> show("#screen-home");
+$("#btnResetDownloadedData")?.addEventListener('click', ()=>{
+  const ok = window.confirm('Reset downloaded question data? This clears cached question overrides and reloads the latest bundled bank.');
+  if (!ok) return;
+  resetDownloadedQuestionData();
+  window.location.reload();
+});
 
 function csvToObjects(text){
   const rows = [];
@@ -1314,7 +1354,7 @@ function dedupeMerge(targetArr, incoming){
   }
   return {add,skip,bad};
 }
-function saveLocal(){ try{ localStorage.setItem('BANK_LOCAL', JSON.stringify(BANK)); }catch{} }
+function saveLocal(){ try{ localStorage.setItem(BANK_LOCAL_STORAGE_KEY, JSON.stringify(BANK)); persistBundledBankVersion(); }catch{} }
 function download(name, text, type='application/json'){
   const a = document.createElement('a');
   a.href = URL.createObjectURL(new Blob([text],{type})); a.download = name; a.click(); URL.revokeObjectURL(a.href);
@@ -1368,11 +1408,10 @@ $("#btnExportAll")?.addEventListener('click', ()=>{
   download(`all_categories.json`, JSON.stringify(BANK, null, 2));
 });
 $("#btnClearLocal")?.addEventListener('click', ()=>{
-  localStorage.removeItem('BANK_LOCAL');
-  localStorage.removeItem(ROUND_QUEUE_STORAGE_KEY);
+  resetDownloadedQuestionData();
   persistedRoundQueues = {};
   for (const cat of Object.keys(categoryPools)) delete categoryPools[cat];
-  msg.textContent='Local overrides cleared. Reload to use embedded data.';
+  msg.textContent='Downloaded question data cleared. Reload to use the bundled bank.';
 });
 $("#btnOneFile")?.addEventListener('click', ()=>{
   try{
