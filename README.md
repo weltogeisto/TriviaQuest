@@ -14,9 +14,10 @@ Then open `http://localhost:4173`.
 ## Current content volume
 
 - **7 categories**
-- **840 raw rows total in `bank.json`** (**120 rows per category**)
-- **672 unique playable stems total** (**96 unique stems per category**) once the current wrapper prefixes and `Practice Variant N` suffixes are normalized
-- Each stem currently appears as multiple practice variants, so the bank does **not** yet contain 100 distinct prompts per category
+- **840 total rows in `bank.json`** (**120 rows per category**)
+- **840 real unique prompts total** (**120 unique prompts per category**)
+- `npm test` now enforces **exactly 120 rows and 120 unique prompts per category** before the bank can ship
+- `npm run audit:bank` exists to report duplicate and wrapper health separately from the ship gate
 
 ## Data layout (merge-conflict friendly)
 
@@ -36,9 +37,9 @@ Then open `http://localhost:4173`.
 - **PWA support**: manifest + service worker + install button.
 - **Offline gameplay**: core assets are cached and still open when the network is down.
 - **Install UX**: when install is available, users get a direct **Install App** button.
-- **Basic quality gate**: `npm test` validates `bank.json` structure, answer integrity, at least 100 raw rows per category, and 100 unique normalized stems per category after wrapper/punctuation normalization.
-- **Round selection behavior**: rounds are built by **randomized sampling**, not by a fully exhaustive fixed queue. The app groups practice variants by normalized stem, picks up to 10 unique stems per round, prefers stems not seen in the most recent rounds for that category, and only reuses prior stems after that shortlist is exhausted.
-- **Content target (not yet met)**: ship-ready content should reach **100 distinct playable prompts per category**. The current bank normalizes down to **96 unique stems per category**, so `npm test` now fails until the remaining wrapper/variant duplicates are replaced with new prompts.
+- **Shipped quality gate**: `npm test` validates `bank.json` structure, answer integrity, and enforces **exactly 120 rows plus 120 unique prompts per category**.
+- **Audit visibility**: `npm run audit:bank` reports duplicate-prompt and wrapper/variant health without changing the ship gate.
+- **Round selection behavior**: rounds are built by randomized sampling from the category's **real full 120-prompt pool**, so each round draws from the shipped bank instead of a reduced transitional subset.
 
 ## Deploy on GitHub Pages (recommended)
 
@@ -76,9 +77,10 @@ If you want a direct `.apk`:
 
 ## Iteration checklist (vibecode to ship-ready)
 
-- [ ] Expand every category from the current **96 unique normalized stems** to **100 distinct playable prompts** (raw row count alone is not enough).
-- [x] Tighten the validator so `npm test` fails unless each category has **100 unique normalized stems**, not just 100+ rows and a minimum stem-variety floor.
-- [ ] Keep round generation on randomized stem sampling unless product direction changes to an explicitly exhaustive queue.
+- [x] Ship **7 categories / 840 total rows / 120 real unique prompts per category** in `bank.json`.
+- [x] Tighten the validator so `npm test` fails unless each category has **exactly 120 rows and 120 unique prompts**.
+- [x] Add a bank audit script so duplicate-prompt and wrapper/variant health can be inspected with `npm run audit:bank`.
+- [x] Keep round generation drawing from the category's real full pool rather than a reduced transitional subset.
 - [ ] Add progress persistence (last category, high scores).
 - [ ] Add UI polish: haptics/sounds, streaks, animations.
 - [ ] Add automated browser E2E checks (Playwright).

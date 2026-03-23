@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "scripts": {
     "serve": "python3 -m http.server 4173",
-    "test": "node scripts/validate-bank.mjs"
+    "test": "node scripts/validate-bank.mjs",
+    "audit:bank": "node scripts/audit-bank.mjs"
   }
 }
