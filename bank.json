@@ -1,15 +1,15 @@
 {
   "india": [
     {
-      "question": "What is the capital of Andhra Pradesh?",
+      "question": "Which city is the planned capital of Andhra Pradesh?",
       "options": [
+        "Patna",
         "Dispur",
         "Itanagar",
-        "Patna",
         "Amaravati"
       ],
       "correct": 3,
-      "explanation": "Amaravati is the capital city of Andhra Pradesh.",
+      "explanation": "Amaravati is the planned capital city of Andhra Pradesh.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -417,15 +417,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of the union territory of Jammu and Kashmir?",
+      "question": "What is the summer capital of the union territory of Jammu and Kashmir?",
       "options": [
-        "Daman",
-        "Port Blair",
+        "Chandigarh",
         "Srinagar",
-        "Chandigarh"
+        "Port Blair",
+        "Daman"
       ],
-      "correct": 2,
-      "explanation": "Srinagar serves as the capital of Jammu and Kashmir.",
+      "correct": 1,
+      "explanation": "Srinagar serves as the summer capital of Jammu and Kashmir.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -1431,7 +1431,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which Indian state uses Chandigarh as a shared capital?",
+      "question": "Which Indian state shares Chandigarh as its capital with Haryana?",
       "options": [
         "Delhi",
         "Himachal Pradesh",
@@ -1439,7 +1439,7 @@
         "Haryana"
       ],
       "correct": 2,
-      "explanation": "Chandigarh serves as the capital of Punjab as well as Haryana.",
+      "explanation": "Chandigarh serves as the capital of Punjab and Haryana.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -1496,15 +1496,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which Indian state is associated with the city of Amaravati?",
+      "question": "Which Indian state is associated with the planned capital city of Amaravati?",
       "options": [
+        "Odisha",
         "Tamil Nadu",
         "Andhra Pradesh",
-        "Odisha",
         "Telangana"
       ],
-      "correct": 1,
-      "explanation": "Amaravati is designated as the capital of Andhra Pradesh.",
+      "correct": 2,
+      "explanation": "Amaravati is associated with Andhra Pradesh as its planned capital city.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -1615,7 +1615,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the capital of South Africa?",
+      "question": "Which city is the administrative capital of South Africa?",
       "options": [
         "Brasília",
         "Pretoria",
@@ -1623,7 +1623,7 @@
         "Ottawa"
       ],
       "correct": 1,
-      "explanation": "Pretoria is the capital city of South Africa.",
+      "explanation": "Pretoria is South Africa's administrative capital.",
       "category": "geography",
       "difficulty": "Masters"
     },
@@ -3097,15 +3097,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which country contains the city of Nuuk?",
+      "question": "Nuuk is the capital of which autonomous territory?",
       "options": [
+        "Greenland",
         "Denmark",
         "Iceland",
-        "Norway",
-        "Greenland"
+        "Norway"
       ],
-      "correct": 3,
-      "explanation": "Nuuk is the capital of Greenland.",
+      "correct": 0,
+      "explanation": "Nuuk is the capital of Greenland, an autonomous territory within the Kingdom of Denmark.",
       "category": "geography",
       "difficulty": "Masters"
     },
@@ -5116,15 +5116,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who led the Haitian Revolution and became a key leader of Haiti?",
+      "question": "Who was the most famous early leader of the Haitian Revolution?",
       "options": [
-        "Henri Christophe",
-        "Simón Bolívar",
         "Jean-Jacques Dessalines",
-        "Toussaint Louverture"
+        "Toussaint Louverture",
+        "Simón Bolívar",
+        "Henri Christophe"
       ],
-      "correct": 3,
-      "explanation": "Toussaint Louverture was the revolution’s most famous early leader.",
+      "correct": 1,
+      "explanation": "Toussaint Louverture was the most famous early leader of the Haitian Revolution.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -8760,15 +8760,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What is the name of the haven from which Elves sail west?",
+      "question": "What is the common English name of Mithlond?",
       "options": [
+        "Lond Daer",
         "Grey Havens",
         "Mithlond",
-        "Umbar",
-        "Lond Daer"
+        "Umbar"
       ],
-      "correct": 0,
-      "explanation": "The Grey Havens are the western ports for voyages to the Undying Lands.",
+      "correct": 1,
+      "explanation": "Mithlond is commonly called the Grey Havens.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
@@ -8838,15 +8838,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Who is Bilbo’s dwarf friend that later rules Erebor?",
+      "question": "Who is Bilbo’s dwarf friend who leads the Quest of Erebor?",
       "options": [
-        "Balin",
         "Thorin Oakenshield",
-        "Dáin Ironfoot",
-        "Glóin"
+        "Glóin",
+        "Balin",
+        "Dáin Ironfoot"
       ],
-      "correct": 1,
-      "explanation": "Thorin leads the Quest of Erebor.",
+      "correct": 0,
+      "explanation": "Thorin Oakenshield leads the Quest of Erebor in The Hobbit.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
@@ -8903,15 +8903,15 @@
       "difficulty": "Masters"
     },
     {
-      "question": "What town lies on Long Lake near Erebor?",
+      "question": "What is the common name of Esgaroth?",
       "options": [
+        "Esgaroth",
         "Lake-town",
         "Dale",
-        "Thranduil’s Halls",
-        "Esgaroth"
+        "Thranduil’s Halls"
       ],
-      "correct": 0,
-      "explanation": "Lake-town is also called Esgaroth.",
+      "correct": 1,
+      "explanation": "Esgaroth is commonly called Lake-town.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
