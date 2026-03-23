@@ -1054,20 +1054,24 @@ const STEM_WRAPPER_PREFIXES = [
   /^\s*Identify the correct answer for this prompt:\s*/i,
   /^\s*Choose the option that best answers this question:\s*/i,
 ];
-function stripStemWrappers(text){
-  let normalized = String(text||'').trim();
+function sanitizeStemText(text, { lowercase = false } = {}){
+  let normalized = String(text || '').trim();
+  if (lowercase) normalized = normalized.toLowerCase();
   normalized = normalized.replace(PRACTICE_VARIANT_SUFFIX, '').trim();
-  STEM_WRAPPER_PREFIXES.forEach(prefix => {
+  for (const prefix of STEM_WRAPPER_PREFIXES){
     normalized = normalized.replace(prefix, '').trim();
-  });
+  }
   return normalized
     .replace(/([!?.,:;])\1+/g, '$1')
     .replace(/\s*([!?.,:;])\s*/g, '$1 ')
     .replace(/\s+/g, ' ')
     .trim();
 }
+function stripStemWrappers(text){
+  return sanitizeStemText(text);
+}
 function normalizeQuestionStem(text){
-  return stripStemWrappers(text).toLowerCase();
+  return sanitizeStemText(text, { lowercase: true });
 }
 function questionStem(text){
   return stripStemWrappers(text);
