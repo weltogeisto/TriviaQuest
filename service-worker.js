@@ -1,4 +1,4 @@
-const CACHE_NAME = 'triviaquest-v1';
+const CACHE_NAME = 'triviaquest-v3';
 const CORE_ASSETS = ['./', './index.html', './bank.json', './manifest.webmanifest', './icons/icon-192.svg', './icons/icon-512.svg'];
 
 self.addEventListener('install', (event) => {

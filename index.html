@@ -760,6 +760,18 @@ code {
 details > summary { cursor: pointer; }
 .meta { display: inline-flex; gap: 8px; align-items: center; flex-wrap: wrap; }
 
+.install-tip {
+  margin-top: 12px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid var(--border);
+  background: rgba(255,255,255,.05);
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.install-tip strong { color: var(--text); }
+.install-tip.hidden { display: none; }
+
 /* ============================================================
    RESPONSIVE — MOBILE POLISH
 ============================================================ */
@@ -795,7 +807,7 @@ details > summary { cursor: pointer; }
       <span id="installStatus" class="chip">📡 Online-first</span>
     </div>
     <div class="header-actions">
-      <button id="btnInstall" class="btn btn-ghost hidden">📲 Install App</button>
+      <button id="btnInstall" class="btn btn-ghost">📲 Install App</button>
       <button id="btnHome" class="btn btn-ghost hidden">← Home</button>
     </div>
   </header>
@@ -805,6 +817,9 @@ details > summary { cursor: pointer; }
     <div class="home-hero">
       <h1 class="home-hero-title">Choose Your Arena</h1>
       <p class="home-hero-sub">Advanced academic trivia — select a category to begin</p>
+      <div id="installTip" class="install-tip">
+        <strong>Android install:</strong> Tap <strong>Install App</strong>. If Chrome does not open the install sheet, use <strong>⋮ → Install app</strong> after the page finishes loading once.
+      </div>
     </div>
     <div class="cat-grid">
 
@@ -1037,6 +1052,9 @@ function show(id){
 }
 function updateHomeCounts(){ for (const k of Object.keys(BANK)){ const n = BANK[k]?.length||0; const el = document.querySelector(`[data-count="${k}"]`); if (el) el.textContent = n; } }
 function setInstallStatus(text){ const el = $("#installStatus"); if (el) el.textContent = text; }
+function setInstallButton(label, disabled=false){ const btn = $("#btnInstall"); if (!btn) return; btn.textContent = label; btn.disabled = disabled; btn.setAttribute('aria-disabled', disabled ? 'true' : 'false'); }
+function showInstallTip(text){ const el = $("#installTip"); if (el) { el.innerHTML = text; el.classList.remove('hidden'); } }
+function hideInstallTip(){ const el = $("#installTip"); if (el) el.classList.add('hidden'); }
 updateHomeCounts();
 if (new URLSearchParams(location.search).get('admin') === '1') { const p = document.getElementById('adminPanel'); if (p) p.style.display = ''; }
 
@@ -1366,33 +1384,59 @@ $("#btnOneFile")?.addEventListener('click', ()=>{
   }catch(e){ msg.textContent='Backup failed: '+e.message; }
 });
 
+const standaloneMode = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+if (standaloneMode) {
+  setInstallStatus('✅ Installed as app');
+  setInstallButton('✅ Installed', true);
+  hideInstallTip();
+} else {
+  setInstallButton('📲 Install App');
+}
+
 window.addEventListener('beforeinstallprompt', (e) => {
   e.preventDefault();
   deferredInstallPrompt = e;
-  $("#btnInstall").classList.remove("hidden");
   setInstallStatus('📲 Installable on Android');
+  setInstallButton('📲 Install App');
+  showInstallTip('<strong>Android install:</strong> Tap <strong>Install App</strong> for the native Chrome prompt.');
 });
 
 $("#btnInstall").addEventListener('click', async () => {
-  if (!deferredInstallPrompt) return;
+  if (standaloneMode) return;
+  if (!deferredInstallPrompt) {
+    setInstallStatus('ℹ️ Use Chrome menu → Install app');
+    showInstallTip('<strong>Install fallback:</strong> In Chrome on Android, open <strong>⋮</strong> and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>. If you just opened the site, wait a moment and try again.');
+    return;
+  }
   deferredInstallPrompt.prompt();
-  await deferredInstallPrompt.userChoice;
+  const choice = await deferredInstallPrompt.userChoice;
   deferredInstallPrompt = null;
-  $("#btnInstall").classList.add("hidden");
+  if (choice?.outcome === 'accepted') {
+    setInstallStatus('⏳ Finishing install…');
+    setInstallButton('⏳ Installing…', true);
+  } else {
+    setInstallStatus('ℹ️ Install dismissed');
+    setInstallButton('📲 Install App');
+  }
 });
 
 window.addEventListener('appinstalled', () => {
   setInstallStatus('✅ Installed as app');
-  $("#btnInstall").classList.add("hidden");
+  setInstallButton('✅ Installed', true);
+  hideInstallTip();
 });
 
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', async () => {
     try {
       await navigator.serviceWorker.register('./service-worker.js');
-      setInstallStatus(navigator.onLine ? '📲 Ready for install' : '📴 Offline mode');
+      if (!standaloneMode) {
+        setInstallStatus(navigator.onLine ? '📲 Ready for install' : '📴 Offline mode');
+        showInstallTip('<strong>Android install:</strong> Tap <strong>Install App</strong>. If Chrome does not open the prompt, use <strong>⋮ → Install app</strong>.');
+      }
     } catch {
       setInstallStatus('⚠️ Offline unavailable');
+      showInstallTip('<strong>Install note:</strong> Service worker registration failed, so Chrome may not offer installation until the app is redeployed.');
     }
   });
 }
