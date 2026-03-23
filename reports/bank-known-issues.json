@@ -1,0 +1,13 @@
+{
+  "version": 1,
+  "description": "Rows listed here must fail validation until rewritten or removed from this file.",
+  "ambiguous": [
+    {
+      "category": "history",
+      "prompt_stem": "which political doctrine called for u.s. opposition to european colonization in the americas?",
+      "expected_answer": "Monroe Doctrine",
+      "reason": "The original wording accepted multiple paraphrases in classroom use and benefits from explicit timeframe/context if flagged again."
+    }
+  ],
+  "disputed": []
+}

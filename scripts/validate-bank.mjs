@@ -1,69 +1,49 @@
-import { readFileSync } from 'node:fs';
-import promptNormalization from '../shared/prompt-normalization.js';
-import { buildBank } from './rebuild-bank.mjs';
+import {
+  EXPECTED_CATEGORIES,
+  REQUIRED_ROWS_PER_CATEGORY,
+  REQUIRED_UNIQUE_STEMS_PER_CATEGORY,
+  buildQuestionKey,
+  buildReviewIndex,
+  explanationSupportsAnswer,
+  findPromptWrapperMatch,
+  loadBank,
+  loadKnownIssues,
+  loadReviewMetadata,
+  normalizePromptStem,
+  normalizeText,
+  uniqueNormalizedOptions,
+} from './bank-validation-utils.mjs';
 
-const REQUIRED_ROWS_PER_CATEGORY = 120;
-const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
-const EXPECTED_CATEGORIES = 7;
-const { normalizePromptStem } = promptNormalization;
-
-const AMBIGUOUS_WORTSCHATZ_TERMS = new Set([
-  'die Nachricht',
-  'die Vorstellung',
-  'der Umgang',
-  'das Verhältnis',
-  'deutlich',
-  'komisch',
-  'offenbar',
-  'ständig',
-  'tatsächlich',
-]);
-const BARE_TRANSLATION_PROMPT_RE = /^What does '(.+)' mean in English\?$/;
-
-const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
-const canonicalBank = buildBank();
-
-function normalizeText(value) {
-  return String(value ?? '')
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^\p{L}\p{N}]+/gu, ' ')
-    .trim()
-    .toLowerCase();
-}
-
-function explanationMentionsAnswer(explanation, answer) {
-  const normalizedAnswer = normalizeText(answer);
-  if (!normalizedAnswer) return true;
-  return normalizeText(explanation).includes(normalizedAnswer);
-}
+const bank = loadBank();
+const reviewMetadata = loadReviewMetadata();
+const reviewIndex = buildReviewIndex(reviewMetadata);
+const knownIssues = loadKnownIssues();
 
 let errorCount = 0;
 const summaries = [];
 
-if (JSON.stringify(bank) !== JSON.stringify(canonicalBank)) {
-  console.error('bank.json does not exactly match the canonical output from scripts/rebuild-bank.mjs');
+function fail(message) {
+  console.error(message);
   errorCount += 1;
 }
 
-for (const [category, questions] of Object.entries(bank)) {
-  const canonicalQuestions = canonicalBank[category];
-
-  if (!Array.isArray(questions)) {
-    console.error(`Category ${category} is not an array of questions`);
-    errorCount += 1;
-    continue;
+function checkKnownIssueList(issueList, type, category, q, idx, correctOption) {
+  for (const entry of issueList) {
+    if (entry.category !== category) continue;
+    if (normalizePromptStem(q.question) !== entry.prompt_stem) continue;
+    if (normalizeText(correctOption) !== normalizeText(entry.expected_answer)) continue;
+    fail(`${type} row still present in ${category}[${idx}]: ${q.question} (${entry.reason})`);
   }
+}
 
-  if (!Array.isArray(canonicalQuestions)) {
-    console.error(`Category ${category} is not present in the canonical generated bank`);
-    errorCount += 1;
+for (const [category, questions] of Object.entries(bank)) {
+  if (!Array.isArray(questions)) {
+    fail(`Category ${category} is not an array of questions`);
     continue;
   }
 
   const seenExact = new Set();
-  const canonicalByQuestion = new Map(canonicalQuestions.map((question) => [question.question, question]));
-  const canonicalStemSet = new Set(canonicalQuestions.map((question) => normalizePromptStem(question.question)));
+  const seenNormalized = new Map();
 
   questions.forEach((q, idx) => {
     const valid = q
@@ -71,13 +51,15 @@ for (const [category, questions] of Object.entries(bank)) {
       && q.question.trim()
       && Array.isArray(q.options)
       && q.options.length === 4
+      && q.options.every((option) => typeof option === 'string' && option.trim())
       && Number.isInteger(q.correct)
       && q.correct >= 0
-      && q.correct <= 3;
+      && q.correct <= 3
+      && typeof q.explanation === 'string'
+      && q.explanation.trim();
 
     if (!valid) {
-      console.error(`Invalid question schema in ${category}[${idx}]`);
-      errorCount += 1;
+      fail(`Invalid question schema in ${category}[${idx}]`);
       return;
     }
 
@@ -91,38 +73,44 @@ for (const [category, questions] of Object.entries(bank)) {
     }
 
     if (seenExact.has(promptKey)) {
-      console.error(`Duplicate prompt in ${category}[${idx}]: ${q.question}`);
-      errorCount += 1;
+      fail(`Duplicate prompt in ${category}[${idx}]: ${q.question}`);
     }
     seenExact.add(promptKey);
 
-    const correctOption = q.options[q.correct];
-    if (typeof correctOption !== 'string' || !correctOption.trim()) {
-      console.error(`Correct option is empty in ${category}[${idx}]: ${q.question}`);
-      errorCount += 1;
-    }
-
     const normalizedStem = normalizePromptStem(q.question);
-    if (!canonicalStemSet.has(normalizedStem)) {
-      console.error(`Question stem is missing from canonical source set in ${category}[${idx}]: ${q.question}`);
-      errorCount += 1;
+    const normalizedStemCount = (seenNormalized.get(normalizedStem) || 0) + 1;
+    seenNormalized.set(normalizedStem, normalizedStemCount);
+    if (normalizedStemCount > 1) {
+      fail(`Normalized prompt collision in ${category}[${idx}]: ${q.question}`);
+    }
+
+    if (findPromptWrapperMatch(q.question)) {
+      fail(`Question uses a wrapper prefix and must be rewritten in ${category}[${idx}]: ${q.question}`);
+    }
+
+    const uniqueOptions = uniqueNormalizedOptions(q.options);
+    if (uniqueOptions.size !== q.options.length) {
+      fail(`Options are duplicated after normalization in ${category}[${idx}]: ${q.question}`);
+    }
+
+    const correctOption = q.options[q.correct];
+    if (!correctOption?.trim()) {
+      fail(`Correct option is empty in ${category}[${idx}]: ${q.question}`);
       return;
     }
 
-    const canonicalQuestion = canonicalByQuestion.get(q.question);
-    if (!canonicalQuestion) {
-      console.error(`Question text drifted from canonical source in ${category}[${idx}]: ${q.question}`);
-      errorCount += 1;
-      return;
+    const explanationCheck = explanationSupportsAnswer(q);
+    if (!explanationCheck.ok) {
+      fail(`Explanation quality check failed (${explanationCheck.reason}) in ${category}[${idx}]: ${q.question}`);
     }
 
-    const expectedAnswer = canonicalQuestion.options[canonicalQuestion.correct];
-    if (
-      explanationMentionsAnswer(canonicalQuestion.explanation, expectedAnswer)
-      && !explanationMentionsAnswer(q.explanation, expectedAnswer)
-    ) {
-      console.error(`Explanation does not reference canonical answer in ${category}[${idx}]: ${q.question}`);
-      errorCount += 1;
+    checkKnownIssueList(knownIssues?.ambiguous || [], 'Known ambiguous', category, q, idx, correctOption);
+    checkKnownIssueList(knownIssues?.disputed || [], 'Known disputed', category, q, idx, correctOption);
+
+    const reviewKey = buildQuestionKey(category, q.question, correctOption);
+    const reviewEntry = reviewIndex.get(reviewKey);
+    if (reviewEntry && reviewEntry.status !== 'verified') {
+      fail(`Fact review entry is not verified for ${category}[${idx}]: ${q.question}`);
     }
   });
 
@@ -130,21 +118,16 @@ for (const [category, questions] of Object.entries(bank)) {
   summaries.push({ category, rowCount: questions.length, uniquePromptCount });
 
   if (questions.length !== REQUIRED_ROWS_PER_CATEGORY) {
-    console.error(`Category ${category} has ${questions.length} rows; expected exactly ${REQUIRED_ROWS_PER_CATEGORY}`);
-    errorCount += 1;
+    fail(`Category ${category} has ${questions.length} rows; expected exactly ${REQUIRED_ROWS_PER_CATEGORY}`);
   }
 
   if (uniquePromptCount !== REQUIRED_UNIQUE_STEMS_PER_CATEGORY) {
-    console.error(
-      `Category ${category} has ${uniquePromptCount} unique prompts; expected exactly ${REQUIRED_UNIQUE_STEMS_PER_CATEGORY}`,
-    );
-    errorCount += 1;
+    fail(`Category ${category} has ${uniquePromptCount} unique prompts; expected exactly ${REQUIRED_UNIQUE_STEMS_PER_CATEGORY}`);
   }
 }
 
 if (Object.keys(bank).length !== EXPECTED_CATEGORIES) {
-  console.error(`Bank has ${Object.keys(bank).length} categories; expected exactly ${EXPECTED_CATEGORIES}`);
-  errorCount += 1;
+  fail(`Bank has ${Object.keys(bank).length} categories; expected exactly ${EXPECTED_CATEGORIES}`);
 }
 
 if (errorCount > 0) process.exit(1);
@@ -155,3 +138,4 @@ for (const { category, rowCount, uniquePromptCount } of summaries) {
   console.log(`- ${category}: ${rowCount} rows, ${uniquePromptCount} unique prompts`);
 }
 console.log(`Total: ${Object.keys(bank).length} categories, ${totalRows} rows, ${totalUniquePrompts} unique prompts validated.`);
+console.log(`Manual fact reviews recorded: ${reviewMetadata.fact_reviews.length}.`);

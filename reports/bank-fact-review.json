@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "description": "Manual fact-review metadata keyed by category + normalized prompt stem + expected answer.",
+  "fact_reviews": [
+    {
+      "category": "india",
+      "prompt_stem": "which city is the planned capital of andhra pradesh?",
+      "expected_answer": "Amaravati",
+      "reviewed_on": "2026-03-23",
+      "reviewed_by": "OpenAI Codex",
+      "status": "verified",
+      "notes": "Reviewed as a wording-sensitive civics fact; explanation explicitly states the planned-capital nuance."
+    },
+    {
+      "category": "tolkien",
+      "prompt_stem": "what is the name of frodo’s sword?",
+      "expected_answer": "Sting",
+      "reviewed_on": "2026-03-23",
+      "reviewed_by": "OpenAI Codex",
+      "status": "verified",
+      "notes": "Reviewed as a straightforward lore fact with a direct supporting explanation."
+    }
+  ]
+}
