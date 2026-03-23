@@ -1,5 +1,6 @@
 import { readFileSync } from 'node:fs';
 import promptNormalization from '../shared/prompt-normalization.js';
+import { buildBank } from './rebuild-bank.mjs';
 
 const REQUIRED_ROWS_PER_CATEGORY = 120;
 const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
@@ -7,18 +8,49 @@ const EXPECTED_CATEGORIES = 7;
 const { normalizePromptStem } = promptNormalization;
 
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
+const canonicalBank = buildBank();
+
+function normalizeText(value) {
+  return String(value ?? '')
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^\p{L}\p{N}]+/gu, ' ')
+    .trim()
+    .toLowerCase();
+}
+
+function explanationMentionsAnswer(explanation, answer) {
+  const normalizedAnswer = normalizeText(answer);
+  if (!normalizedAnswer) return true;
+  return normalizeText(explanation).includes(normalizedAnswer);
+}
 
 let errorCount = 0;
 const summaries = [];
 
+if (JSON.stringify(bank) !== JSON.stringify(canonicalBank)) {
+  console.error('bank.json does not exactly match the canonical output from scripts/rebuild-bank.mjs');
+  errorCount += 1;
+}
+
 for (const [category, questions] of Object.entries(bank)) {
+  const canonicalQuestions = canonicalBank[category];
+
   if (!Array.isArray(questions)) {
     console.error(`Category ${category} is not an array of questions`);
     errorCount += 1;
     continue;
   }
 
+  if (!Array.isArray(canonicalQuestions)) {
+    console.error(`Category ${category} is not present in the canonical generated bank`);
+    errorCount += 1;
+    continue;
+  }
+
   const seenExact = new Set();
+  const canonicalByQuestion = new Map(canonicalQuestions.map((question) => [question.question, question]));
+  const canonicalStemSet = new Set(canonicalQuestions.map((question) => normalizePromptStem(question.question)));
 
   questions.forEach((q, idx) => {
     const valid = q
@@ -42,6 +74,35 @@ for (const [category, questions] of Object.entries(bank)) {
       errorCount += 1;
     }
     seenExact.add(promptKey);
+
+    const correctOption = q.options[q.correct];
+    if (typeof correctOption !== 'string' || !correctOption.trim()) {
+      console.error(`Correct option is empty in ${category}[${idx}]: ${q.question}`);
+      errorCount += 1;
+    }
+
+    const normalizedStem = normalizePromptStem(q.question);
+    if (!canonicalStemSet.has(normalizedStem)) {
+      console.error(`Question stem is missing from canonical source set in ${category}[${idx}]: ${q.question}`);
+      errorCount += 1;
+      return;
+    }
+
+    const canonicalQuestion = canonicalByQuestion.get(q.question);
+    if (!canonicalQuestion) {
+      console.error(`Question text drifted from canonical source in ${category}[${idx}]: ${q.question}`);
+      errorCount += 1;
+      return;
+    }
+
+    const expectedAnswer = canonicalQuestion.options[canonicalQuestion.correct];
+    if (
+      explanationMentionsAnswer(canonicalQuestion.explanation, expectedAnswer)
+      && !explanationMentionsAnswer(q.explanation, expectedAnswer)
+    ) {
+      console.error(`Explanation does not reference canonical answer in ${category}[${idx}]: ${q.question}`);
+      errorCount += 1;
+    }
   });
 
   const uniquePromptCount = new Set(questions.map((q) => normalizePromptStem(q.question))).size;
