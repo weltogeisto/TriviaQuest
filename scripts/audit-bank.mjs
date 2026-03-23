@@ -1,27 +1,42 @@
-import { readFileSync } from 'node:fs';
+import { readFileSync, writeFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+import {
+  buildQuestionKey,
+  buildReviewIndex,
+  explanationSupportsAnswer,
+  findPromptWrapperMatch,
+  loadBank,
+  loadKnownIssues,
+  loadReviewMetadata,
+  normalizePromptStem,
+  summarizeReviewCoverage,
+} from './bank-validation-utils.mjs';
 
-const PRACTICE_VARIANT_SUFFIX = /\s*\(Practice Variant\s+\d+\)\s*$/i;
-const WRAPPER_PREFIXES = [
-  /^\s*Identify the correct answer for this prompt:\s*/i,
-  /^\s*Choose the option that best answers this question:\s*/i,
-];
+const bank = loadBank();
+const reviewMetadata = loadReviewMetadata();
+const reviewIndex = buildReviewIndex(reviewMetadata);
+const knownIssues = loadKnownIssues();
+const today = new Date().toISOString().slice(0, 10);
 
-const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
+function loadPackageScripts() {
+  return JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8')).scripts || {};
+}
 
-function normalizeStem(text) {
-  let normalized = String(text || '').trim().toLowerCase();
-  normalized = normalized.replace(PRACTICE_VARIANT_SUFFIX, '').trim();
-  for (const prefix of WRAPPER_PREFIXES) normalized = normalized.replace(prefix, '').trim();
-  return normalized
-    .replace(/([!?.,:;])\1+/g, '$1')
-    .replace(/\s*([!?.,:;])\s*/g, '$1 ')
-    .replace(/\s+/g, ' ')
-    .trim();
+function issueHit(issueList, category, question, answer) {
+  return (issueList || []).find((entry) => (
+    entry.category === category
+    && entry.prompt_stem === normalizePromptStem(question)
+    && String(entry.expected_answer || '').trim().toLowerCase() === String(answer || '').trim().toLowerCase()
+  )) || null;
 }
 
 let totalExactDuplicates = 0;
 let totalNormalizedCollisions = 0;
 let totalWrapperHits = 0;
+let totalWeakExplanations = 0;
+let totalKnownIssueHits = 0;
+
+const byCategory = {};
 
 console.log('Bank audit:');
 for (const [category, questions] of Object.entries(bank)) {
@@ -29,6 +44,8 @@ for (const [category, questions] of Object.entries(bank)) {
   const normalizedCounts = new Map();
   let wrapperHits = 0;
   let exactDuplicates = 0;
+  let weakExplanations = 0;
+  let knownIssueHits = 0;
 
   for (const q of questions) {
     const prompt = String(q?.question || '').trim();
@@ -36,19 +53,86 @@ for (const [category, questions] of Object.entries(bank)) {
     if (exact.has(exactKey)) exactDuplicates += 1;
     exact.add(exactKey);
 
-    if (WRAPPER_PREFIXES.some((prefix) => prefix.test(prompt)) || PRACTICE_VARIANT_SUFFIX.test(prompt)) {
-      wrapperHits += 1;
-    }
+    if (findPromptWrapperMatch(prompt)) wrapperHits += 1;
 
-    const normalized = normalizeStem(prompt);
+    const normalized = normalizePromptStem(prompt);
     normalizedCounts.set(normalized, (normalizedCounts.get(normalized) || 0) + 1);
+
+    const explanationResult = explanationSupportsAnswer(q);
+    if (!explanationResult.ok) weakExplanations += 1;
+
+    const answer = q?.options?.[q?.correct];
+    if (issueHit(knownIssues.ambiguous, category, prompt, answer) || issueHit(knownIssues.disputed, category, prompt, answer)) {
+      knownIssueHits += 1;
+    }
   }
 
   const normalizedCollisions = [...normalizedCounts.values()].filter((count) => count > 1).length;
   totalExactDuplicates += exactDuplicates;
   totalNormalizedCollisions += normalizedCollisions;
   totalWrapperHits += wrapperHits;
+  totalWeakExplanations += weakExplanations;
+  totalKnownIssueHits += knownIssueHits;
 
-  console.log(`- ${category}: ${questions.length} rows, ${exactDuplicates} exact duplicate prompts, ${normalizedCollisions} normalized-stem collisions, ${wrapperHits} wrapper/variant prompts`);
+  byCategory[category] = {
+    rows: questions.length,
+    exact_duplicate_prompts: exactDuplicates,
+    normalized_stem_collisions: normalizedCollisions,
+    wrapper_variant_prompts: wrapperHits,
+    explanation_quality_failures: weakExplanations,
+    known_issue_hits: knownIssueHits,
+  };
+
+  console.log(`- ${category}: ${questions.length} rows, ${exactDuplicates} exact duplicate prompts, ${normalizedCollisions} normalized-stem collisions, ${wrapperHits} wrapper prompts, ${weakExplanations} explanation-quality failures, ${knownIssueHits} known-issue hits`);
 }
-console.log(`Audit totals: ${totalExactDuplicates} exact duplicate prompts, ${totalNormalizedCollisions} normalized-stem collisions, ${totalWrapperHits} wrapper/variant prompts.`);
+
+const reviewCoverage = summarizeReviewCoverage(bank, reviewIndex);
+const fullyFactReviewed = reviewCoverage.fullyReviewed;
+const internallyConsistent = totalExactDuplicates === 0
+  && totalNormalizedCollisions === 0
+  && totalWrapperHits === 0
+  && totalWeakExplanations === 0
+  && totalKnownIssueHits === 0;
+
+const packageScripts = loadPackageScripts();
+const report = {
+  audit_date: today,
+  status: internallyConsistent ? (fullyFactReviewed ? 'FACT_REVIEWED_PASS' : 'INTERNALLY_CONSISTENT_PASS') : 'FAIL',
+  scope: {
+    categories: Object.keys(bank).length,
+    rows_per_category: 120,
+    total_rows: Object.values(bank).reduce((sum, questions) => sum + questions.length, 0),
+  },
+  method: {
+    executed_commands: [
+      `node scripts/validate-bank.mjs`,
+      `node scripts/audit-bank.mjs`,
+    ],
+    npm_scripts: packageScripts,
+    notes: [
+      'Validation now checks shipped bank.json directly for schema/integrity, duplicate/normalization, explanation quality, and known-issue failures.',
+      fullyFactReviewed
+        ? 'All rows have matching manual fact-review metadata entries, so the bank can be described as fact-reviewed.'
+        : 'The bank is internally consistent, but not every row has passed the stricter manual fact-review stage yet.',
+    ],
+  },
+  summary: {
+    result: internallyConsistent ? (fullyFactReviewed ? 'FACT_REVIEWED_PASS' : 'INTERNALLY_CONSISTENT_PASS') : 'FAIL',
+    internally_consistent: internallyConsistent,
+    fact_review_passed: fullyFactReviewed,
+    fact_review_coverage: reviewCoverage,
+    categories: byCategory,
+    known_issue_catalog_sizes: {
+      ambiguous: (knownIssues.ambiguous || []).length,
+      disputed: (knownIssues.disputed || []).length,
+    },
+  },
+  reviewed_fact_keys: reviewMetadata.fact_reviews.map((entry) => buildQuestionKey(entry.category, entry.prompt_stem, entry.expected_answer)),
+};
+
+const reportPath = new URL(`../reports/bank-quality-audit-${today}.json`, import.meta.url);
+writeFileSync(reportPath, `${JSON.stringify(report, null, 2)}\n`);
+
+console.log(`Audit totals: ${totalExactDuplicates} exact duplicate prompts, ${totalNormalizedCollisions} normalized-stem collisions, ${totalWrapperHits} wrapper prompts, ${totalWeakExplanations} explanation-quality failures, ${totalKnownIssueHits} known-issue hits.`);
+console.log(`Fact review coverage: ${reviewCoverage.reviewedRows}/${reviewCoverage.totalRows} rows.`);
+console.log(`Wrote ${fileURLToPath(reportPath)}.`);

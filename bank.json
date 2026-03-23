@@ -568,7 +568,7 @@
         "Punjab"
       ],
       "correct": 1,
-      "explanation": "Alappuzha is one of Kerala’s best-known backwater destinations.",
+      "explanation": "Kerala is correct because Alappuzha is one of Kerala’s best-known backwater destinations.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -945,7 +945,7 @@
         "Harish-Chandra"
       ],
       "correct": 1,
-      "explanation": "Srinivasa Ramanujan made foundational contributions to number theory.",
+      "explanation": "Srinivasa Ramanujan is correct because he made foundational contributions to infinite series, partitions, and number theory.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -971,7 +971,7 @@
         "Tamil Nadu"
       ],
       "correct": 0,
-      "explanation": "Karnataka accounts for most of India’s coffee production.",
+      "explanation": "Karnataka is correct because it accounts for most of India’s coffee production.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -1153,7 +1153,7 @@
         "Rajasthan"
       ],
       "correct": 1,
-      "explanation": "Gir forest lies in Gujarat.",
+      "explanation": "Gujarat is correct because the Gir forest is located in Gujarat.",
       "category": "india",
       "difficulty": "Masters"
     },
@@ -1961,7 +1961,7 @@
         "Atlantic Ocean"
       ],
       "correct": 2,
-      "explanation": "The Pacific Ocean covers more area than any other ocean.",
+      "explanation": "Pacific Ocean is correct because it covers more area than any other ocean on Earth.",
       "category": "geography",
       "difficulty": "Masters"
     },
@@ -2013,7 +2013,7 @@
         "Peru"
       ],
       "correct": 2,
-      "explanation": "Most of the Amazon rainforest lies in Brazil.",
+      "explanation": "Brazil is correct because most of the Amazon rainforest lies within Brazil.",
       "category": "geography",
       "difficulty": "Masters"
     },
@@ -2286,7 +2286,7 @@
         "Canada"
       ],
       "correct": 1,
-      "explanation": "Including overseas territories, France spans the most time zones.",
+      "explanation": "France is correct because, with overseas territories included, it spans the most time zones.",
       "category": "geography",
       "difficulty": "Masters"
     },
@@ -3523,7 +3523,7 @@
         "13.8 billion years"
       ],
       "correct": 3,
-      "explanation": "Current cosmology estimates the observable universe at about 13.8 billion years old.",
+      "explanation": "13.8 billion years is correct because current cosmology estimates the observable universe to be about that old.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3562,7 +3562,7 @@
         "Earth"
       ],
       "correct": 2,
-      "explanation": "Mercury has the smallest orbit around the Sun.",
+      "explanation": "Mercury is correct because it has the smallest orbit and is the closest planet to the Sun.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3575,7 +3575,7 @@
         "Saturn"
       ],
       "correct": 3,
-      "explanation": "Saturn’s rings are the most extensive and visible.",
+      "explanation": "Saturn is correct because its rings are the most extensive and visually prominent in the Solar System.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3627,7 +3627,7 @@
         "Lysosome"
       ],
       "correct": 2,
-      "explanation": "Mitochondria generate most cellular ATP.",
+      "explanation": "Mitochondrion is correct because mitochondria generate most of a cell’s ATP energy.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3640,7 +3640,7 @@
         "RNA"
       ],
       "correct": 1,
-      "explanation": "DNA stores hereditary information in cells.",
+      "explanation": "DNA is correct because it stores hereditary information in the cells of most living organisms.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3705,7 +3705,7 @@
         "300,000 kilometers per second"
       ],
       "correct": 3,
-      "explanation": "Light travels at about 300,000 km/s in vacuum.",
+      "explanation": "300,000 kilometers per second is correct because light in a vacuum travels at about that speed.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3770,7 +3770,7 @@
         "Proton"
       ],
       "correct": 0,
-      "explanation": "Neutrons are electrically neutral.",
+      "explanation": "Neutron is correct because neutrons are electrically neutral particles in the atom.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3835,7 +3835,7 @@
         "Oxygen"
       ],
       "correct": 2,
-      "explanation": "Nitrogen makes up about 78 percent of the atmosphere.",
+      "explanation": "Nitrogen is correct because it makes up about 78 percent of Earth’s atmosphere.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3848,7 +3848,7 @@
         "Helium"
       ],
       "correct": 1,
-      "explanation": "Oxygen accounts for about 21 percent of the atmosphere.",
+      "explanation": "Oxygen is correct because it accounts for about 21 percent of Earth’s atmosphere, second after nitrogen.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -3913,7 +3913,7 @@
         "Capillary"
       ],
       "correct": 0,
-      "explanation": "Arteries carry blood away from the heart.",
+      "explanation": "Artery is correct because arteries carry blood away from the heart.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -4602,7 +4602,7 @@
         "Barometer"
       ],
       "correct": 1,
-      "explanation": "A thermometer measures temperature.",
+      "explanation": "Thermometer is correct because a thermometer is the instrument used to measure temperature.",
       "category": "science",
       "difficulty": "Masters"
     },
@@ -5241,7 +5241,7 @@
         "Winston Churchill"
       ],
       "correct": 3,
-      "explanation": "Winston Churchill led Britain through most of the war.",
+      "explanation": "Winston Churchill is correct because he led Britain as prime minister for most of World War II.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -5254,7 +5254,7 @@
         "Joseph Stalin"
       ],
       "correct": 3,
-      "explanation": "Joseph Stalin led the Soviet Union during World War II.",
+      "explanation": "Joseph Stalin is correct because he led the Soviet Union during most of World War II.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -5267,7 +5267,7 @@
         "Harry Truman"
       ],
       "correct": 0,
-      "explanation": "Franklin D. Roosevelt served from 1933 to 1945.",
+      "explanation": "Franklin D. Roosevelt is correct because he served as U.S. president from 1933 to 1945, covering most of the Great Depression and World War II.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -5410,7 +5410,7 @@
         "Song dynasty"
       ],
       "correct": 1,
-      "explanation": "The terra-cotta army was made for the tomb of Qin Shi Huang.",
+      "explanation": "Qin dynasty is correct because the terra-cotta warriors were created for the tomb of Qin Shi Huang, the first Qin emperor.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -5579,7 +5579,7 @@
         "Battle of Marathon"
       ],
       "correct": 2,
-      "explanation": "Thermopylae became legendary for the Spartan-led defense.",
+      "explanation": "Battle of Thermopylae is correct because that 480 BCE battle became famous for the Spartan-led stand against Persia.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -5709,7 +5709,7 @@
         "Etruscans"
       ],
       "correct": 0,
-      "explanation": "The Phoenician alphabet strongly influenced later Mediterranean scripts.",
+      "explanation": "Phoenicians is correct because the Phoenician alphabet strongly influenced Greek writing and later Mediterranean scripts.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -6143,7 +6143,7 @@
       "difficulty": "Masters"
     },
     {
-      "question": "Which political doctrine called for U.S. opposition to European colonization in the Americas?",
+      "question": "Which 1823 U.S. foreign-policy doctrine opposed new European colonization in the Americas?",
       "options": [
         "Open Door Policy",
         "Truman Doctrine",
@@ -6151,7 +6151,7 @@
         "Marshall Plan"
       ],
       "correct": 2,
-      "explanation": "The Monroe Doctrine was proclaimed in 1823.",
+      "explanation": "The Monroe Doctrine, announced in 1823, warned European powers against new colonization efforts in the Americas.",
       "category": "history",
       "difficulty": "Masters"
     },
@@ -6257,7 +6257,7 @@
         "Cubism"
       ],
       "correct": 1,
-      "explanation": "Claude Monet is a central figure in Impressionism.",
+      "explanation": "Impressionism is correct because Claude Monet is a central figure in the Impressionist movement.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -6569,7 +6569,7 @@
         "Surrealism"
       ],
       "correct": 3,
-      "explanation": "Dalí is one of Surrealism’s most recognizable artists.",
+      "explanation": "Surrealism is correct because Salvador Dalí is one of the movement’s most recognizable Surrealist artists.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -6582,7 +6582,7 @@
         "Futurism"
       ],
       "correct": 2,
-      "explanation": "Picasso helped pioneer Cubism.",
+      "explanation": "Cubism is correct because Pablo Picasso helped pioneer the Cubist movement.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -6621,7 +6621,7 @@
         "Realism"
       ],
       "correct": 0,
-      "explanation": "Henri Matisse helped lead the Fauvist movement.",
+      "explanation": "Fauvism is correct because Henri Matisse helped lead the Fauvist movement.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -6634,7 +6634,7 @@
         "Baroque"
       ],
       "correct": 3,
-      "explanation": "Caravaggio’s dramatic light and realism are hallmarks of Baroque art.",
+      "explanation": "Baroque is correct because Caravaggio’s dramatic lighting and realism are hallmarks of Baroque art.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -6647,7 +6647,7 @@
         "Realism"
       ],
       "correct": 1,
-      "explanation": "Jacques-Louis David was a leading Neoclassical painter.",
+      "explanation": "Neoclassicism is correct because Jacques-Louis David was a leading Neoclassical painter.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -6660,7 +6660,7 @@
         "Romanticism"
       ],
       "correct": 3,
-      "explanation": "Caspar David Friedrich is a major painter of Romanticism.",
+      "explanation": "Romanticism is correct because Caspar David Friedrich is a major painter of the Romantic movement.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -7622,7 +7622,7 @@
         "Dorothea Lange"
       ],
       "correct": 3,
-      "explanation": "Dorothea Lange made Migrant Mother in 1936.",
+      "explanation": "Dorothea Lange is correct because she made the Depression-era photograph Migrant Mother in 1936.",
       "category": "arts",
       "difficulty": "Masters"
     },
@@ -8404,7 +8404,7 @@
         "Lobelia Sackville-Baggins"
       ],
       "correct": 2,
-      "explanation": "Pippin later becomes the Thain of the Shire.",
+      "explanation": "Peregrin Took is correct because Pippin later becomes the Thain of the Shire.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
@@ -8651,7 +8651,7 @@
         "Legolas"
       ],
       "correct": 1,
-      "explanation": "Sam uses Sting and the phial to defeat Shelob.",
+      "explanation": "Samwise Gamgee is correct because Sam wounds Shelob and drives her back with Sting and Galadriel’s phial.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
@@ -9301,7 +9301,7 @@
         "Meriadoc Brandybuck"
       ],
       "correct": 0,
-      "explanation": "Sam serves multiple terms as mayor of the Shire.",
+      "explanation": "Samwise Gamgee is correct because Sam serves multiple terms as mayor of the Shire.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
@@ -9340,7 +9340,7 @@
         "Merry"
       ],
       "correct": 2,
-      "explanation": "Frodo leaves Bag End to Sam when he sails West.",
+      "explanation": "Samwise Gamgee is correct because Frodo leaves Bag End to Sam when he sails West.",
       "category": "tolkien",
       "difficulty": "Masters"
     },
@@ -9353,7 +9353,7 @@
         "Gandalf alone"
       ],
       "correct": 1,
-      "explanation": "The Red Book is chiefly compiled by Bilbo, Frodo, and Sam.",
+      "explanation": "Bilbo, Frodo, and Sam is correct because those three hobbits chiefly compile the Red Book of Westmarch.",
       "category": "tolkien",
       "difficulty": "Masters"
     },

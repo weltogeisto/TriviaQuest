@@ -1,6 +1,6 @@
 {
   "audit_date": "2026-03-23",
-  "status": "PASS",
+  "status": "INTERNALLY_CONSISTENT_PASS",
   "scope": {
     "categories": 7,
     "rows_per_category": 120,
@@ -11,150 +11,90 @@
       "node scripts/validate-bank.mjs",
       "node scripts/audit-bank.mjs"
     ],
+    "npm_scripts": {
+      "serve": "python3 -m http.server 4173",
+      "test": "node scripts/validate-bank.mjs",
+      "audit:bank": "node scripts/audit-bank.mjs"
+    },
     "notes": [
-      "bank.json matches the canonical output from scripts/rebuild-bank.mjs.",
-      "All previously flagged corrupt rows are now internally consistent and factually correct.",
-      "Validation and audit both passed with zero remaining corrupt rows."
+      "Validation now checks shipped bank.json directly for schema/integrity, duplicate/normalization, explanation quality, and known-issue failures.",
+      "The bank is internally consistent, but not every row has passed the stricter manual fact-review stage yet."
     ]
   },
   "summary": {
-    "confirmed_corrupt_rows": 0,
-    "by_category": {
-      "india": 0,
-      "geography": 0,
-      "history": 0,
-      "arts": 0
+    "result": "INTERNALLY_CONSISTENT_PASS",
+    "internally_consistent": true,
+    "fact_review_passed": false,
+    "fact_review_coverage": {
+      "reviewedRows": 2,
+      "totalRows": 840,
+      "fullyReviewed": false
     },
-    "validated_categories": 7,
-    "validated_rows": 840,
-    "result": "PASS"
-  },
-  "repaired_rows_verified": [
-    {
-      "category": "india",
-      "index": 1,
-      "question": "What is the capital of Arunachal Pradesh?"
+    "categories": {
+      "india": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      },
+      "geography": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      },
+      "science": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      },
+      "history": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      },
+      "arts": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      },
+      "tolkien": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      },
+      "wortschatz": {
+        "rows": 120,
+        "exact_duplicate_prompts": 0,
+        "normalized_stem_collisions": 0,
+        "wrapper_variant_prompts": 0,
+        "explanation_quality_failures": 0,
+        "known_issue_hits": 0
+      }
     },
-    {
-      "category": "india",
-      "index": 31,
-      "question": "What is the capital of the union territory of Delhi?"
-    },
-    {
-      "category": "india",
-      "index": 41,
-      "question": "In which city is the Charminar located?"
-    },
-    {
-      "category": "india",
-      "index": 51,
-      "question": "Which bay lies to the east of India?"
-    },
-    {
-      "category": "india",
-      "index": 61,
-      "question": "Who wrote the song \"Vande Mataram\"?"
-    },
-    {
-      "category": "india",
-      "index": 81,
-      "question": "Which fort in Delhi was built by Shah Jahan and served as a Mughal residence?"
-    },
-    {
-      "category": "india",
-      "index": 111,
-      "question": "Which Indian state is associated with the city of Gandhinagar?"
-    },
-    {
-      "category": "geography",
-      "index": 2,
-      "question": "What is the capital of Brazil?"
-    },
-    {
-      "category": "geography",
-      "index": 12,
-      "question": "What is the capital of Vietnam?"
-    },
-    {
-      "category": "geography",
-      "index": 23,
-      "question": "What is the capital of Saudi Arabia?"
-    },
-    {
-      "category": "geography",
-      "index": 42,
-      "question": "Which canal links the Mediterranean Sea to the Red Sea?"
-    },
-    {
-      "category": "geography",
-      "index": 53,
-      "question": "Which line of latitude is at 0 degrees?"
-    },
-    {
-      "category": "geography",
-      "index": 62,
-      "question": "Which sea is shrinking between Kazakhstan and Uzbekistan?"
-    },
-    {
-      "category": "geography",
-      "index": 72,
-      "question": "Which sea lies east of Italy and west of the Balkans?"
-    },
-    {
-      "category": "geography",
-      "index": 82,
-      "question": "Which river drains much of central Europe into the Black Sea?"
-    },
-    {
-      "category": "history",
-      "index": 33,
-      "question": "Who was the most famous early leader of the Haitian Revolution?"
-    },
-    {
-      "category": "history",
-      "index": 43,
-      "question": "Who was the Soviet leader during most of World War II?"
-    },
-    {
-      "category": "history",
-      "index": 53,
-      "question": "Which empire was founded in India by Babur?"
-    },
-    {
-      "category": "history",
-      "index": 73,
-      "question": "Which French prison was stormed on 14 July 1789?"
-    },
-    {
-      "category": "history",
-      "index": 112,
-      "question": "Which political doctrine called for U.S. opposition to European colonization in the Americas?"
-    },
-    {
-      "category": "arts",
-      "index": 34,
-      "question": "Which writer created Pride and Prejudice?"
-    },
-    {
-      "category": "arts",
-      "index": 44,
-      "question": "Which writer created Beloved?"
-    },
-    {
-      "category": "arts",
-      "index": 83,
-      "question": "Which filmmaker directed Seven Samurai?"
+    "known_issue_catalog_sizes": {
+      "ambiguous": 1,
+      "disputed": 0
     }
-  ],
-  "verified_wording_fixes": [
-    "South Africa administrative capital",
-    "Nuuk / Greenland autonomous territory",
-    "Chandigarh shared capital wording",
-    "Jammu & Kashmir summer capital wording",
-    "Amaravati planned capital wording",
-    "Mithlond / Grey Havens wording",
-    "Esgaroth / Lake-town wording",
-    "Thorin / Quest of Erebor wording",
-    "Haitian Revolution early leader wording"
+  },
+  "reviewed_fact_keys": [
+    "india::which city is the planned capital of andhra pradesh?::amaravati",
+    "tolkien::what is the name of frodo’s sword?::sting"
   ]
 }
