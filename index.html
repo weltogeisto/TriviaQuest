@@ -965,6 +965,7 @@ details > summary { cursor: pointer; }
 
 <!-- Embedded BANK payload for one-file backups (replaced on backup) -->
 <script id="embeddedBank" type="application/json">{}</script>
+<script src="./shared/prompt-normalization.js"></script>
 
 <script>
 let BANK = {};
@@ -1049,28 +1050,12 @@ let persistedRoundQueues = loadRoundQueueState();
 
 function shuffle(a){ for (let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
 function pickN(arr,n){ const copy=[...(arr||[])]; shuffle(copy); return copy.slice(0, Math.min(n, copy.length)); }
-const PRACTICE_VARIANT_SUFFIX = /\s*\(Practice Variant\s+\d+\)\s*$/i;
-const STEM_WRAPPER_PREFIXES = [
-  /^\s*Identify the correct answer for this prompt:\s*/i,
-  /^\s*Choose the option that best answers this question:\s*/i,
-];
-function stripStemWrappers(text){
-  let normalized = String(text||'').trim();
-  normalized = normalized.replace(PRACTICE_VARIANT_SUFFIX, '').trim();
-  STEM_WRAPPER_PREFIXES.forEach(prefix => {
-    normalized = normalized.replace(prefix, '').trim();
-  });
-  return normalized
-    .replace(/([!?.,:;])\1+/g, '$1')
-    .replace(/\s*([!?.,:;])\s*/g, '$1 ')
-    .replace(/\s+/g, ' ')
-    .trim();
-}
+const { normalizePromptStem, stripPromptWrappers } = globalThis.TriviaPromptNormalization;
 function normalizeQuestionStem(text){
-  return stripStemWrappers(text).toLowerCase();
+  return normalizePromptStem(text);
 }
 function questionStem(text){
-  return stripStemWrappers(text);
+  return stripPromptWrappers(text);
 }
 function cleanExplanation(text){ return String(text||'').replace(/\s*Variant\s+\d+\s+keeps\s+the\s+same\s+concept\s+with\s+reordered\s+options\.?\s*$/i,'').trim(); }
 function loadRoundQueueState(){
@@ -1299,7 +1284,7 @@ function validateQ(q){
       && Array.isArray(q.options) && q.options.length===4
       && [0,1,2,3].includes(q.correct);
 }
-function questionDedupKey(question){ return String(question||'').trim().toLowerCase(); }
+function questionDedupKey(question){ return normalizeQuestionStem(question); }
 function dedupeMerge(targetArr, incoming){
   const seen = new Set(targetArr.map(x=>questionDedupKey(x.question)));
   let add=0, skip=0, bad=0;
