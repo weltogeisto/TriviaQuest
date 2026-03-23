@@ -1,0 +1,217 @@
+{
+  "audit_date": "2026-03-23",
+  "scope": {
+    "categories": 7,
+    "rows_per_category": 120,
+    "total_rows": 840
+  },
+  "method": {
+    "executed_commands": [
+      "npm test",
+      "npm run serve",
+      "python semantic scans over bank.json",
+      "manual verification of every high-confidence anomaly"
+    ],
+    "notes": [
+      "This audit focused on semantic integrity: prompt/option/explanation alignment.",
+      "The confirmed issues below were observed before regenerating bank.json from scripts/rebuild-bank.mjs.",
+      "Several corrupt rows were repaired by restoring the canonical generator output."
+    ]
+  },
+  "summary": {
+    "confirmed_corrupt_rows": 23,
+    "by_category": {
+      "india": 7,
+      "geography": 8,
+      "history": 5,
+      "arts": 3
+    },
+    "repair_strategy": "Regenerate bank.json from the canonical generator and fail validation if bank.json drifts from that generator output."
+  },
+  "confirmed_issues": [
+    {
+      "category": "india",
+      "index": 1,
+      "question_before": "Which major Indian city is home to Electronics City and a large share of the country's tech industry?",
+      "correct_before": "Itanagar",
+      "explanation_before": "Itanagar is the capital city of Arunachal Pradesh.",
+      "question_after": "What is the capital of Arunachal Pradesh?"
+    },
+    {
+      "category": "india",
+      "index": 31,
+      "question_before": "The Mahalanobis model shaped which Indian Five-Year Plan focused on heavy industry?",
+      "correct_before": "New Delhi",
+      "explanation_before": "New Delhi serves as the capital of Delhi.",
+      "question_after": "What is the capital of the union territory of Delhi?"
+    },
+    {
+      "category": "india",
+      "index": 41,
+      "question_before": "Adam's Bridge lies in the strait between India and which nearby island nation?",
+      "correct_before": "Hyderabad",
+      "explanation_before": "The Charminar is the best-known monument in Hyderabad.",
+      "question_after": "In which city is the Charminar located?"
+    },
+    {
+      "category": "india",
+      "index": 51,
+      "question_before": "Which amendment expanded India's electorate by reducing the voting age to 18 years?",
+      "correct_before": "Bay of Bengal",
+      "explanation_before": "India’s eastern coast faces the Bay of Bengal.",
+      "question_after": "Which bay lies to the east of India?"
+    },
+    {
+      "category": "india",
+      "index": 61,
+      "question_before": "India's Siachen Glacier is located in the eastern Karakoram near Ladakh. Which range is that?",
+      "correct_before": "Bankim Chandra Chattopadhyay",
+      "explanation_before": "\"Vande Mataram\" appears in Bankim Chandra Chattopadhyay’s novel Anandamath.",
+      "question_after": "Who wrote the song \"Vande Mataram\"?"
+    },
+    {
+      "category": "india",
+      "index": 81,
+      "question_before": "Under which article does the Indian Constitution explicitly abolish 'untouchability'?",
+      "correct_before": "Red Fort",
+      "explanation_before": "The Red Fort in Delhi was built by Shah Jahan.",
+      "question_after": "Which fort in Delhi was built by Shah Jahan and served as a Mughal residence?"
+    },
+    {
+      "category": "india",
+      "index": 111,
+      "question_before": "The song 'Vande Mataram' comes from which author's novel 'Anandamath'?",
+      "correct_before": "Gujarat",
+      "explanation_before": "Gandhinagar is the capital of Gujarat.",
+      "question_after": "Which Indian state is associated with the city of Gandhinagar?"
+    },
+    {
+      "category": "geography",
+      "index": 2,
+      "question_before": "The Indian landmass rides on which major tectonic plate as it pushes into Eurasia?",
+      "correct_before": "Brasília",
+      "explanation_before": "Brasília is the capital city of Brazil.",
+      "question_after": "What is the capital of Brazil?"
+    },
+    {
+      "category": "geography",
+      "index": 12,
+      "question_before": "Which desert stretching across North Africa is the world's largest hot desert?",
+      "correct_before": "Hanoi",
+      "explanation_before": "Hanoi is the capital city of Vietnam.",
+      "question_after": "What is the capital of Vietnam?"
+    },
+    {
+      "category": "geography",
+      "index": 23,
+      "question_before": "Including overseas regions, which country spans the greatest number of time zones?",
+      "correct_before": "Riyadh",
+      "explanation_before": "Riyadh is the capital city of Saudi Arabia.",
+      "question_after": "What is the capital of Saudi Arabia?"
+    },
+    {
+      "category": "geography",
+      "index": 42,
+      "question_before": "Which canal links the Mediterranean Sea to the Red Sea?",
+      "correct_before": "Suez Canal",
+      "explanation_before": "The Mariana Trench contains the deepest known point in Earth’s oceans.",
+      "question_after": "Which canal links the Mediterranean Sea to the Red Sea?"
+    },
+    {
+      "category": "geography",
+      "index": 53,
+      "question_before": "Baghdad stands on the banks of which river?",
+      "correct_before": "Gulf Stream",
+      "explanation_before": "The Gulf Stream carries warm water across the North Atlantic.",
+      "question_after": "Which line of latitude is at 0 degrees?"
+    },
+    {
+      "category": "geography",
+      "index": 62,
+      "question_before": "The San Andreas Fault marks what kind of plate boundary?",
+      "correct_before": "Aral Sea",
+      "explanation_before": "The Aral Sea has dramatically shrunk in modern times.",
+      "question_after": "Which sea is shrinking between Kazakhstan and Uzbekistan?"
+    },
+    {
+      "category": "geography",
+      "index": 72,
+      "question_before": "Which African Great Lake is often cited as a principal source of the White Nile?",
+      "correct_before": "Adriatic Sea",
+      "explanation_before": "The Adriatic separates Italy from the Balkan Peninsula.",
+      "question_after": "Which sea lies east of Italy and west of the Balkans?"
+    },
+    {
+      "category": "geography",
+      "index": 82,
+      "question_before": "Which named latitude line crosses central India?",
+      "correct_before": "Danube",
+      "explanation_before": "The Danube empties into the Black Sea.",
+      "question_after": "Which river drains much of central Europe into the Black Sea?"
+    },
+    {
+      "category": "history",
+      "index": 33,
+      "question_before": "The political transformation known as the Meiji Restoration occurred in which country?",
+      "correct_before": "Toussaint Louverture",
+      "explanation_before": "Toussaint Louverture was the revolution’s most famous early leader.",
+      "question_after": "Who led the Haitian Revolution and became a key leader of Haiti?"
+    },
+    {
+      "category": "history",
+      "index": 43,
+      "question_before": "Machu Picchu was constructed under which Andean empire?",
+      "correct_before": "Joseph Stalin",
+      "explanation_before": "Joseph Stalin led the Soviet Union during World War II.",
+      "question_after": "Who was the Soviet leader during most of World War II?"
+    },
+    {
+      "category": "history",
+      "index": 53,
+      "question_before": "Karl Marx co-authored 'The Communist Manifesto' with which collaborator?",
+      "correct_before": "Mughal Empire",
+      "explanation_before": "Babur founded the Mughal Empire in 1526.",
+      "question_after": "Which empire was founded in India by Babur?"
+    },
+    {
+      "category": "history",
+      "index": 73,
+      "question_before": "Early cuneiform writing emerged in which Mesopotamian civilization?",
+      "correct_before": "Bastille",
+      "explanation_before": "The storming of the Bastille became a symbol of the French Revolution.",
+      "question_after": "Which French prison was stormed on 14 July 1789?"
+    },
+    {
+      "category": "history",
+      "index": 112,
+      "question_before": "The 1763 agreement ending the Seven Years' War is usually called which treaty?",
+      "correct_before": "Monroe Doctrine",
+      "explanation_before": "The Monroe Doctrine was proclaimed in 1823.",
+      "question_after": "Which political doctrine called for U.S. opposition to European colonization in the Americas?"
+    },
+    {
+      "category": "arts",
+      "index": 34,
+      "question_before": "Titanium-clad curves define Bilbao's Guggenheim building by which architect?",
+      "correct_before": "Jane Austen",
+      "explanation_before": "Pride and Prejudice is a novel by Jane Austen.",
+      "question_after": "Which writer created Pride and Prejudice?"
+    },
+    {
+      "category": "arts",
+      "index": 44,
+      "question_before": "The absurdist play 'Waiting for Godot' was written by whom?",
+      "correct_before": "Toni Morrison",
+      "explanation_before": "Beloved is a novel by Toni Morrison.",
+      "question_after": "Which writer created Beloved?"
+    },
+    {
+      "category": "arts",
+      "index": 83,
+      "question_before": "Court entertainments in Renaissance Italy gave rise to which country as ballet's origin point?",
+      "correct_before": "Akira Kurosawa",
+      "explanation_before": "Seven Samurai was directed by Akira Kurosawa.",
+      "question_after": "Which filmmaker directed Seven Samurai?"
+    }
+  ]
+}
