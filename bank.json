@@ -666,13 +666,13 @@
     {
       "question": "Which bay lies to the east of India?",
       "options": [
-        "Bay of Bengal",
-        "Baffin Bay",
-        "Bay of Biscay",
-        "Hudson Bay"
+        "73rd Amendment",
+        "42nd Amendment",
+        "44th Amendment",
+        "61st Amendment"
       ],
-      "correct": 0,
-      "explanation": "India’s eastern coast faces the Bay of Bengal.",
+      "correct": 3,
+      "explanation": "The 61st Constitutional Amendment lowered India’s voting age from 21 to 18 in 1988.",
       "category": "india",
       "difficulty": "Masters"
     },
