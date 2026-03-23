@@ -1,8 +1,13 @@
 import { readFileSync } from 'node:fs';
+import promptNormalization from '../shared/prompt-normalization.js';
 
-const EXPECTED_CATEGORIES = 7;
-const EXACT_ROWS_PER_CATEGORY = 120;
-const EXACT_UNIQUE_PROMPTS_PER_CATEGORY = 120;
+const REQUIRED_ROWS_PER_CATEGORY = 120;
+const REQUIRED_UNIQUE_STEMS_PER_CATEGORY = 120;
+const MAX_ALLOWED_VARIANTS_PER_STEM = 1;
+const {
+  findPromptWrapperMatch,
+  normalizePromptStem,
+} = promptNormalization;
 
 const bank = JSON.parse(readFileSync(new URL('../bank.json', import.meta.url), 'utf8'));
 
